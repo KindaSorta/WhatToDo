@@ -29,25 +29,25 @@
     <AppXManifest Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2022-08-19T16:52:09.564</Modified>
+      <Modified>2022-08-19T19:45:12.142</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2022-08-19T16:52:09.117</Modified>
+      <Modified>2022-08-19T19:45:11.623</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\WhatToDo.runtimeconfig.json">
       <PackagePath>WhatToDo.runtimeconfig.json</PackagePath>
-      <Modified>2022-08-19T15:01:59.755</Modified>
+      <Modified>2022-08-19T19:45:11.411</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\WhatToDo.dll">
       <PackagePath>WhatToDo.dll</PackagePath>
-      <Modified>2022-08-19T16:52:08.130</Modified>
+      <Modified>2022-08-19T19:45:10.008</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>WhatToDo.exe</PackagePath>
-      <Modified>2022-08-19T16:52:08.138</Modified>
+      <Modified>2022-08-19T19:45:10.034</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Runtime.win-x64\6.0.8\runtimes\win-x64\lib\net6.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -1067,7 +1067,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\WhatToDo.deps.json">
       <PackagePath>WhatToDo.deps.json</PackagePath>
-      <Modified>2022-08-19T16:52:09.391</Modified>
+      <Modified>2022-08-19T19:45:11.930</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files\dotnet\packs\Microsoft.Maui.Controls.Ref.win\6.0.486\ref\net6.0-windows10.0.19041\Microsoft.Maui.Controls.Compatibility.pri">
       <PackagePath>Microsoft.Maui.Controls.Compatibility.pri</PackagePath>
@@ -1087,23 +1087,23 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-100.png">
       <PackagePath>splashSplashScreen.scale-100.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.073</Modified>
+      <Modified>2022-08-19T19:07:28.994</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-125.png">
       <PackagePath>splashSplashScreen.scale-125.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.091</Modified>
+      <Modified>2022-08-19T19:07:29.012</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-150.png">
       <PackagePath>splashSplashScreen.scale-150.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.115</Modified>
+      <Modified>2022-08-19T19:07:29.037</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-200.png">
       <PackagePath>splashSplashScreen.scale-200.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.154</Modified>
+      <Modified>2022-08-19T19:07:29.080</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-400.png">
       <PackagePath>splashSplashScreen.scale-400.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.298</Modified>
+      <Modified>2022-08-19T19:07:29.238</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Regular.ttf">
       <PackagePath>OpenSans-Regular.ttf</PackagePath>
@@ -1115,147 +1115,147 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appicon.ico">
       <PackagePath>appicon.ico</PackagePath>
-      <Modified>2022-08-18T19:08:22.350</Modified>
+      <Modified>2022-08-19T19:07:29.287</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-100.png">
       <PackagePath>appiconLargeTile.scale-100.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.560</Modified>
+      <Modified>2022-08-19T19:07:29.525</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-125.png">
       <PackagePath>appiconLargeTile.scale-125.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.574</Modified>
+      <Modified>2022-08-19T19:07:29.537</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-150.png">
       <PackagePath>appiconLargeTile.scale-150.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.587</Modified>
+      <Modified>2022-08-19T19:07:29.555</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-200.png">
       <PackagePath>appiconLargeTile.scale-200.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.609</Modified>
+      <Modified>2022-08-19T19:07:29.580</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-400.png">
       <PackagePath>appiconLargeTile.scale-400.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.687</Modified>
+      <Modified>2022-08-19T19:07:29.669</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-100.png">
       <PackagePath>appiconLogo.scale-100.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.364</Modified>
+      <Modified>2022-08-19T19:07:29.302</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-125.png">
       <PackagePath>appiconLogo.scale-125.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.368</Modified>
+      <Modified>2022-08-19T19:07:29.305</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-150.png">
       <PackagePath>appiconLogo.scale-150.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.372</Modified>
+      <Modified>2022-08-19T19:07:29.314</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-200.png">
       <PackagePath>appiconLogo.scale-200.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.376</Modified>
+      <Modified>2022-08-19T19:07:29.318</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-400.png">
       <PackagePath>appiconLogo.scale-400.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.382</Modified>
+      <Modified>2022-08-19T19:07:29.324</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-100.png">
       <PackagePath>appiconMediumTile.scale-100.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.435</Modified>
+      <Modified>2022-08-19T19:07:29.378</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-125.png">
       <PackagePath>appiconMediumTile.scale-125.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.441</Modified>
+      <Modified>2022-08-19T19:07:29.385</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-150.png">
       <PackagePath>appiconMediumTile.scale-150.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.448</Modified>
+      <Modified>2022-08-19T19:07:29.395</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-200.png">
       <PackagePath>appiconMediumTile.scale-200.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.458</Modified>
+      <Modified>2022-08-19T19:07:29.407</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-400.png">
       <PackagePath>appiconMediumTile.scale-400.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.478</Modified>
+      <Modified>2022-08-19T19:07:29.430</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-100.png">
       <PackagePath>appiconSmallTile.scale-100.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.409</Modified>
+      <Modified>2022-08-19T19:07:29.352</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-125.png">
       <PackagePath>appiconSmallTile.scale-125.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.414</Modified>
+      <Modified>2022-08-19T19:07:29.356</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-150.png">
       <PackagePath>appiconSmallTile.scale-150.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.417</Modified>
+      <Modified>2022-08-19T19:07:29.361</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-200.png">
       <PackagePath>appiconSmallTile.scale-200.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.422</Modified>
+      <Modified>2022-08-19T19:07:29.365</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-400.png">
       <PackagePath>appiconSmallTile.scale-400.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.431</Modified>
+      <Modified>2022-08-19T19:07:29.374</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-100.png">
       <PackagePath>appiconStoreLogo.scale-100.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.386</Modified>
+      <Modified>2022-08-19T19:07:29.329</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-125.png">
       <PackagePath>appiconStoreLogo.scale-125.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.390</Modified>
+      <Modified>2022-08-19T19:07:29.334</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-150.png">
       <PackagePath>appiconStoreLogo.scale-150.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.395</Modified>
+      <Modified>2022-08-19T19:07:29.338</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-200.png">
       <PackagePath>appiconStoreLogo.scale-200.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.399</Modified>
+      <Modified>2022-08-19T19:07:29.342</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-400.png">
       <PackagePath>appiconStoreLogo.scale-400.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.405</Modified>
+      <Modified>2022-08-19T19:07:29.348</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-100.png">
       <PackagePath>appiconWideTile.scale-100.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.483</Modified>
+      <Modified>2022-08-19T19:07:29.438</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-125.png">
       <PackagePath>appiconWideTile.scale-125.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.491</Modified>
+      <Modified>2022-08-19T19:07:29.452</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-150.png">
       <PackagePath>appiconWideTile.scale-150.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.499</Modified>
+      <Modified>2022-08-19T19:07:29.463</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-200.png">
       <PackagePath>appiconWideTile.scale-200.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.513</Modified>
+      <Modified>2022-08-19T19:07:29.477</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-400.png">
       <PackagePath>appiconWideTile.scale-400.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.550</Modified>
+      <Modified>2022-08-19T19:07:29.515</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-100.png">
       <PackagePath>dotnet_bot.scale-100.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.395</Modified>
+      <Modified>2022-08-19T19:07:29.338</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-125.png">
       <PackagePath>dotnet_bot.scale-125.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.406</Modified>
+      <Modified>2022-08-19T19:07:29.349</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-150.png">
       <PackagePath>dotnet_bot.scale-150.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.419</Modified>
+      <Modified>2022-08-19T19:07:29.364</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-200.png">
       <PackagePath>dotnet_bot.scale-200.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.440</Modified>
+      <Modified>2022-08-19T19:07:29.388</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-400.png">
       <PackagePath>dotnet_bot.scale-400.png</PackagePath>
-      <Modified>2022-08-18T19:08:22.489</Modified>
+      <Modified>2022-08-19T19:07:29.455</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

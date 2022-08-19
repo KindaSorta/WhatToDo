@@ -12,7 +12,7 @@
                             <Label Grid.Row="0" Text="{Binding Path=name}" Padding="5"/>
                             <Label Grid.Row="1" Text="{Binding Path=temperature}" Padding="5"/>
                             <Label Grid.Row="2" Text="{Binding Path=windSpeed}" Padding="5"/>
-                            <Label Grid.Row="3" Text="{Binding Path=detailedForecast}" Padding="5"/>
+                            <Label Grid.Row="3" Text="{Binding Path=detailedForecast}" Padding="5" LineBreakMode="WordWrap"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
