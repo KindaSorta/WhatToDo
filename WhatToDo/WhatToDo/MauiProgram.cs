@@ -1,4 +1,6 @@
-﻿namespace WhatToDo;
+﻿using WhatToDo.Service;
+
+namespace WhatToDo;
 
 public static class MauiProgram
 {
@@ -12,6 +14,9 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+
+		builder.Services.AddSingleton<WeatherService>();
+		//builder.Services.AddSingleton<IGeolocation>();
 
 		return builder.Build();
 	}

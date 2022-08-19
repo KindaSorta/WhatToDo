@@ -3,12 +3,13 @@
     x:Class="WhatToDo.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:WhatToDo"
+    xmlns:view="clr-namespace:WhatToDo.View"
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        Shell.NavBarIsVisible="true"
+        Title="WhatToDo"
+        ContentTemplate="{DataTemplate view:MainPage}"
         Route="MainPage" />
 
 </Shell>
