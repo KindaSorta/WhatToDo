@@ -8,11 +8,12 @@ namespace WhatToDo.Service;
 
 public class WeatherService
 {
-    List<WeatherData> data = new List<WeatherData>();
+    List<WeatherData> data;
     HttpClient httpClient;
 
     public WeatherService()
     {
+        data = new List<WeatherData>();
         this.httpClient = new HttpClient();
     }
 
@@ -24,6 +25,7 @@ public class WeatherService
             return forcastURL;
         }*/
 
+        //Request for Weather API coordinates based off current Geo location
         var productValue = new ProductInfoHeaderValue("WhatToDoApp", "1.0");
         var commentValue = new ProductInfoHeaderValue("(Software Dev Student)");
         var request = new HttpRequestMessage(HttpMethod.Get, "https://api.weather.gov/points/32.3617,-86.2792");
@@ -34,6 +36,7 @@ public class WeatherService
 
         if (response.IsSuccessStatusCode)
         {
+            //Get the location specific Url from Weather API for the forecast periods
             var result = await response.Content.ReadAsStringAsync();
             JObject jsonTree = (JObject)JsonConvert.DeserializeObject(result);
             forcastURL = jsonTree["properties"]["forecast"].ToString();

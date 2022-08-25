@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "uNSnvU7SbzYfJqVFbLPGgqQzEYnuLn5rkZnKYrU/SMW9snyQAo9kyxelHYZRi5BTZuG0JgL3NswSbAJ34Jm4Sg==",
+  "dgSpecHash": "YiUy09CCEhXYKxkQpj9UfewcfU6P7+0C6rTeNbhe0Ashm/FG5dJHNTbyWHtnj/l69O5Zybphr6lu+j0GhioX7w==",
   "success": true,
   "projectFilePath": "C:\\Users\\gsalo\\source\\repos\\WhatToDo\\WhatToDo\\WhatToDoTests\\WhatToDoTests.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gsalo\\.nuget\\packages\\communitytoolkit.mvvm\\8.0.0\\communitytoolkit.mvvm.8.0.0.nupkg.sha512",
     "C:\\Users\\gsalo\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\gsalo\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",
     "C:\\Users\\gsalo\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.1\\microsoft.extensions.configuration.6.0.1.nupkg.sha512",

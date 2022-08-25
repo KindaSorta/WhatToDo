@@ -1,4 +1,6 @@
 ﻿using WhatToDo.Service;
+using WhatToDo.Data;
+using WhatToDo.View;
 
 namespace WhatToDo;
 
@@ -16,8 +18,16 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<WeatherService>();
-		//builder.Services.AddSingleton<IGeolocation>();
 
-		return builder.Build();
+		builder.Services.AddTransient<DataStorage>();
+        //builder.Services.AddSingleton<IGeolocation>();
+
+        builder.Services.AddTransient<MainViewModel>();
+        builder.Services.AddTransient<MainPage>();
+
+        builder.Services.AddTransient<ToDoItemDetailsViewModel>();
+        builder.Services.AddTransient<ToDoItemDetailsPage>();
+
+        return builder.Build();
 	}
 }

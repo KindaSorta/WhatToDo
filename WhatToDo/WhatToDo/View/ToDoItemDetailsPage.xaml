@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:WhatToDo.ViewModel"
+             xmlns:model="clr-namespace:WhatToDo.Model"
+             x:DataType="vm:ToDoItemDetailsViewModel"
+             x:Class="WhatToDo.View.ToDoItemDetailsPage"
+             Title="{Binding Title}">
+
+    <VerticalStackLayout Margin="20" Spacing="10">
+        <Label Text="Name" />
+        <Entry Text="{Binding CurrentItem.Name}" />
+
+        <Label Text="Description" />
+        <Entry Text="{Binding CurrentItem.Description}" />
+
+
+        <Button Command="{Binding SaveCommand}" Text="Save" />
+
+    </VerticalStackLayout>
+
+
+</ContentPage>

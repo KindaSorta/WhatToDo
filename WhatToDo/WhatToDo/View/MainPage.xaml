@@ -1,23 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:WhatToDo.Model"
-             x:Class="WhatToDo.View.MainPage">
-    <Grid>
-        <CollectionView x:Name="dataDisplay">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:WeatherData">
-                    <Border StrokeThickness="5" Margin="5">
-                        <Grid RowDefinitions="*,*,*,2*" Margin="5" Padding="5">
-                            <Label Grid.Row="0" Text="{Binding Path=name}" Padding="5"/>
-                            <Label Grid.Row="1" Text="{Binding Path=temperature}" Padding="5"/>
-                            <Label Grid.Row="2" Text="{Binding Path=windSpeed}" Padding="5"/>
-                            <Label Grid.Row="3" Text="{Binding Path=detailedForecast}" Padding="5" LineBreakMode="WordWrap"/>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+<ContentPage 
+    x:Class="WhatToDo.View.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:WhatToDo.Model"
+    xmlns:vm="clr-namespace:WhatToDo.ViewModel"
+    x:DataType="vm:MainViewModel"
+    Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Command="{Binding AddItemCommand}" 
+            IsEnabled="{Binding IsNotBusy}"
+            Text="+">
+            <ToolbarItem.IconImageSource>
+                <OnPlatform x:TypeArguments="ImageSource">
+                    <On Platform="Android,UWP" Value="plus.png" />
+                </OnPlatform>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <Grid 
+        ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="*,Auto"
+        RowSpacing="0">
+        <RefreshView 
+            Grid.ColumnSpan="2"
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding GetDataCommand}" >
+            <CollectionView  
+                        ItemsSource="{Binding Items}"
+                        SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:ToDoItem">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                               BackgroundColor="Red"
+                                               CommandParameter="{Binding .}"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCommand}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Grid Padding="0,5">
+                                <Frame HeightRequest="125" Style="{StaticResource CardView}">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1" 
+                                        CommandParameter="{Binding .}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=TapCommand}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Grid Padding="0" ColumnDefinitions="125,*">
+                                        <Border Grid.Column="0" 
+                                        Stroke="Black"
+                                        StrokeThickness="1"
+                                        Background="Blue"
+                                        Padding="16,8"
+                                        HorizontalOptions="Center">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="40,40,40,40"/>
+                                            </Border.StrokeShape>
+                                        </Border>
+                                        <VerticalStackLayout
+                                        Grid.Column="1"
+                                        Padding="10">
+                                            <Label Style="{StaticResource LargeLabel}" Text="{Binding Name}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <Button 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            Margin="8"
+            Text="Load Data"
+            Command="{Binding GetDataCommand}"             
+            IsEnabled="{Binding IsNotBusy}"/>
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+
     </Grid>
 
 

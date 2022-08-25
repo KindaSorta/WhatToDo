@@ -1,6 +1,7 @@
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-maccatalyst\maccatalyst-x64\WhatToDo.runtimeconfig.json
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-maccatalyst\maccatalyst-x64\WhatToDo.dll
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-maccatalyst\maccatalyst-x64\WhatToDo.pdb
+C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-maccatalyst\maccatalyst-x64\CommunityToolkit.Mvvm.dll
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-maccatalyst\maccatalyst-x64\Microsoft.Extensions.Configuration.dll
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-maccatalyst\maccatalyst-x64\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-maccatalyst\maccatalyst-x64\Microsoft.Extensions.DependencyInjection.dll
@@ -229,6 +230,7 @@ C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-maccatal
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-maccatalyst\maccatalyst-x64\resizetizer\r\dotnet_bot.png
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-maccatalyst\maccatalyst-x64\resizetizer\r\dotnet_bot@2x.png
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-maccatalyst\maccatalyst-x64\resizetizer\r\dotnet_bot@3x.png
+C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-maccatalyst\maccatalyst-x64\resizetizer\r\Resources\plus.png
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-maccatalyst\maccatalyst-x64\mauiimage.stamp
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-maccatalyst\maccatalyst-x64\resizetizer\f\MauiInfo.plist
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-maccatalyst\maccatalyst-x64\mauifont.stamp

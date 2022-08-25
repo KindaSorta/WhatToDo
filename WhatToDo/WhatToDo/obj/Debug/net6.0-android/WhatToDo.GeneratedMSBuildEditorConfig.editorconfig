@@ -38,3 +38,15 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = WhatToDo.View.MainPage.xaml
 build_metadata.AdditionalFiles.TargetPath = View\MainPage.xaml
 build_metadata.AdditionalFiles.RelativePath = View\MainPage.xaml
+
+[C:/Users/gsalo/source/repos/WhatToDo/WhatToDo/WhatToDo/View/ToDoItemDetailsPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = WhatToDo.View.ToDoItemDetailsPage.xaml
+build_metadata.AdditionalFiles.TargetPath = View\ToDoItemDetailsPage.xaml
+build_metadata.AdditionalFiles.RelativePath = View\ToDoItemDetailsPage.xaml
+
+[C:/Users/gsalo/source/repos/WhatToDo/WhatToDo/WhatToDo/View/WeatherDataPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = WhatToDo.View.WeatherDataPage.xaml
+build_metadata.AdditionalFiles.TargetPath = View\WeatherDataPage.xaml
+build_metadata.AdditionalFiles.RelativePath = View\WeatherDataPage.xaml

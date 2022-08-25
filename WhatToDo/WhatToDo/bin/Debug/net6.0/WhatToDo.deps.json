@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "WhatToDo/1.0.0": {
         "dependencies": {
+          "CommunityToolkit.Mvvm": "8.0.0",
           "Microsoft.Maui.Dependencies": "6.0.486",
           "Microsoft.Maui.Extensions": "6.0.486",
           "Newtonsoft.Json": "13.0.1",
@@ -48,6 +49,14 @@
           "Microsoft.Maui.Essentials.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "6.0.409.77"
+          }
+        }
+      },
+      "CommunityToolkit.Mvvm/8.0.0": {
+        "runtime": {
+          "lib/net6.0/CommunityToolkit.Mvvm.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.1"
           }
         }
       },
@@ -201,6 +210,13 @@
       "type": "runtimepack",
       "serviceable": false,
       "sha512": ""
+    },
+    "CommunityToolkit.Mvvm/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Jiu2g5WUdXRwzhJkHB+B4JBKP5A5+fp8xKiW/ZQo5PI+DruI7MbPEcK9K/Aw0YzTiWRuG6CBluzYIWN5Eo7BkQ==",
+      "path": "communitytoolkit.mvvm/8.0.0",
+      "hashPath": "communitytoolkit.mvvm.8.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/6.0.1": {
       "type": "package",

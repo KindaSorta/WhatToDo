@@ -1,23 +1,16 @@
-﻿using WhatToDo.Service;
+﻿using WhatToDo.Model;
+using WhatToDo.Service;
 
 namespace WhatToDo.View;
 
 public partial class MainPage : ContentPage
 {
-	WeatherService weatherService = new WeatherService();
-    ObservableCollection<WeatherData> data = new ObservableCollection<WeatherData>();
 
-    public MainPage()
+    public MainPage(MainViewModel viewModel)
 	{
 		InitializeComponent();
-		Start();
+        BindingContext = viewModel;
 	}
-
-	public async Task Start()
-	{
-		data = new ObservableCollection<WeatherData>(await weatherService.GetWeather());
-		dataDisplay.ItemsSource = data;
-    }
 
 }
 

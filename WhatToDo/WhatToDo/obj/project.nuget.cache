@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "RuHwV/qmRAljQhme7SYkOek8tOZD0vMhI4BOr0GxLLDkp0sneSrBzh4UdPIjslBoHeKZI1Chgz+nNGPueVZ3CA==",
+  "dgSpecHash": "HsbWS0IfEFqbbMs61ltzgxJSasEsMF3PUY19l32l+RxitT3YNqbqemzcoR077DHPFWAuqcvyZbCojQlHmdQGhw==",
   "success": true,
   "projectFilePath": "C:\\Users\\gsalo\\source\\repos\\WhatToDo\\WhatToDo\\WhatToDo\\WhatToDo.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gsalo\\.nuget\\packages\\communitytoolkit.mvvm\\8.0.0\\communitytoolkit.mvvm.8.0.0.nupkg.sha512",
     "C:\\Users\\gsalo\\.nuget\\packages\\googlegson\\2.9.0.1\\googlegson.2.9.0.1.nupkg.sha512",
     "C:\\Users\\gsalo\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.1\\microsoft.extensions.configuration.6.0.1.nupkg.sha512",
     "C:\\Users\\gsalo\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",

@@ -9,6 +9,7 @@ C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDoTests\bin\Debug\net6.0\Wha
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDoTests\bin\Debug\net6.0\WhatToDoTests.runtimeconfig.json
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDoTests\bin\Debug\net6.0\WhatToDoTests.dll
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDoTests\bin\Debug\net6.0\WhatToDoTests.pdb
+C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDoTests\bin\Debug\net6.0\CommunityToolkit.Mvvm.dll
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDoTests\bin\Debug\net6.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDoTests\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDoTests\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll

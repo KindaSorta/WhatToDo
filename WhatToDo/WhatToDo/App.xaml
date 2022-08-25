@@ -8,6 +8,17 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+                <ResourceDictionary>
+                    <Color x:Key="LightBackground">#FAF9F8</Color>
+                    <Style x:Key="CardView" TargetType="Frame">
+                        <Setter Property="BorderColor" Value="#DDDDDD" />
+                        <Setter Property="HasShadow" Value="True" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Background" Value="{StaticResource LightBackground}" />
+                        <Setter Property="CornerRadius" Value="10" />
+                        <Setter Property="IsClippedToBounds" Value="True"/>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
