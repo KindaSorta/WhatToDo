@@ -946,6 +946,9 @@
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-400.png">
       <PackagePath>dotnet_bot.scale-400.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\icons8_trash.scale-100.png">
+      <PackagePath>icons8_trash.scale-100.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\plus.scale-100.png">
       <PackagePath>plus.scale-100.png</PackagePath>
     </AppxPackagedFile>

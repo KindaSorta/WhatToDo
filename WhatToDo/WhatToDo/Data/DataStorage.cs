@@ -13,80 +13,40 @@ namespace WhatToDo.Data;
 
 public class DataStorage
 {
-    Dictionary<string, ToDoItem> Items { get; set; } = new Dictionary<string, ToDoItem>();
-
-    string path;
+    string DirectoryPath;
 
     public DataStorage()
     {
-        path = Path.Combine(FileSystem.Current.AppDataDirectory, "WhatToDoApp");
-        if (!Directory.Exists(path))
+        DirectoryPath = Path.Combine(FileSystem.Current.AppDataDirectory, "WhatToDoApp");
+        if (!Directory.Exists(DirectoryPath))
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(DirectoryPath);
         }
-        path = Path.Combine(path, "ToDoItems.txt");
-        Task.Run(async() =>
+    }
+
+    public async Task WriteToFile(List<ToDoItem> items, string fileName)
+    {
+        string filePath = Path.Combine(DirectoryPath, $"{fileName}.txt");
+        await Task.Run(() => {
+            var serializedData = JsonSerializer.Serialize(items);
+            File.WriteAllText(filePath, serializedData);
+        });
+    }
+
+    public async Task<List<ToDoItem>> ReadFromFile(string fileName)
+    {
+        return await Task<List<ToDoItem>>.Run(() =>
         {
-            Items = await GetItemsAsync();
-        });
-    }
-
-    public async Task DeleteItemAsync(ToDoItem itemToDelete)
-    {
-        await Task.Run(() => {
-            Items.Remove(itemToDelete.Name);
-            var serializedData = JsonSerializer.Serialize(Items.Values.ToList());
-            File.WriteAllText(path, serializedData);
-        });
-    }
-
-    public async Task DeleteItemAsync(List<ToDoItem> itemsToDelete)
-    {
-        await Task.Run(() => {
-            foreach (var item in itemsToDelete)
+            if (Directory.GetFiles(DirectoryPath, $"{fileName}.txt").Length > 0)
             {
-                Items.Remove(item.Name);
-            }
-            var serializedData = JsonSerializer.Serialize(Items.Values.ToList());
-            File.WriteAllText(path, serializedData);
-        });
-    }
-
-    public async Task UpdateItemAsync(ToDoItem itemToUpdate)
-    {
-        await Task.Run(() => {
-            Items[itemToUpdate.Name] = itemToUpdate;
-            var serializedData = JsonSerializer.Serialize(Items.Values.ToList());
-            File.WriteAllText(path, serializedData);
-        });
-    }
-
-    public async Task UpdateItemAsync(List<ToDoItem> itemsToUpdate)
-    {        
-        await Task.Run(() => {
-            foreach (var item in itemsToUpdate)
-            {
-                Items[item.Name] = item;
-            }
-            var serializedData = JsonSerializer.Serialize(Items.Values.ToList());
-            File.WriteAllText(path, serializedData);
-        });
-    }
-
-    public async Task<Dictionary<string, ToDoItem>> GetItemsAsync()
-    {
-        return await Task<Dictionary<string, ToDoItem>>.Run(() =>
-        {
-            var rawData = File.ReadAllText(path);
-            if (!String.IsNullOrEmpty(rawData))
-            {
-                List<ToDoItem> data = JsonSerializer.Deserialize<List<ToDoItem>>(rawData);
-                foreach (var item in data)
+                string filePath = Path.Combine(DirectoryPath, $"{fileName}.txt");
+                var rawData = File.ReadAllText(filePath);
+                if (!String.IsNullOrEmpty(rawData))
                 {
-                    Items[item.Name] = item;
+                    return JsonSerializer.Deserialize<List<ToDoItem>>(rawData).ToList();
                 }
             }
-            return Items;
+            return new List<ToDoItem>();
         });
     }
 }

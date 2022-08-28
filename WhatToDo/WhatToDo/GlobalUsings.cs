@@ -2,6 +2,7 @@
 global using CommunityToolkit.Mvvm.Input;
 global using WhatToDo.Model;
 global using WhatToDo.ViewModel;
+global using System.Collections;
 global using System.Collections.ObjectModel;
 global using System.ComponentModel;
 global using System.Diagnostics;

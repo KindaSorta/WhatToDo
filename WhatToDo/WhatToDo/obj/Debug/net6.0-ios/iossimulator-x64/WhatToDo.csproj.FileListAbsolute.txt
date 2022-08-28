@@ -215,6 +215,7 @@ C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-ios\ioss
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-ios\iossimulator-x64\libxamarin-dotnet-debug.dylib
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-ios\iossimulator-x64\libxamarin-dotnet.a
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-ios\iossimulator-x64\libxamarin-dotnet.dylib
+C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\build-signature\signature
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\mauiimage.inputs
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\mauifont.inputs
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\mauisplash.inputs
@@ -235,6 +236,7 @@ C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\ioss
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\r\dotnet_bot.png
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\r\dotnet_bot@2x.png
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\r\dotnet_bot@3x.png
+C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\r\Resources\icons8_trash.png
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\r\Resources\plus.png
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\r\splash.png
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\r\splash@2x.png

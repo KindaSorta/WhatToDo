@@ -11,29 +11,39 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
     [ObservableProperty]
     ToDoItem currentItem;
 
-    DataStorage dataStorage;
+    [ObservableProperty]
+    ToDoItem itemText;
 
-    public ToDoItemDetailsViewModel(DataStorage dataStorage)
+    IDataService dataService;
+
+    public ToDoItemDetailsViewModel(IDataService dataService)
     {
-        Title = CurrentItem == null ? "Add" : CurrentItem.Name;
-        this.dataStorage = dataStorage;
+        this.dataService = dataService;
+        Task.Run(async () =>
+        {
+            await Task.Delay(100);
+            Title = CurrentItem == null ? "Add" : CurrentItem.Name;
+            ItemText = new ToDoItem(CurrentItem);
+        });
     }
 
     [RelayCommand]
     async Task SaveAsync()
     {
-        if (String.IsNullOrWhiteSpace(CurrentItem.Name))
+        if (String.IsNullOrWhiteSpace(ItemText.Name))
             return;
         else
         {
-            await dataStorage.UpdateItemAsync(CurrentItem);
-            await Shell.Current.GoToAsync("..");
+            CurrentItem.Clone(ItemText);
+            await dataService.UpdateItemAsync(CurrentItem);
+            await Task.Delay(100);
+            await Shell.Current.GoToAsync("..", true);
         }
     }
 
-/*        [RelayCommand]
-    void GoBack()
+/*    [RelayCommand]
+    async Task GoBackAsync()
     {
-        await Shell.Current.GoToAsync("..");
+        
     }*/
 }

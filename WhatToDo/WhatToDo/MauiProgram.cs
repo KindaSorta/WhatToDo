@@ -19,7 +19,8 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<WeatherService>();
 
-		builder.Services.AddTransient<DataStorage>();
+		//builder.Services.AddSingleton<DataStorage>();
+		builder.Services.AddSingleton<IDataService, DataService>();
         //builder.Services.AddSingleton<IGeolocation>();
 
         builder.Services.AddTransient<MainViewModel>();

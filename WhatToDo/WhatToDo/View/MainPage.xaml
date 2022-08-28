@@ -28,9 +28,9 @@
         <RefreshView 
             Grid.ColumnSpan="2"
             IsRefreshing="{Binding IsRefreshing}"
-            Command="{Binding GetDataCommand}" >
+            Command="{Binding RefreshCommand}" >
             <CollectionView  
-                        ItemsSource="{Binding Items}"
+                        ItemsSource="{Binding DisplayItems}"
                         SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:ToDoItem">
@@ -66,6 +66,7 @@
                                         Grid.Column="1"
                                         Padding="10">
                                             <Label Style="{StaticResource LargeLabel}" Text="{Binding Name}" />
+                                            <Label Style="{StaticResource LargeLabel}" Text="{Binding Description}" />
                                         </VerticalStackLayout>
                                     </Grid>
                                 </Frame>

@@ -9,10 +9,10 @@
 
     <VerticalStackLayout Margin="20" Spacing="10">
         <Label Text="Name" />
-        <Entry Text="{Binding CurrentItem.Name}" />
+        <Entry Text="{Binding ItemText.Name}" />
 
         <Label Text="Description" />
-        <Entry Text="{Binding CurrentItem.Description}" />
+        <Entry Text="{Binding ItemText.Description}" />
 
 
         <Button Command="{Binding SaveCommand}" Text="Save" />

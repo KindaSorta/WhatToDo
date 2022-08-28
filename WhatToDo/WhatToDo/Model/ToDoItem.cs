@@ -26,5 +26,11 @@ public class ToDoItem
         Name = item.Name;
         Description = item.Description;
     }
+
+    public void Clone(ToDoItem item)
+    {
+        this.Name = item.Name;
+        this.Description = item.Description;
+    }
 }
 
