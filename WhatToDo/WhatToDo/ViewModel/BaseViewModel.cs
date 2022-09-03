@@ -1,7 +1,7 @@
 ﻿
 namespace WhatToDo.ViewModel;
 
-public partial class BaseViewModel : ObservableObject
+public partial class BaseViewModel : ObservableObject, IDisposable
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsNotBusy))]
@@ -14,4 +14,12 @@ public partial class BaseViewModel : ObservableObject
     string title;
 
     public bool IsNotBusy => !IsBusy;
+        
+
+    public virtual void Dispose() 
+    {
+        title = default;
+        isBusy = default;
+        isRefreshing = default;
+    }
 }

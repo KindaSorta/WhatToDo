@@ -54,6 +54,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\Bauhaus93.ttf" />
 	  <None Remove="Resources\Images\icons8_trash.png" />
 	</ItemGroup>
 

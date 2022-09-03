@@ -10,7 +10,7 @@ namespace WhatToDo.Service
     {
         Task DeleteItemAsync(ToDoItem itemToDelete); 
         Task DeleteItemAsync(List<ToDoItem> itemsToDelete);
-        Task<Dictionary<string, ToDoItem>> GetItemsAsync(); 
+        Task<Dictionary<int, ToDoItem>> GetItemsAsync(); 
         Task UpdateItemAsync(ToDoItem itemToUpdate);
         Task UpdateItemAsync(List<ToDoItem> itemsToUpdate);
     }

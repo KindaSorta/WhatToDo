@@ -1,1 +1,10 @@
 global using Xunit;
+global using WhatToDo;
+global using System.Collections.Generic;
+global using System.Collections;
+global using FluentAssertions;
+global using WhatToDo.ViewModel;
+global using WhatToDo.Model;
+global using WhatToDo.Utilities;
+global using WhatToDoTests;
+global using WhatToDoTests.TestFixtures;

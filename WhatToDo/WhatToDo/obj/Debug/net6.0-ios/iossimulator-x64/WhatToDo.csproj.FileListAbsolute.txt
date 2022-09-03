@@ -215,7 +215,6 @@ C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-ios\ioss
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-ios\iossimulator-x64\libxamarin-dotnet-debug.dylib
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-ios\iossimulator-x64\libxamarin-dotnet.a
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\bin\Debug\net6.0-ios\iossimulator-x64\libxamarin-dotnet.dylib
-C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\build-signature\signature
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\mauiimage.inputs
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\mauifont.inputs
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\mauisplash.inputs
@@ -244,6 +243,7 @@ C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\ioss
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\mauiimage.stamp
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\f\MauiInfo.plist
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\mauifont.stamp
+C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\f\Bauhaus93.ttf
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\f\OpenSans-Regular.ttf
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\f\OpenSans-Semibold.ttf
 C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-ios\iossimulator-x64\actool\_PartialAppManifest.items

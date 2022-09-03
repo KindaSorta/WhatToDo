@@ -1,6 +1,6 @@
 namespace WhatToDoTests
 {
-    public class UnitTest1
+    public class TodoItemDetailsViewModel_Tests
     {
         [Fact]
         public void Test1()

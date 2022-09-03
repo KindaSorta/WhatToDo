@@ -1,5 +1,6 @@
 ﻿global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
+global using WhatToDo.Utilities;
 global using WhatToDo.Model;
 global using WhatToDo.ViewModel;
 global using System.Collections;

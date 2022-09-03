@@ -6,10 +6,13 @@
     xmlns:view="clr-namespace:WhatToDo.View"
     Shell.FlyoutBehavior="Disabled">
 
+    
+    
     <ShellContent
         Shell.NavBarIsVisible="true"
         Title="WhatToDo"
         ContentTemplate="{DataTemplate view:MainPage}"
-        Route="MainPage" />
+        Route="MainPage" 
+        Style="{StaticResource TitleBar}"/>
 
 </Shell>

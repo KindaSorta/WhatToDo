@@ -11,7 +11,7 @@ namespace WhatToDo.Service
     {
         DataStorage dataStorage;
 
-        Dictionary<string, ToDoItem> Items { get; set; } = new Dictionary<string, ToDoItem>();
+        Dictionary<int, ToDoItem> Items { get; set; } = new Dictionary<int, ToDoItem>();
 
         public DataService()
         {
@@ -24,7 +24,7 @@ namespace WhatToDo.Service
 
         public async Task DeleteItemAsync(ToDoItem itemToDelete)
         {
-            if (itemToDelete == null || String.IsNullOrEmpty(itemToDelete.Name))
+            if (itemToDelete == null || itemToDelete.Id == 0)
                 return;
             await DeleteItemAsync(new List<ToDoItem>() { itemToDelete });
         }
@@ -33,9 +33,9 @@ namespace WhatToDo.Service
         {
             foreach (var item in itemsToDelete)
             {
-                if (item != null && !String.IsNullOrEmpty(item.Name))
+                if (item != null && item.Id != 0)
                 {
-                    Items.Remove(item.Name);
+                    Items.Remove(item.Id);
                 }
             }
             await dataStorage.WriteToFile(Items.Values.ToList(), "ToDoItems");
@@ -54,20 +54,30 @@ namespace WhatToDo.Service
             {
                 if (item != null && !String.IsNullOrEmpty(item.Name))
                 {
-                    Items[item.Name] = item;
+                    if (Items.ContainsKey(item.Id))
+                    {
+                        Items[item.Id] = item;
+                    }
+                    else
+                    {
+                        int newId = Items.Count > 0 ? Items.Keys.Max() + 1 : 1;
+                        Items[newId] = item;
+                        Items[newId].Id = newId;
+                    }
+                    
                 }
             }
             await dataStorage.WriteToFile(Items.Values.ToList(), "ToDoItems");
         }
 
-        public async Task<Dictionary<string, ToDoItem>> GetItemsAsync()
+        public async Task<Dictionary<int, ToDoItem>> GetItemsAsync()
         {
             List<ToDoItem> data = await dataStorage.ReadFromFile("ToDoItems");
             foreach (var item in data)
             {
-                if (item != null && !String.IsNullOrEmpty(item.Name))
+                if (item != null && !String.IsNullOrEmpty(item.Name) && item.Id != 0)
                 {
-                    Items[item.Name] = item;
+                    Items[item.Id] = item;
                 }
             }
             return Items;

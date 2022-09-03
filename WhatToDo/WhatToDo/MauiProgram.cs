@@ -15,7 +15,9 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+
+                fonts.AddFont("Bauhaus93.ttf", "Bauhaus93");
+            });
 
 		builder.Services.AddSingleton<WeatherService>();
 

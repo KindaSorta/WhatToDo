@@ -7,17 +7,40 @@
              x:Class="WhatToDo.View.ToDoItemDetailsPage"
              Title="{Binding Title}">
 
-    <VerticalStackLayout Margin="20" Spacing="10">
-        <Label Text="Name" />
-        <Entry Text="{Binding ItemText.Name}" />
+    <VerticalStackLayout Margin="20" Spacing="20">
 
-        <Label Text="Description" />
-        <Entry Text="{Binding ItemText.Description}" />
+        <VerticalStackLayout>
+            <Label Text="Name" TextColor="{StaticResource LightBackground}" FontAttributes="Bold" Padding="5"/>
+            <Border                
+                Stroke="{StaticResource LightBorderColor}"
+                StrokeThickness="2"
+                Padding="10,0,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <Entry Text="{Binding ItemText.Name}" BackgroundColor="{StaticResource LightBackground}"/>
+            </Border>
+        </VerticalStackLayout>
 
+        <VerticalStackLayout>
+            <Label Text="Description" TextColor="{StaticResource LightBackground}" FontAttributes="Bold" Padding="5"/>
+            <Border                
+                Stroke="{StaticResource LightBorderColor}"
+                StrokeThickness="2"
+                Padding="10,0,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <Entry Text="{Binding ItemText.Description}" BackgroundColor="{StaticResource LightBackground}"/>
+            </Border>
+        </VerticalStackLayout>
 
-        <Button Command="{Binding SaveCommand}" Text="Save" />
+        <Button Command="{Binding SaveCommand}" Text="Save" Style="{StaticResource CustomButton}" FontSize="22" />
 
     </VerticalStackLayout>
+
+
+
 
 
 </ContentPage>

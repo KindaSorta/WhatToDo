@@ -832,6 +832,9 @@
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-400.png">
       <PackagePath>splashSplashScreen.scale-400.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\f\Bauhaus93.ttf">
+      <PackagePath>Bauhaus93.ttf</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\gsalo\source\repos\WhatToDo\WhatToDo\WhatToDo\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Regular.ttf">
       <PackagePath>OpenSans-Regular.ttf</PackagePath>
     </AppxPackagedFile>

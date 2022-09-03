@@ -11,7 +11,6 @@ public partial class MainViewModel : BaseViewModel
 {
     IDataService dataService;
 
-
     public ObservableCollection<ToDoItem> Items { get; } = new ();
 
     [ObservableProperty]
@@ -45,7 +44,7 @@ public partial class MainViewModel : BaseViewModel
         }
         else
         {
-            if (String.IsNullOrWhiteSpace(SelectedItem.Name))
+            if (SelectedItem.Id == 0)
             {
                 Items.Remove(SelectedItem);
             }
@@ -65,7 +64,7 @@ public partial class MainViewModel : BaseViewModel
         {
             IsBusy = true;
 
-            Dictionary<string, ToDoItem> data = await dataService.GetItemsAsync();
+            Dictionary<int, ToDoItem> data = await dataService.GetItemsAsync();
 
             if (data != null)
             {
@@ -93,7 +92,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand]
     async Task Tap(ToDoItem item)
     {
-        SelectedItem = item;
+        await Task.FromResult(SelectedItem = item);
         await GoToDetails(SelectedItem);
     }
 
@@ -112,6 +111,12 @@ public partial class MainViewModel : BaseViewModel
             await dataService.DeleteItemAsync(item);
             Items.Remove(item);
         }
+    }
+
+    public override void Dispose() 
+    { 
+
+        base.Dispose();
     }
 
     #endregion ToDo Item Details / Edits

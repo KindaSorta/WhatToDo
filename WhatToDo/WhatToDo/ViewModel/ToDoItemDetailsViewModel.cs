@@ -22,7 +22,7 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
         Task.Run(async () =>
         {
             await Task.Delay(100);
-            Title = CurrentItem == null ? "Add" : CurrentItem.Name;
+            Title = String.IsNullOrWhiteSpace(CurrentItem.Name) ? "Add" : CurrentItem.Name;
             ItemText = new ToDoItem(CurrentItem);
         });
     }
@@ -41,9 +41,15 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
         }
     }
 
-/*    [RelayCommand]
-    async Task GoBackAsync()
+    public override void Dispose()
     {
-        
-    }*/
+
+        base.Dispose();
+    }
+
+    /*    [RelayCommand]
+        async Task GoBackAsync()
+        {
+
+        }*/
 }

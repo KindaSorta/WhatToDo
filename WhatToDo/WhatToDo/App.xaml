@@ -9,15 +9,63 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary>
+                    <!-- Colors -->
                     <Color x:Key="LightBackground">#FAF9F8</Color>
+                    <Color x:Key="LightBorderColor">#DDDDDD</Color>
+
+                    <Color x:Key="NavBarColor">#1d1e4a</Color>
+
+                    <Color x:Key="DarkPageBackground">#21334f</Color>
+                    <Color x:Key="TileColor">#2f2f57</Color>
+                    <!--Color x:Key="DarkPageBackground">#2f2f57</Color-->
+
+                    <Color x:Key="ButtonColor">#384491</Color>
+
+                    <Color x:Key="ButtonFontColor">#d1ba24</Color>
+
+                    <!-- Styles -->
                     <Style x:Key="CardView" TargetType="Frame">
-                        <Setter Property="BorderColor" Value="#DDDDDD" />
+                        <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
                         <Setter Property="HasShadow" Value="True" />
                         <Setter Property="Padding" Value="0" />
-                        <Setter Property="Background" Value="{StaticResource LightBackground}" />
+                        <Setter Property="Background" Value="{StaticResource TileColor}" />
                         <Setter Property="CornerRadius" Value="10" />
                         <Setter Property="IsClippedToBounds" Value="True"/>
                     </Style>
+
+                    <Style x:Key="DeleteSwip" TargetType="Frame">
+                        <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
+                        <Setter Property="HasShadow" Value="True" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Background" Value="#ba1b1b" />
+                        <Setter Property="CornerRadius" Value="10" />
+                        <Setter Property="IsClippedToBounds" Value="True"/>
+                    </Style>
+
+                    <Style x:Key="ClickLabels" TargetType="Label">
+                        <Setter Property="TextColor" Value="#DEB9B9"/>
+                    </Style>
+
+                    <Style x:Key="CustomButton" TargetType="Button">
+                        <Setter Property="Background" Value="{StaticResource ButtonColor}" />
+                        <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
+                        <Setter Property="BorderWidth" Value="1"/>
+                        <Setter Property="CornerRadius" Value="10" />
+                        <Setter Property="FontFamily" Value="Bauhaus93"/>
+                        <Setter Property="FontAttributes" Value="Bold" />
+                        <Setter Property="TextColor" Value="{StaticResource ButtonFontColor}"/>
+                    </Style>
+
+                    <Style x:Key="TitleBar" TargetType="Shell" ApplyToDerivedTypes="True">
+                        <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavBarColor}"/>
+                    </Style>
+
+                    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                        <Setter Property="BackgroundColor" Value="{StaticResource DarkPageBackground}"/>                        
+                    </Style>
+                    
+                    
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
