@@ -10,6 +10,10 @@ namespace WhatToDo.ViewModel;
 public partial class MainViewModel : BaseViewModel
 {
     IDataService dataService;
+    IDialogService dialogService;
+    IGeolocation geolocation;
+
+    public Session Session { get; set; }
 
     public ObservableCollection<ToDoItem> Items { get; } = new ();
 
@@ -17,13 +21,17 @@ public partial class MainViewModel : BaseViewModel
     ObservableCollection<ToDoItem> displayItems;
 
     [ObservableProperty]
-    ToDoItem selectedItem; 
+    ToDoItem selectedItem;
 
-    public MainViewModel(IDataService dataService)
+
+
+    public MainViewModel(IDataService dataService, IDialogService dialogService, IGeolocation geolocation)
     {
         Title = "WhatToDo";
-        this.dataService = dataService;
         SelectedItem = new ToDoItem();
+        this.dataService = dataService;
+        this.dialogService = dialogService;
+        this.geolocation = geolocation;
     }
 
     #region Navigation
@@ -38,6 +46,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand]
     async Task RefreshAsync()
     {
+        //Get Todo Item Data
         if (Items == null || Items.Count == 0)
         {
             await GetDataAsync();
@@ -49,6 +58,13 @@ public partial class MainViewModel : BaseViewModel
                 Items.Remove(SelectedItem);
             }
             SelectedItem = new ToDoItem();
+        }
+
+        //Get Session Data
+        if (Session == null)
+        {
+            //TODO: Standardize Session and Data Service Call
+            Session = await dataService.GetSession();
         }
         DisplayItems = null;
         DisplayItems = Items;
@@ -69,7 +85,6 @@ public partial class MainViewModel : BaseViewModel
             if (data != null)
             {
                 Items.Clear();
-
                 foreach (var item in data.Values)
                 {
                     Items.Add(item);
@@ -79,12 +94,41 @@ public partial class MainViewModel : BaseViewModel
         catch (Exception ex)
         {
             Debug.WriteLine($"Unable to get todo items: {ex.Message}");
-            await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
+            await dialogService.DisplayAlert("Error!", ex.Message, "OK");
         }
         finally
         {
             IsBusy = false; 
         }
+    }
+
+    public override async Task Cache()
+    {
+        await dataService.SaveSession(Session);
+        return;
+    }
+
+    [RelayCommand]
+    async Task GetGeoLoc()
+    {
+        if (IsBusy)
+            return;
+        try
+        {
+            IsBusy = true;
+            // Get cached location, else get real location.
+            Location location = await geolocation.GetLastKnownLocationAsync();
+            if (location == null)
+            {
+                location = await geolocation.GetLocationAsync(new GeolocationRequest
+                {
+                    DesiredAccuracy = GeolocationAccuracy.Medium,
+                    Timeout = TimeSpan.FromSeconds(30)
+                });
+            }
+
+        }
+        catch { }
     }
 
     #region ToDo Item Details / Edits

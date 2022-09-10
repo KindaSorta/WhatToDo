@@ -11,10 +11,16 @@ public partial class BaseViewModel : ObservableObject, IDisposable
     bool isRefreshing;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(CacheCommand))]
+    bool isCaching;
+
+    [ObservableProperty]
     string title;
 
     public bool IsNotBusy => !IsBusy;
-        
+
+    [RelayCommand]
+    public virtual async Task Cache() { return; }
 
     public virtual void Dispose() 
     {

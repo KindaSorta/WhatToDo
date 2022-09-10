@@ -12,7 +12,7 @@ public class MainViewModel_Fixture : BaseViewModel_Fixture<MainViewModel>, IDisp
 
     public MainViewModel_Fixture() 
     {
-        SUT = new MainViewModel(DataServiceMock.Object);
+        //SUT = new MainViewModel(DataServiceMock.Object);
     }
 
     public override void InitializeFixture()

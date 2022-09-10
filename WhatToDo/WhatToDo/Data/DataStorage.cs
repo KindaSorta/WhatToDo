@@ -24,7 +24,7 @@ public class DataStorage
         }
     }
 
-    public async Task WriteToFile(List<ToDoItem> items, string fileName)
+    public async Task WriteToFile<T>(List<T> items, string fileName)
     {
         string filePath = Path.Combine(DirectoryPath, $"{fileName}.txt");
         await Task.Run(() => {
@@ -33,9 +33,9 @@ public class DataStorage
         });
     }
 
-    public async Task<List<ToDoItem>> ReadFromFile(string fileName)
+    public async Task<List<T>> ReadFromFile<T>(string fileName)
     {
-        return await Task<List<ToDoItem>>.Run(() =>
+        return await Task<List<T>>.Run(() =>
         {
             if (Directory.GetFiles(DirectoryPath, $"{fileName}.txt").Length > 0)
             {
@@ -43,10 +43,10 @@ public class DataStorage
                 var rawData = File.ReadAllText(filePath);
                 if (!String.IsNullOrEmpty(rawData))
                 {
-                    return JsonSerializer.Deserialize<List<ToDoItem>>(rawData).ToList();
+                    return JsonSerializer.Deserialize<List<T>>(rawData).ToList();
                 }
             }
-            return new List<ToDoItem>();
+            return new List<T>();
         });
     }
 }

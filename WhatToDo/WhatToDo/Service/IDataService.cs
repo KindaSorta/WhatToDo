@@ -8,6 +8,8 @@ namespace WhatToDo.Service
 {
     public interface IDataService
     {
+        Task SaveSession(Session session);
+        Task<Session> GetSession();
         Task DeleteItemAsync(ToDoItem itemToDelete); 
         Task DeleteItemAsync(List<ToDoItem> itemsToDelete);
         Task<Dictionary<int, ToDoItem>> GetItemsAsync(); 

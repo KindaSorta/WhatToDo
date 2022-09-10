@@ -1,129 +1,130 @@
 
+using AutoFixture;
+using AutoFixture.AutoMoq;
+using AutoFixture.Xunit2;
 using System.Security.Cryptography.X509Certificates;
 
 namespace WhatToDoTests;
 
-public class BaseViewModel_Tests : IClassFixture<BaseViewModel_Fixture<BaseViewModel>>
+public class BaseViewModel_Tests
 {
-    private BaseViewModel_Fixture<BaseViewModel> fixture;
-
-    public BaseViewModel_Tests(BaseViewModel_Fixture<BaseViewModel> fixture) 
-    {
-        this.fixture = fixture;
-    }
+    public BaseViewModel_Tests() { }
 
     #region ViewModel Instantiation
-    [Fact]
-    public void CreateViewModel_Should_Exist()
+    [Theory, AutoMoqData]
+    public void CreateViewModel_Should_Exist([NoAutoProperties] BaseViewModel sut)
     {
         //Arrange
 
         //Act
 
         //Assert
-        fixture.SUT.Should().NotBeNull();
-        fixture.SUT.Should().BeOfType<BaseViewModel>();
+        sut.Should().NotBeNull();
+        sut.Should().BeOfType<BaseViewModel>();
+        sut.Title.Should().Be(null);
+        sut.IsBusy.Should().BeFalse();
+        sut.IsRefreshing.Should().BeFalse();
     }
     #endregion ViewModel Instantiation
 
     #region Title Property
-    [Fact]
-    public void TitleObservableProperty_Should_NotifyChange()
+    [Theory, AutoMoqData]
+    public void TitleObservableProperty_Should_NotifyChange([NoAutoProperties] BaseViewModel sut)
     {
         //Arrange
-        fixture.SUT.Title = "Initial";
-        using var monitor = fixture.SUT.Monitor();
+        sut.Title = "Initial";
+        using var monitor = sut.Monitor();
 
         //Act
-        fixture.SUT.Title = "Altered";
+        sut.Title = "Altered";
 
         //Assert
-        fixture.SUT.Title.Should().NotBeNull();
-        fixture.SUT.Title.Should().BeOfType<string>();
+        sut.Title.Should().NotBeNull();
+        sut.Title.Should().BeOfType<string>();
         monitor.Should().RaisePropertyChangeFor(x => x.Title);
     }
 
-    [Fact]
-    public void TitleObservableProperty_ShouldNot_NotifyChange()
+    [Theory, AutoMoqData]
+    public void TitleObservableProperty_ShouldNot_NotifyChange([NoAutoProperties] BaseViewModel sut)
     {
         //Arrange
-        fixture.SUT.Title = "Initial";
-        using var monitor = fixture.SUT.Monitor();
+        sut.Title = "Initial";
+        using var monitor = sut.Monitor();
 
         //Act
-        fixture.SUT.Title = "Initial";
+        sut.Title = "Initial";
 
         //Assert
-        fixture.SUT.Title.Should().NotBeNull();
-        fixture.SUT.Title.Should().BeOfType<string>();
+        sut.Title.Should().NotBeNull();
+        sut.Title.Should().BeOfType<string>();
         monitor.Should().NotRaisePropertyChangeFor(x => x.Title);
     }
     #endregion Title Property
 
     #region Busy Properties
-    [Fact]
-    public void BusyObservableProperties_Should_NotifyChange()
+    [Theory, AutoMoqData]
+    public void BusyObservableProperties_Should_NotifyChange([NoAutoProperties] BaseViewModel sut)
     {
         //Arrange
-        fixture.SUT.IsBusy = false;
-        using var monitor = fixture.SUT.Monitor();
+        sut.IsBusy = false;
+        using var monitor = sut.Monitor();
 
         //Act
-        fixture.SUT.IsBusy = true;
+        sut.IsBusy = true;
 
         //Assert
-        fixture.SUT.IsBusy.Should().BeTrue();
+        sut.IsBusy.Should().BeTrue();
         monitor.Should().RaisePropertyChangeFor(x => x.IsBusy);
         monitor.Should().RaisePropertyChangeFor(x => x.IsNotBusy);
-        fixture.SUT.IsBusy.Should().NotBe(fixture.SUT.IsNotBusy);
+        sut.IsBusy.Should().NotBe(sut.IsNotBusy);
     }
 
-    [Fact]
-    public void BusyObservableProperties_ShouldNot_NotifyChange()
+    [Theory, AutoMoqData]
+    public void BusyObservableProperties_ShouldNot_NotifyChange([NoAutoProperties] BaseViewModel sut)
     {
         //Arrange
-        fixture.SUT.IsBusy = true;
-        using var monitor = fixture.SUT.Monitor();
+        sut.IsBusy = true;
+        using var monitor = sut.Monitor();
 
         //Act
-        fixture.SUT.IsBusy = true;
+        sut.IsBusy = true;
 
         //Assert
-        fixture.SUT.IsBusy.Should().BeTrue();
+        sut.IsBusy.Should().BeTrue();
         monitor.Should().NotRaisePropertyChangeFor(x => x.IsBusy);
         monitor.Should().NotRaisePropertyChangeFor(x => x.IsNotBusy);
-        fixture.SUT.IsBusy.Should().NotBe(fixture.SUT.IsNotBusy);
+        sut.IsBusy.Should().NotBe(sut.IsNotBusy);
     }
     #endregion Busy Properties
 
     #region Refreshing Property
-    [Fact]
-    public void IsRefreshingObservableProperty_Should_NotifyChange()
+    [Theory, AutoMoqData]
+    public void IsRefreshingObservableProperty_Should_NotifyChange([NoAutoProperties] BaseViewModel sut)
     {
         //Arrange
-        fixture.SUT.IsRefreshing = false;
-        using var monitor = fixture.SUT.Monitor();
+        sut.IsRefreshing = false;
+        using var monitor = sut.Monitor();
 
         //Act
-        fixture.SUT.IsRefreshing = true;
+        sut.IsRefreshing = true;
 
         //Assert
-        fixture.SUT.IsRefreshing.Should().BeTrue();
+        sut.IsRefreshing.Should().BeTrue();
         monitor.Should().RaisePropertyChangeFor(x => x.IsRefreshing);
     }
 
-    [Fact]
-    public void IsRefreshingObservableProperty_ShouldNot_NotifyChange()
+    [Theory, AutoMoqData]
+    public void IsRefreshingObservableProperty_ShouldNot_NotifyChange([NoAutoProperties] BaseViewModel sut)
     {
         //Arrange
-        fixture.SUT.IsRefreshing = true;
-        using var monitor = fixture.SUT.Monitor();
+        sut.IsRefreshing = true;
+        using var monitor = sut.Monitor();
 
         //Act
-        fixture.SUT.IsRefreshing = true;
+        sut.IsRefreshing = true;
 
         //Assert
-        fixture.SUT.IsRefreshing.Should().BeTrue();
+        sut.IsRefreshing.Should().BeTrue();
         monitor.Should().NotRaisePropertyChangeFor(x => x.IsRefreshing);
     }
     #endregion Refreshing Property
