@@ -129,7 +129,7 @@ public class MainViewModel_Tests
         sut.IsBusy = true;
 
         //Act
-        await sut.GetDataCommand.ExecuteAsync(null);
+        await sut.GetItemsCommand.ExecuteAsync(null);
 
         //Assert
         sut.IsBusy.Should().BeTrue();
@@ -145,7 +145,7 @@ public class MainViewModel_Tests
             .ThrowsAsync(exception);
 
         //Act
-        await sut.GetDataCommand.ExecuteAsync(null);
+        await sut.GetItemsCommand.ExecuteAsync(null);
 
         //Assert
         sut.Items.Should().BeEmpty();
@@ -165,7 +165,7 @@ public class MainViewModel_Tests
             .ReturnsAsync(new Dictionary<int, ToDoItem>());
 
         //Act
-        await sut.GetDataCommand.ExecuteAsync(null);
+        await sut.GetItemsCommand.ExecuteAsync(null);
 
         //Assert
         sut.Items.Should().BeEmpty();
@@ -185,7 +185,7 @@ public class MainViewModel_Tests
             .ReturnsAsync(data);
 
         //Act
-        await sut.GetDataCommand.ExecuteAsync(null);
+        await sut.GetItemsCommand.ExecuteAsync(null);
 
         //Assert
         sut.Items.Should().HaveCount(data.Count);

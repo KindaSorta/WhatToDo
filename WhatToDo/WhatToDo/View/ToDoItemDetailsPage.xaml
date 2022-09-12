@@ -3,14 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:WhatToDo.ViewModel"
              xmlns:model="clr-namespace:WhatToDo.Model"
+             xmlns:template="clr-namespace:WhatToDo.Template"
              x:DataType="vm:ToDoItemDetailsViewModel"
              x:Class="WhatToDo.View.ToDoItemDetailsPage"
              Title="{Binding Title}">
 
-    <VerticalStackLayout Margin="20" Spacing="20">
+    <ContentPage.Resources>
 
+    </ContentPage.Resources>
+    
+    <!--  -->
+    <VerticalStackLayout Margin="20" Spacing="10">
+
+        <!-- Name -->
         <VerticalStackLayout>
-            <Label Text="Name" TextColor="{StaticResource LightBackground}" FontAttributes="Bold" Padding="5"/>
+            <Label Text="Name" Style="{StaticResource ToDoItemLabel}"/>
             <Border                
                 Stroke="{StaticResource LightBorderColor}"
                 StrokeThickness="2"
@@ -22,8 +29,9 @@
             </Border>
         </VerticalStackLayout>
 
+        <!-- Description -->
         <VerticalStackLayout>
-            <Label Text="Description" TextColor="{StaticResource LightBackground}" FontAttributes="Bold" Padding="5"/>
+            <Label Text="Description" Style="{StaticResource ToDoItemLabel}"/>
             <Border                
                 Stroke="{StaticResource LightBorderColor}"
                 StrokeThickness="2"
@@ -35,7 +43,168 @@
             </Border>
         </VerticalStackLayout>
 
+
+
+        <!-- Weather Details Switch -->
+        <HorizontalStackLayout>
+            <Switch x:Name="EnableWeatherSelection" IsToggled="False" HorizontalOptions="End"/>
+            <Label Text="Weather based notifications and suggestions" Style="{StaticResource ToDoItemLabel}"/>
+        </HorizontalStackLayout>
+
+        <!-- Weather Details -->
+        <VerticalStackLayout IsVisible="{Binding IsToggled, Source={x:Reference EnableWeatherSelection}}">
+            <!-- Weather Forecast Picker -->
+            <Border                
+                Stroke="{StaticResource LightBorderColor}"
+                StrokeThickness="2"
+                Padding="10,0,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <Picker 
+                    Title="Select Prefered Weather" 
+                    x:Name="SelectedForecast" 
+                    SelectedIndex="{Binding ForecastSelection}"
+                    ItemsSource="{Binding ForecastOptions}" 
+                    BackgroundColor="{StaticResource LightBackground}"/>
+            </Border>
+
+            <!-- Weather Numeric Data -->            
+            <Grid ColumnDefinitions="*,*,*,*,*,*">
+                <!-- High Temp -->
+                <Label Grid.Column="0" Text="High:" Style="{StaticResource ToDoItemLabel}"/>
+                <Border   
+                    Grid.Column="1"
+                    Stroke="{StaticResource LightBorderColor}"
+                    StrokeThickness="2"
+                    Padding="10,0,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Picker 
+                        Title="{Binding ItemText.Weather.High}" 
+                        x:Name="HighTempSelect"
+                        SelectedIndex="{Binding HighTempSelection}"
+                        ItemsSource="{Binding TempRange}"
+                        BackgroundColor="{StaticResource LightBackground}"/>
+                </Border>
+
+                <!-- Low Temp -->
+                <Label Grid.Column="2" Text="Low: " Style="{StaticResource ToDoItemLabel}"/>
+                <Border  
+                    Grid.Column="3"
+                    Stroke="{StaticResource LightBorderColor}"
+                    StrokeThickness="2"
+                    Padding="10,0,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Picker 
+                        Title="{Binding ItemText.Weather.Low}" 
+                        x:Name="LowTempSelect"
+                        SelectedIndex="{Binding LowTempSelection}"
+                        ItemsSource="{Binding TempRange}"
+                        BackgroundColor="{StaticResource LightBackground}"/>
+                </Border>
+
+                <!-- Wind Speed -->
+                <Label Grid.Column="4" Text="Wind: " Style="{StaticResource ToDoItemLabel}"/>
+                <Border  
+                    Grid.Column="5"
+                    Stroke="{StaticResource LightBorderColor}"
+                    StrokeThickness="2"
+                    Padding="10,0,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Picker 
+                        Title="{Binding ItemText.Weather.WindSpeed}" 
+                        x:Name="WindSpeedSelect"
+                        SelectedIndex="{Binding WindSpeedSelection}"
+                        ItemsSource="{Binding WindSpeeds}"
+                        BackgroundColor="{StaticResource LightBackground}"/>
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+
+        <!-- Schedule Reminder Switch -->
+        <HorizontalStackLayout>
+            <Switch x:Name="EnableSchedulers" IsToggled="{Binding ItemText.HasDueDate}" HorizontalOptions="End"/>
+            <Label Text="Scheduled task for future date" Style="{StaticResource ToDoItemLabel}"/>
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding IsToggled, Source={x:Reference EnableSchedulers}}">
+            <!-- Start Date -->
+            <VerticalStackLayout>
+                <!-- Schedule Reminder Switch -->
+                <HorizontalStackLayout>
+                    <Switch x:Name="EnableStartDate" IsToggled="{Binding ItemText.HasStartDate}" HorizontalOptions="End"/>
+                    <Label Text="Start Date" Style="{StaticResource ToDoItemLabel}"/>
+                </HorizontalStackLayout>
+
+                <Grid ColumnDefinitions="*,*" IsVisible="{Binding IsToggled, Source={x:Reference EnableStartDate}}">
+                    <Border  
+                    Grid.Column="0"
+                    Stroke="{StaticResource LightBorderColor}"
+                    StrokeThickness="2"
+                    Padding="10,0,0,0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <DatePicker Date="{Binding ItemText.StartDate}" BackgroundColor="{StaticResource LightBackground}"/>
+                    </Border>
+                    <Border  
+                    Grid.Column="1"
+                    Stroke="{StaticResource LightBorderColor}"
+                    StrokeThickness="2"
+                    Padding="10,0,0,0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <TimePicker Time="{Binding ItemText.StartDate}" BackgroundColor="{StaticResource LightBackground}"/>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Due Date -->
+            <VerticalStackLayout>
+                <Label Text="Due Date" Style="{StaticResource ToDoItemLabel}"/>
+                <Grid ColumnDefinitions="*,*">
+                    <Border  
+                    Grid.Column="0"
+                    Stroke="{StaticResource LightBorderColor}"
+                    StrokeThickness="2"
+                    Padding="10,0,0,0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <DatePicker Date="{Binding ItemText.DueDate}" BackgroundColor="{StaticResource LightBackground}"/>
+                    </Border>
+                    <Border  
+                    Grid.Column="1"
+                    Stroke="{StaticResource LightBorderColor}"
+                    StrokeThickness="2"
+                    Padding="10,0,0,0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <TimePicker Time="{Binding ItemText.DueDate}" BackgroundColor="{StaticResource LightBackground}"/>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+
+
+
+        <HorizontalStackLayout>
+            <CheckBox IsChecked="{Binding ItemText.IsComplete}" Color="LightGreen" HorizontalOptions="Start"/>
+            <Label Text="Completed" Style="{StaticResource ToDoItemLabel}"/>
+        </HorizontalStackLayout>
+        
         <Button Command="{Binding SaveCommand}" Text="Save" Style="{StaticResource CustomButton}" FontSize="22" />
+
+        <Button Command="{Binding DeleteCommand}" Text="Delete" Style="{StaticResource DeleteButton}" FontSize="22" />
 
     </VerticalStackLayout>
 

@@ -19,11 +19,15 @@ public static class MauiProgram
                 fonts.AddFont("Bauhaus93.ttf", "Bauhaus93");
             });
 
-		builder.Services.AddSingleton<WeatherService>();
 
-		builder.Services.AddSingleton<IDataService, DataService>();
-        builder.Services.AddSingleton<IDialogService, DialogService>();
+        builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
         builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);
+
+        builder.Services.AddSingleton<IDataService, DataService>();
+        builder.Services.AddSingleton<IDialogService, DialogService>();
+        builder.Services.AddSingleton<WeatherService>();
+
+        builder.Services.AddSingleton<ISessionService, SessionService>();
 
         builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<MainPage>();

@@ -64,16 +64,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Templates\TodoItemInputField.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\ToDoItemDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\WeatherDataPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Messages\" />
 	</ItemGroup>
 
 </Project>

@@ -11,24 +11,24 @@ public class WeatherService
     List<WeatherData> data;
     HttpClient httpClient;
 
+
     public WeatherService()
     {
         data = new List<WeatherData>();
         this.httpClient = new HttpClient();
     }
 
-    public async Task<List<WeatherData>> GetWeather()
+    public async Task<List<WeatherData>> GetWeather(Location location)
     {
         string forcastURL = String.Empty;
-/*        if (data.Count() > 0)
-        {
-            return forcastURL;
-        }*/
+
+        string coordinatesURL = "https://api.weather.gov/points/" + location.Latitude.ToString("0.####") + "," + location.Longitude.ToString("0.####");
 
         //Request for Weather API coordinates based off current Geo location
         var productValue = new ProductInfoHeaderValue("WhatToDoApp", "1.0");
         var commentValue = new ProductInfoHeaderValue("(Software Dev Student)");
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://api.weather.gov/points/32.3617,-86.2792");
+        //var request = new HttpRequestMessage(HttpMethod.Get, "https://api.weather.gov/points/32.3617,-86.2792");
+        var request = new HttpRequestMessage(HttpMethod.Get, coordinatesURL);
 
         request.Headers.UserAgent.Add(productValue);
         request.Headers.UserAgent.Add(commentValue);

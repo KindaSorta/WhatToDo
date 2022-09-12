@@ -11,11 +11,11 @@ using System.IO;
 
 namespace WhatToDo.Data;
 
-public class DataStorage
+public class FileStorage
 {
     string DirectoryPath;
 
-    public DataStorage()
+    public FileStorage()
     {
         DirectoryPath = Path.Combine(FileSystem.Current.AppDataDirectory, "WhatToDoApp");
         if (!Directory.Exists(DirectoryPath))

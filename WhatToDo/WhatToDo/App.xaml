@@ -19,6 +19,7 @@
                     <Color x:Key="TileColor">#2f2f57</Color>
                     <!--Color x:Key="DarkPageBackground">#2f2f57</Color-->
 
+                    <Color x:Key="DeleteRed">#ba1b1b</Color>
                     <Color x:Key="ButtonColor">#384491</Color>
 
                     <Color x:Key="ButtonFontColor">#d1ba24</Color>
@@ -37,7 +38,7 @@
                         <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
                         <Setter Property="HasShadow" Value="True" />
                         <Setter Property="Padding" Value="0" />
-                        <Setter Property="Background" Value="#ba1b1b" />
+                        <Setter Property="Background" Value="{StaticResource DeleteRed}" />
                         <Setter Property="CornerRadius" Value="10" />
                         <Setter Property="IsClippedToBounds" Value="True"/>
                     </Style>
@@ -56,6 +57,16 @@
                         <Setter Property="TextColor" Value="{StaticResource ButtonFontColor}"/>
                     </Style>
 
+                    <Style x:Key="DeleteButton" TargetType="Button">
+                        <Setter Property="Background" Value="{StaticResource DeleteRed}" />
+                        <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
+                        <Setter Property="BorderWidth" Value="1"/>
+                        <Setter Property="CornerRadius" Value="10" />
+                        <Setter Property="FontFamily" Value="Bauhaus93"/>
+                        <Setter Property="FontAttributes" Value="Bold" />
+                        <Setter Property="TextColor" Value="{StaticResource ButtonFontColor}"/>
+                    </Style>
+
                     <Style x:Key="TitleBar" TargetType="Shell" ApplyToDerivedTypes="True">
                         <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavBarColor}"/>
                     </Style>
@@ -63,8 +74,13 @@
                     <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
                         <Setter Property="BackgroundColor" Value="{StaticResource DarkPageBackground}"/>                        
                     </Style>
-                    
-                    
+
+                    <Style x:Key="ToDoItemLabel" TargetType="Label">
+                        <Setter Property="TextColor" Value="{StaticResource LightBackground}"/>
+                        <Setter Property="FontAttributes" Value="Bold"/>
+                        <Setter Property="VerticalOptions" Value="Center"/>
+                        <Setter Property="Padding" Value="5"/>
+                    </Style>
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

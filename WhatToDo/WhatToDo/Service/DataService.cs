@@ -5,34 +5,33 @@ namespace WhatToDo.Service;
 
 public class DataService : IDataService
 {
-    DataStorage dataStorage;
+    ISessionService session;
+    FileStorage dataStorage;
 
-    Session Session;
+    Dictionary<int, ToDoItem> Items { get; set; } = new Dictionary<int, ToDoItem>();    
 
-    Dictionary<int, ToDoItem> Items { get; set; } = new Dictionary<int, ToDoItem>();
-
-    Dictionary<DateOnly, WeatherData> WeatherForcast { get; set; } = new Dictionary<DateOnly, WeatherData>();
-
-    public DataService()
+    public DataService(ISessionService session)
     {
-        dataStorage = new DataStorage();
+        this.session = session;
+
+        dataStorage = new FileStorage();
         Task.Run(async () =>
         {
             Items = await GetItemsAsync();
-            WeatherForcast = await GetWeatherAsync();
+            session.WeatherForcast = await GetWeatherAsync();
         });
     }
 
     #region Session
-    public async Task SaveSession(Session session)
-    {
-        Session = await Task.FromResult(session);
-    }
+    /*    public async Task SaveSession(SessionService session)
+        {
+            Session = await Task.FromResult(session);
+        }
 
-    public async Task<Session> GetSession()
-    {
-        return await Task.FromResult(Session ?? new Session());
-    }
+        public async Task<SessionService> GetSession()
+        {
+            return await Task.FromResult(Session ?? new SessionService());
+        }*/
     #endregion Session
 
     #region TodoItems
@@ -99,27 +98,26 @@ public class DataService : IDataService
     #endregion TodoItems
 
     #region Weather
-    public async Task SaveWeatherData(Dictionary<DateOnly, WeatherData> forcast)
+    public async Task SaveWeatherData()
     {
-        if (forcast != null && forcast.Count == 14)
+        if (session.WeatherForcast is not null && session.WeatherForcast.Count > 0)
         {
-            WeatherForcast = forcast;
-            await dataStorage.WriteToFile(WeatherForcast.Values.ToList(), "Weather");
+            await dataStorage.WriteToFile(session.WeatherForcast.Values.ToList(), "Weather");
         }
     }
 
-    public async Task<Dictionary<DateOnly, WeatherData>> GetWeatherAsync()
+    public async Task<Dictionary<DateTime, WeatherData>> GetWeatherAsync()
     {
         List<WeatherData> data = await dataStorage.ReadFromFile<WeatherData>("Weather");
         if (data != null && data.Count == 14)
         {
-            WeatherForcast.Clear();
+            session.WeatherForcast.Clear();
             foreach (WeatherData halfDay in data)
             {
-                WeatherForcast[DateOnly.FromDateTime(halfDay.startTime)] = halfDay;
+                session.WeatherForcast[halfDay.startTime] = halfDay;
             }
         }
-        return WeatherForcast;
+        return session.WeatherForcast;
     }
     #endregion Weather
 }

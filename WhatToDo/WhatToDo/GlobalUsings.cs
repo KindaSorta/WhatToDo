@@ -1,8 +1,12 @@
 ﻿global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Messaging;
 global using CommunityToolkit.Mvvm.Input;
 global using WhatToDo.Utilities;
 global using WhatToDo.Model;
 global using WhatToDo.ViewModel;
+global using WhatToDo.View;
+global using WhatToDo.Service;
+global using WhatToDo.Messages;
 global using System.Collections;
 global using System.Collections.ObjectModel;
 global using System.ComponentModel;

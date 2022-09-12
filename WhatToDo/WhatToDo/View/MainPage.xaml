@@ -38,7 +38,24 @@
                         SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:ToDoItem">
-                        <SwipeView>                            
+                        <SwipeView Margin="5">
+                            <SwipeView.LeftItems>
+                                <SwipeItems
+                                    SwipeBehaviorOnInvoked="Close">
+                                    <SwipeItemView
+                                        CommandParameter="{Binding .}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=CompleteCommand}">
+                                        <Grid Padding="3,5">
+                                            <CheckBox 
+                                                IsChecked="{Binding IsComplete}"
+                                                IsEnabled="False"
+                                                Color="LightGreen"
+                                                VerticalOptions="Fill"
+                                                HorizontalOptions="Fill"/>
+                                        </Grid>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
                             <SwipeView.RightItems>
                                 <SwipeItems
                                     SwipeBehaviorOnInvoked="Auto">                                    
@@ -46,14 +63,13 @@
                                         CommandParameter="{Binding .}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCommand}">
                                         <Grid Padding="3,5">
-                                            <Frame Style="{StaticResource DeleteSwip}">
-                                                <Label
-                                                    Text="Delete"
-                                                    TextColor="{StaticResource LightBorderColor}"
-                                                    HorizontalOptions="Center"
-                                                    VerticalOptions="Center"
-                                                    FontAttributes="Bold"/>
-                                            </Frame>
+                                            <Button
+                                                Style="{StaticResource CustomButton}"
+                                                Text="Delete"
+                                                FontSize="22"
+                                                Background="{StaticResource DeleteRed}"
+                                                HorizontalOptions="Fill"
+                                                VerticalOptions="Fill"/>
                                         </Grid>
                                     </SwipeItemView>
                                 </SwipeItems>
@@ -100,7 +116,7 @@
             Style="{StaticResource CustomButton}"
             Text="Get Data"
             FontSize="22"
-            Command="{Binding GetDataCommand}"             
+            Command="{Binding GetItemsCommand}"             
             IsEnabled="{Binding IsNotBusy}"/>
         <ActivityIndicator
             Grid.RowSpan="2"
