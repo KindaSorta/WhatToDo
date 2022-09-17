@@ -1,4 +1,4 @@
-﻿using WhatToDo.View;
+﻿
 
 namespace WhatToDo;
 

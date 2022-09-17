@@ -1,26 +1,31 @@
 ﻿
+//using static Android.Content.ClipData;
+
 namespace WhatToDo.Model;
 
 
-public class ToDoItem
+public class ToDoItem : IModelObject<ToDoItem>
 {
     public int Id { get; set; }
     public string Name { get; set; } = String.Empty;
     public string Description { get; set; } = String.Empty;
-    public WeatherType Weather { get; set; } = null;
+    public WeatherPreference Weather { get; set; } = new WeatherPreference();
     public DateTime? StartDate { get; set; } = null;
     public DateTime? DueDate { get; set; } = null;
     public float Priority { get; set; } = 0f;
     public bool IsComplete { get; set; } = false;
-    public bool HasDueDate => DueDate != null && DueDate > DateTime.Now ? true : false;
-    public bool HasStartDate => StartDate != null && StartDate > DateTime.Now ? true : false;
+
+    public bool NotComplete => !IsComplete;
+    public bool HasDueDate => DueDate != null && DueDate > DateTime.Now;
+    public bool HasStartDate => StartDate != null && StartDate > DateTime.Now;
+    public bool HasWeatherPreference => Weather != null && !HelperFunctions.Compare<WeatherPreference>(this.Weather, new WeatherPreference());
     //public User[] UsersInvolved { get; set; }
     //public string[] Details { get; set; }
     //public string Location { get; set; }
 
     public ToDoItem() { }
 
-    public ToDoItem(string name, string describ, WeatherType weather, DateTime start, DateTime end, float priority, bool complete)
+    public ToDoItem(string name, string describ, WeatherPreference weather, DateTime start, DateTime end, float priority, bool complete)
     {
         Name = name;
         Description = describ;
@@ -66,7 +71,19 @@ public class ToDoItem
         IsComplete = complete;
     }
 
-    public void Clone(ToDoItem item)
+    public void DeepClone(ToDoItem item)
+    {
+        this.Id = item.Id;
+        this.Name = item.Name;
+        this.Description = item.Description;
+        this.Weather = item.Weather;
+        this.StartDate = item.StartDate;
+        this.DueDate = item.DueDate;
+        this.Priority = item.Priority;
+        this.IsComplete = item.IsComplete;
+    }
+
+    public void CopyFrom(ToDoItem item)
     {
         this.Name = item.Name;
         this.Description = item.Description;
@@ -75,6 +92,31 @@ public class ToDoItem
         this.DueDate = item.DueDate;
         this.Priority = item.Priority;
         this.IsComplete = item.IsComplete;
+    }
+
+    public void CopyTo(ToDoItem item)
+    {
+        item.Name = this.Name;
+        item.Description = this.Description;
+        item.Weather = this.Weather;
+        item.StartDate = this.StartDate;
+        item.DueDate = this.DueDate;
+        item.Priority = this.Priority;
+        item.IsComplete = this.IsComplete;
+
+    }
+
+    public bool IsValid()
+    {
+        if (String.IsNullOrWhiteSpace(Name) ||
+            (HasDueDate && DueDate < DateTime.Now) || 
+            (HasDueDate && HasStartDate && DueDate < StartDate) || 
+            (Weather is not null && !Weather.IsValid()))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
 

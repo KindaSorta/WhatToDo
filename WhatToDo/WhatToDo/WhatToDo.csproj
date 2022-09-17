@@ -64,10 +64,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Templates\TodoItemInputField.xaml">
+	  <Compile Update="Views\Templates\BlankTemplate.xaml.cs">
+	    <DependentUpon>BlankTemplate.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\Pages\ToDoItemDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\ToDoItemDetailsPage.xaml">
+	  <MauiXaml Update="Views\Templates\BlankTemplate.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Templates\WeatherPreferencePopUpView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

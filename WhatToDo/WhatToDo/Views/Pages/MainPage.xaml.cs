@@ -1,7 +1,7 @@
 ﻿using WhatToDo.Model;
 using WhatToDo.Service;
 
-namespace WhatToDo.View;
+namespace WhatToDo.Views.Pages;
 
 public partial class MainPage : ContentPage
 {
@@ -11,6 +11,7 @@ public partial class MainPage : ContentPage
 	{
 		InitializeComponent();
         BindingContext = _viewModel = viewModel;
+        
 	}
 
     protected override void OnAppearing()

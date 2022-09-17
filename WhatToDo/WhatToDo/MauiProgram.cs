@@ -1,6 +1,5 @@
-﻿using WhatToDo.Service;
-using WhatToDo.Data;
-using WhatToDo.View;
+﻿
+
 
 namespace WhatToDo;
 
@@ -10,11 +9,11 @@ public static class MauiProgram
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
-			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 
                 fonts.AddFont("Bauhaus93.ttf", "Bauhaus93");
             });
@@ -34,6 +33,10 @@ public static class MauiProgram
 
         builder.Services.AddTransient<ToDoItemDetailsViewModel>();
         builder.Services.AddTransient<ToDoItemDetailsPage>();
+
+        builder.Services.AddTransient<WeatherPreferencePopUpViewModel>();
+        builder.Services.AddTransient<WeatherPreferencePopUpView>();
+        builder.Services.AddTransient<BlankTemplate>();
 
         return builder.Build();
 	}

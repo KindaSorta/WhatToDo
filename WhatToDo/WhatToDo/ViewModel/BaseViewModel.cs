@@ -26,6 +26,7 @@ public partial class BaseViewModel : ObservableObject, IDisposable
     {
         title = default;
         isBusy = default;
+        isCaching = default;
         isRefreshing = default;
     }
 }

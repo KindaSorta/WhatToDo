@@ -1,5 +1,7 @@
 ﻿
 
+using WhatToDo.Data;
+
 namespace WhatToDo.ViewModel;
 
 public partial class MainViewModel : BaseViewModel
@@ -11,13 +13,24 @@ public partial class MainViewModel : BaseViewModel
     ISessionService session;
     WeatherService weatherService;
 
+    public List<string> Options { get; } = FormOptions.FilterOptions;
+
     public ObservableCollection<ToDoItem> Items { get; } = new ();
 
     [ObservableProperty]
-    ObservableCollection<ToDoItem> displayItems;
+    string filter;
+
+    [ObservableProperty]
+    IList<ToDoItem> displayItems;
 
     [ObservableProperty]
     ToDoItem selectedItem;
+
+    [ObservableProperty]
+    bool isPopUp;
+
+    [ObservableProperty]
+    float blur;
 
     public MainViewModel(
         IDataService dataService, IDialogService dialogService, 
@@ -57,7 +70,7 @@ public partial class MainViewModel : BaseViewModel
     async Task GoToDetails(ToDoItem item)
     {
         if (item == null) return;
-        await Shell.Current.GoToAsync(nameof(ToDoItemDetailsPage), true, new Dictionary<string, object> { { "item", item } });
+        await Shell.Current.GoToAsync(nameof(ToDoItemDetailsPage), true, new Dictionary<string, object> { { "CurrentItem", item } });
     }
     #endregion Navigation
 
@@ -65,7 +78,6 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand]
     async Task RefreshAsync()
     {
-
         //Get Todo Item Data
         if (Items == null || Items.Count == 0)
         {
@@ -81,8 +93,47 @@ public partial class MainViewModel : BaseViewModel
         }
 
         DisplayItems = null;
-        DisplayItems = Items;
+        DisplayItems = await FilterQueryItems();
         IsRefreshing = false;
+    }
+
+
+    async Task<IList<ToDoItem>> FilterQueryItems()
+    {
+        // TODO: Make it handle nested search queries, and Tag filtering
+        switch (Filter)
+        {
+            // Complete
+            case var s when s == Options[1]:
+                return await Task.FromResult(Items.Where(x => x.IsComplete).ToList());
+
+            // Incomplete
+            case var s when s == Options[2]:
+                return await Task.FromResult(Items.Where(x => x.NotComplete).ToList());
+
+            // Recent
+            case var s when s == Options[3]:
+                break;
+
+            // Upcoming
+            case var s when s == Options[4]:
+                return await Task.FromResult(Items.OrderBy(x => x.DueDate).ToList());
+
+            // Priority
+            case var s when s == Options[5]:
+                return await Task.FromResult(Items.OrderByDescending(x => x.Priority).ToList());
+            default:
+                return Items;
+        }
+        
+        if (Filter == "Completed")
+        {
+            return await Task.FromResult(Items.Where(x => x.IsComplete).ToList());
+        }
+        else
+        {
+            return await Task.FromResult(Items);
+        }
     }
     #endregion UI
 
@@ -203,8 +254,24 @@ public partial class MainViewModel : BaseViewModel
 
     #region ToDo Item Details / Edits
 
+    /*    [RelayCommand]
+        async Task TapAsync(ToDoItem item)
+        {
+            *//*        if (IsBusy) return;
+                    await Task.FromResult(SelectedItem = item);
+                    await GoToDetails(SelectedItem);*//*
+            return;
+        }*/
     [RelayCommand]
-    async Task Tap(ToDoItem item)
+    async Task FilterAsync()
+    {
+        await Task.FromResult(IsPopUp = !IsPopUp);
+        await Task.FromResult(Blur = IsPopUp ? 0.4f : 1f);
+        IsRefreshing = !IsPopUp;
+    }
+
+    [RelayCommand]
+    async Task EditAsync(ToDoItem item)
     {
         if (IsBusy) return;
         await Task.FromResult(SelectedItem = item);
@@ -212,7 +279,7 @@ public partial class MainViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task AddItem()
+    async Task AddAsync()
     {
         if (IsBusy) return;
         Items.Add(SelectedItem);
@@ -220,21 +287,13 @@ public partial class MainViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task CompleteAsync(ToDoItem item)
+    async Task ToggoleCompleteAsync(ToDoItem item)
     {
         if (IsBusy) return;
-        for (int i = 0; i < Items.Count; i++)
-        {
-            if (Items[i].Id == item.Id)
-            {
-                Items[i].IsComplete = !item.IsComplete;
-                break;
-            }
-        }
+        item.IsComplete = !item.IsComplete;
         await dataService.UpdateItemAsync(item);
-        await Task.Delay(200);
-        DisplayItems = null;
-        DisplayItems = Items;        
+        //await Task.Delay(200);
+        IsRefreshing = true;
     }
 
     [RelayCommand]
@@ -249,9 +308,9 @@ public partial class MainViewModel : BaseViewModel
     }
 
     public override void Dispose() 
-    { 
-
+    {
         base.Dispose();
+        
     }
 
     #endregion ToDo Item Details / Edits

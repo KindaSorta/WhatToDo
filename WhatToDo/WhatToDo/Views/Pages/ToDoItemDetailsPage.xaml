@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:WhatToDo.ViewModel"
+             xmlns:template="clr-namespace:WhatToDo.Views.Templates"
+             xmlns:model="clr-namespace:WhatToDo.Model"
+             xmlns:data="clr-namespace:WhatToDo.Data"
+             x:DataType="vm:ToDoItemDetailsViewModel"
+             x:Class="WhatToDo.Views.Pages.ToDoItemDetailsPage"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+
+        <Style TargetType="Picker">
+            <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}"/>
+        </Style>
+        
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}"/>
+        </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TimePicker">
+            <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource MainAppButton}">
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="{Binding IsNotPopUp}"/>
+    </Shell.BackButtonBehavior>
+
+    <Grid        
+        ColumnDefinitions="*,*"
+        ColumnSpacing="1"
+        RowDefinitions="*,Auto"
+        RowSpacing="0">
+        <ScrollView
+            Grid.ColumnSpan="3" 
+            Grid.RowSpan="3" >
+            <VerticalStackLayout 
+                Visual=""
+                Margin="20" 
+                Spacing="10"
+                Opacity="{Binding Blur}">
+
+                <!-- Name -->
+                <VerticalStackLayout>
+                    <Label Text="Task Name" Style="{StaticResource ToDoItemLabel}"/>
+                    <Border Style="{StaticResource RoundedBorder}">
+                        <Entry Text="{Binding ItemText.Name}"  IsSpellCheckEnabled="True" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Description -->
+                <VerticalStackLayout>
+                    <Label Text="Description" Style="{StaticResource ToDoItemLabel}"/>
+                    <Border Style="{StaticResource RoundedBorder}">
+                        <Editor 
+                            Text="{Binding ItemText.Description}" 
+                            Placeholder="Enter the description here." 
+                            IsSpellCheckEnabled="True" 
+                            AutoSize="TextChanges"/>
+                    </Border>
+                </VerticalStackLayout>
+                
+                <Frame 
+                    Padding="7"
+                    Style="{StaticResource AreaCard}">
+                    <!-- Schedule Reminder Options -->
+                    <VerticalStackLayout>
+                        <HorizontalStackLayout Spacing="-2">
+                            <Label Text="No Date" Style="{StaticResource ToDoItemLabel}"/>
+                            <Switch x:Name="EnableSchedulers" IsToggled="{Binding ItemText.HasDueDate}"/>
+                            <Label Text="Due Date" Style="{StaticResource ToDoItemLabel}"/>
+                            <RadioButton x:Name="OnlyDueDate" IsChecked="true" IsEnabled="{Binding IsToggled, Source={x:Reference EnableSchedulers}}"/>
+                            <Label Text="Time Period" Style="{StaticResource ToDoItemLabel}"/>
+                            <RadioButton x:Name="TimePeriod"  IsChecked="{Binding ItemText.HasStartDate}" IsEnabled="{Binding IsToggled, Source={x:Reference EnableSchedulers}}"/>
+                        </HorizontalStackLayout>
+
+                        <VerticalStackLayout IsVisible="{Binding IsToggled, Source={x:Reference EnableSchedulers}}">
+                            <!-- Start Date -->
+                            <VerticalStackLayout IsVisible="{Binding IsChecked, Source={x:Reference TimePeriod}}">
+                                <Grid ColumnDefinitions="0.5*,*,*" IsVisible="{Binding IsToggled, Source={x:Reference EnableStartDate}}">
+                                    <Label Grid.Column="0" Text="Start" Style="{StaticResource ToDoItemLabel}"/>
+                                    <Border Grid.Column="1" Style="{StaticResource RoundedBorder}">
+                                        <DatePicker Date="{Binding ItemText.StartDate}"/>
+                                    </Border>
+                                    <Border Grid.Column="2" Style="{StaticResource RoundedBorder}">
+                                        <TimePicker Time="{Binding ItemText.StartDate}"/>
+                                    </Border>
+                                </Grid>
+                            </VerticalStackLayout>
+
+                            <!-- Due Date -->
+                            <VerticalStackLayout>
+                                <Grid ColumnDefinitions="0.5*,*,*">
+                                    <Label Grid.Column="0" Text="Due" Style="{StaticResource ToDoItemLabel}"/>
+                                    <Border Grid.Column="1" Style="{StaticResource RoundedBorder}">
+                                        <DatePicker Date="{Binding ItemText.DueDate}"/>
+                                    </Border>
+                                    <Border Grid.Column="2" Style="{StaticResource RoundedBorder}">
+                                        <TimePicker Time="{Binding ItemText.DueDate}"/>
+                                    </Border>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                </Frame>
+
+                
+
+
+                <Frame 
+                    Padding="7,7,15,7"
+                    Style="{StaticResource AreaCard}">
+                    <!-- Weather Preference -->
+                    <Grid 
+                        ColumnDefinitions=".3*,*,*">
+                        <CheckBox Grid.Column="0" x:Name="WeatherPreference" IsChecked="{Binding ItemText.HasWeatherPreference}" Color="LightGreen" HorizontalOptions="Start"/>
+                        <Label Grid.Column="1" Text="Weather Info" Style="{StaticResource ToDoItemLabel}" Padding="5,0,20,0"/>
+                        <Button Grid.Column="2" 
+                                Command="{Binding TogglePopUpCommand}" 
+                                Text="Update Preference" 
+                                Style="{StaticResource MainAppButton}" 
+                                FontSize="22" 
+                                HorizontalOptions="End" 
+                                IsEnabled="{Binding IsChecked, Source={x:Reference WeatherPreference}}"/>
+                    </Grid>
+                </Frame>
+
+                <Frame 
+                Padding="7"
+                Style="{StaticResource AreaCard}">
+                    <VerticalStackLayout >
+                        <HorizontalStackLayout>
+                            <Label Text="Priority Level:" Style="{StaticResource ToDoItemLabel}"/>
+                            <Label Text="{Binding Source={x:Reference PrioritySlider}, Path=Value, StringFormat='{0:0}'}" Style="{StaticResource ToDoItemLabel}"/>
+                        </HorizontalStackLayout>
+                        <Slider 
+                            x:Name="PrioritySlider"
+                            Value="{Binding ItemText.Priority}" 
+                            Minimum="0" 
+                            Maximum="10" 
+                            MinimumTrackColor="Blue"
+                            MaximumTrackColor="Red"
+                            ThumbColor="LightGreen"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+
+
+                <HorizontalStackLayout Padding="7">
+                    <CheckBox IsChecked="{Binding ItemText.IsComplete}" Color="LightGreen" HorizontalOptions="Start"/>
+                    <Label Text="Completed" Style="{StaticResource ToDoItemLabel}"/>
+                </HorizontalStackLayout>
+
+                <Button Command="{Binding SaveCommand}" Text="Save" />
+
+                <Button Command="{Binding DeleteCommand}" Text="Delete" Style="{StaticResource DeleteButton}" FontSize="22"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+
+        <!-- Weather Preference Popup -->
+        <Border            
+            Grid.ColumnSpan="2"
+            Grid.RowSpan="2"
+            Style="{StaticResource ShadowedBorder}">
+            <Grid
+                ColumnDefinitions="*,3*,*"
+                RowDefinitions="*,Auto,2*">
+                <Frame 
+                    Style="{StaticResource PupupTile}"
+                    Grid.Column="1" 
+                    Grid.Row="1" 
+                    IsVisible="{Binding IsPopUp}" 
+                    Padding="15"
+                    BorderColor="Transparent">
+                    <VerticalStackLayout
+                        Spacing="10">
+                        <Label Text="Weather Preference" Style="{StaticResource SwipeLabel}"/>
+
+                        <!-- Weather Forecast Picker -->
+                        <Border Style="{StaticResource RoundedBorder}">
+                            <Picker
+                                Title="Select Prefered Weather"
+                                HorizontalTextAlignment="Center"
+                                SelectedItem="{Binding ItemText.Weather.Forcast}"
+                                ItemsSource="{Binding Options}" />
+                        </Border>
+
+                        <!-- Weather Numeric Data -->
+                        <Grid 
+                            ColumnDefinitions="*,*,*"
+                            RowDefinitions="*,*,*">
+                            <!-- High Temp -->
+                            <Label Grid.Row="0" Grid.Column="0" Text="High:" Style="{StaticResource ToDoItemLabel}"/>
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RoundedBorder}">
+                                <Entry Text="{Binding ItemText.Weather.High}" Keyboard="Numeric"/>
+                            </Border>
+
+                            <!-- Low Temp -->
+                            <Label Grid.Row="1" Grid.Column="0"  Text="Low: " Style="{StaticResource ToDoItemLabel}"/>
+                            <Border Grid.Row="1" Grid.Column="1"  Style="{StaticResource RoundedBorder}">
+                                <Entry Text="{Binding ItemText.Weather.Low}" Keyboard="Numeric"/>
+                            </Border>
+
+                            <!-- Wind Speed -->
+                            <Label Grid.Row="2" Grid.Column="0"  Text="Wind: " Style="{StaticResource ToDoItemLabel}"/>
+                            <Border Grid.Row="2" Grid.Column="1"  Style="{StaticResource RoundedBorder}">
+                                <Entry Text="{Binding ItemText.Weather.WindSpeed}" Keyboard="Numeric"/>
+                            </Border>
+                        </Grid>
+
+                        <Button 
+                                Grid.Column="2"
+                                Command="{Binding TogglePopUpCommand}" 
+                                Text="Close" 
+                                IsEnabled="{Binding IsNotBusy}"/>
+
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+        </Border>
+
+
+
+
+    </Grid>
+
+
+    
+</ContentPage>

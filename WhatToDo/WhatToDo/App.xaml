@@ -1,6 +1,7 @@
 ﻿<?xml version = "1.0" encoding = "UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:WhatToDo"
              x:Class="WhatToDo.App">
     <Application.Resources>
@@ -10,60 +11,154 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary>
                     <!-- Colors -->
+
+                    <Color x:Key="DarkGreyPurple">#2f2f57</Color>
+                    
+                    <Color x:Key="TransparentTileColor">#002f2f57</Color>
+
+
+                    <Color x:Key="LightBlue">#1e81b0</Color>
+                    <Color x:Key="BarBlue">#063970</Color>
+
+                    <Color x:Key="BlueGrey">#21334f</Color>
+                    
+                    <Color x:Key="DarkBlueGrey">#1f1f30</Color>
+                    <Color x:Key="DarkGreyBlue">#202225</Color>
+                    <Color x:Key="MediumGreyBlue">#232628</Color>
+                    <Color x:Key="LightGreyBlue">#292b2f</Color>
+                    <Color x:Key="LighterGreyBlue">#2f3136</Color>
+                    <Color x:Key="PaleGreyBlue">#36393f</Color>
+
+                    <Color x:Key="DarkGrey">#1e1e1e</Color>
+                    <Color x:Key="MediumGrey">#2e2e2e</Color>
+                    <Color x:Key="LightGrey">#383838</Color>
+                    <Color x:Key="PaleGrey">#4d4d4d</Color>
+                    <Color x:Key="VeryPaleGrey">#666666</Color>
+
+                    <!-- App Theme Color Assignment -->
+
+                    <!-- Dark Theme -->
+                    <!-- Backgrounds -->
+                    <Color x:Key="DarkPageBackground">#232628</Color>
+                    <Color x:Key="LabelBackground">#2f3136</Color>
+
+                    <Color x:Key="TileColor">#21334f</Color>
+
+                    <Color x:Key="AreaCardColor">#1e1e1e</Color>
+                    
+                    <Color x:Key="NavBarColor">#2f2f57</Color>
+
+                    <!-- Buttons -->
+                    <Color x:Key="EditYellow">#a9a421</Color>
+
+                    <Color x:Key="DeleteRed">#ba1b1b</Color>
+                    <Color x:Key="CompletedGreen">#18a31d</Color>
+                    <Color x:Key="ButtonColor">#384491</Color>
+
+                    <!-- Borders -->
+                    <Color x:Key="DarkBorderColor">#1f1f30</Color>
+                    
+                    <!-- Text -->
+                    <Color x:Key="ButtonFontColor">#d1ba24</Color>
+                    
+                    <!-- Light Theme -->
+
+
+                    <Color x:Key="PaleWhite">#a09ed9</Color>
+                    
                     <Color x:Key="LightBackground">#FAF9F8</Color>
                     <Color x:Key="LightBorderColor">#DDDDDD</Color>
 
-                    <Color x:Key="NavBarColor">#1d1e4a</Color>
 
-                    <Color x:Key="DarkPageBackground">#21334f</Color>
-                    <Color x:Key="TileColor">#2f2f57</Color>
-                    <!--Color x:Key="DarkPageBackground">#2f2f57</Color-->
-
-                    <Color x:Key="DeleteRed">#ba1b1b</Color>
-                    <Color x:Key="ButtonColor">#384491</Color>
-
-                    <Color x:Key="ButtonFontColor">#d1ba24</Color>
 
                     <!-- Styles -->
-                    <Style x:Key="CardView" TargetType="Frame">
-                        <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
+
+                    <!-- Alignment -->
+                    <Style x:Key="CenterAlignment" TargetType="View">
+                        <Setter Property="HorizontalOptions" Value="Center"/>
+                        <Setter Property="VerticalOptions" Value="Center"/>
+                    </Style>
+
+                    <!-- Outline -->
+
+                    <!-- Standard TemplateViews -->
+                    <Style x:Key="CardView" TargetType="Frame" >
                         <Setter Property="HasShadow" Value="True" />
                         <Setter Property="Padding" Value="0" />
+                        <Setter Property="IsClippedToBounds" Value="True"/>
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+
+                    <Style x:Key="CardViewShadowed" TargetType="Frame" >
+                        <Setter Property="HasShadow" Value="True" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="IsClippedToBounds" Value="True"/>
+                        <Setter Property="CornerRadius" Value="10"/>
+                        <Setter Property="BorderColor" Value="Transparent"/>
+                    </Style>
+                    
+                    <Style x:Key="ButtonRoundedCorners" 
+                        TargetType="Button" >
+                        <Setter Property="BorderWidth" Value="5"/>
+                        <Setter Property="CornerRadius" Value="10"/>
+                        <Setter Property="BorderColor" Value="Transparent"/>
+                        <Setter Property="Shadow">
+                            <Setter.Value>
+                                <Shadow
+                                    Brush="Black"
+                                    Opacity="0.8"
+                                    Radius="30"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+
+                    <!-- Custom Templates Views -->
+
+                    <!-- CardViews -->
+
+                    <Style x:Key="CardView_TodoItem" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
                         <Setter Property="Background" Value="{StaticResource TileColor}" />
-                        <Setter Property="CornerRadius" Value="10" />
-                        <Setter Property="IsClippedToBounds" Value="True"/>
                     </Style>
 
-                    <Style x:Key="DeleteSwip" TargetType="Frame">
-                        <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
-                        <Setter Property="HasShadow" Value="True" />
-                        <Setter Property="Padding" Value="0" />
+                    <Style x:Key="AreaCard" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
+                        <Setter Property="Background" Value="{StaticResource AreaCardColor}" />
+                    </Style>
+
+                    <Style x:Key="DeleteSwipe" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
                         <Setter Property="Background" Value="{StaticResource DeleteRed}" />
-                        <Setter Property="CornerRadius" Value="10" />
-                        <Setter Property="IsClippedToBounds" Value="True"/>
                     </Style>
 
-                    <Style x:Key="ClickLabels" TargetType="Label">
-                        <Setter Property="TextColor" Value="#DEB9B9"/>
+                    <Style x:Key="EditSwipe" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
+                        <Setter Property="Background" Value="{StaticResource EditYellow}" />
                     </Style>
 
-                    <Style x:Key="CustomButton" TargetType="Button">
-                        <Setter Property="Background" Value="{StaticResource ButtonColor}" />
-                        <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
-                        <Setter Property="BorderWidth" Value="1"/>
-                        <Setter Property="CornerRadius" Value="10" />
+                    <Style x:Key="CompleteSwipe" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
+                        <Setter Property="Background" Value="{StaticResource CompletedGreen}" />
+                    </Style>
+
+                    <Style x:Key="UndoSwipe" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
+                        <Setter Property="Background" Value="{StaticResource MediumGrey}" />
+                    </Style>
+
+                    <Style x:Key="PupupTile" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
+                        <Setter Property="Background" Value="{StaticResource TileColor}" />
+                    </Style>
+
+
+                    <!-- Buttons -->
+                    <Style x:Key="DefaultButtonFont" TargetType="Button" BasedOn="{StaticResource ButtonRoundedCorners}">
                         <Setter Property="FontFamily" Value="Bauhaus93"/>
                         <Setter Property="FontAttributes" Value="Bold" />
+                    </Style>
+
+                    <Style x:Key="MainAppButton" TargetType="Button" BasedOn="{StaticResource DefaultButtonFont}">
+                        <Setter Property="Background" Value="{StaticResource ButtonColor}" />
                         <Setter Property="TextColor" Value="{StaticResource ButtonFontColor}"/>
                     </Style>
 
-                    <Style x:Key="DeleteButton" TargetType="Button">
+                    <Style x:Key="DeleteButton" TargetType="Button" BasedOn="{StaticResource DefaultButtonFont}">
                         <Setter Property="Background" Value="{StaticResource DeleteRed}" />
-                        <Setter Property="BorderColor" Value="{StaticResource LightBorderColor}" />
-                        <Setter Property="BorderWidth" Value="1"/>
-                        <Setter Property="CornerRadius" Value="10" />
-                        <Setter Property="FontFamily" Value="Bauhaus93"/>
-                        <Setter Property="FontAttributes" Value="Bold" />
                         <Setter Property="TextColor" Value="{StaticResource ButtonFontColor}"/>
                     </Style>
 
@@ -75,12 +170,83 @@
                         <Setter Property="BackgroundColor" Value="{StaticResource DarkPageBackground}"/>                        
                     </Style>
 
+
+                    <!-- Labels -->
                     <Style x:Key="ToDoItemLabel" TargetType="Label">
                         <Setter Property="TextColor" Value="{StaticResource LightBackground}"/>
                         <Setter Property="FontAttributes" Value="Bold"/>
                         <Setter Property="VerticalOptions" Value="Center"/>
                         <Setter Property="Padding" Value="5"/>
                     </Style>
+
+                    <Style x:Key="SwipeLabel" TargetType="Label" BasedOn="{StaticResource CenterAlignment}">
+                        <Setter Property="TextColor" Value="{StaticResource LightBackground}"/>
+                        <Setter Property="FontFamily" Value="Bauhaus93"/>
+                        <Setter Property="FontSize" Value="22"/>
+                        <Setter Property="FontAttributes" Value="Bold"/>
+                    </Style>
+
+                    <Style x:Key="ClickLabels" TargetType="Label">
+                        <Setter Property="TextColor" Value="#DEB9B9"/>
+                    </Style>
+
+                    <!-- Border -->
+                    <Style x:Key="RoundedBorder" TargetType="Border">
+                        <Setter Property="Stroke" Value="{StaticResource LightBorderColor}"/>
+                        <Setter Property="StrokeThickness" Value="2"/>
+                        <Setter Property="Padding" Value="10,0,0,0"/>
+                        <Setter Property="StrokeShape">
+                            <Setter.Value>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style x:Key="CircleBorder" TargetType="Border" BasedOn="{StaticResource CenterAlignment}">
+                        <Setter Property="StrokeShape">
+                            <Setter.Value>
+                                <RoundRectangle CornerRadius="40,40,40,40"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+
+                    <Style x:Key="ShadowedBorder" TargetType="Border">
+                        <Setter Property="StrokeThickness" Value="0"/>
+                        <Setter Property="Stroke" Value="Transparent"/>
+                        <Setter Property="BackgroundColor" Value="Transparent"/>
+                        <Setter Property="Shadow">
+                            <Setter.Value>
+                                <Shadow
+                                    Brush="Black"
+                                    Opacity="0.8"
+                                    Radius="20"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    
+                    
+                    
+                    <!-- 
+                    <Style x:Key="BorderRoundedShadow" TargetType="Border">
+                        <Setter Property="StrokeThickness" Value="2"/>
+                        <Setter Property="Stroke" Value="Transparent"/>
+                        <Setter Property="StrokeShape">
+                            <Setter.Value>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Shadow">
+                            <Setter.Value>
+                                <Shadow
+                                    Opacity="0.8"
+                                    Brush="Black"
+                                    Radius="10"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+             -->
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

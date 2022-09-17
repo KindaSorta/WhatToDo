@@ -1,5 +1,5 @@
 
-namespace WhatToDo.View;
+namespace WhatToDo.Views.Pages;
 
 public partial class ToDoItemDetailsPage : ContentPage
 {
