@@ -11,7 +11,7 @@ public class ToDoItem : IModelObject<ToDoItem>
     public int Id { get; set; }
     public string Name { get; set; } = String.Empty;
     public string Description { get; set; } = String.Empty;
-    public WeatherPreference Weather { get; set; } = new WeatherPreference();
+    public WeatherPreference Weather { get; set; } = null;
     public DateTime? StartDate { get; set; } = null;
     public DateTime? DueDate { get; set; } = null;
     public int Priority { get; set; } = 0;
@@ -23,7 +23,7 @@ public class ToDoItem : IModelObject<ToDoItem>
     public bool NotComplete => !IsComplete;
     public bool HasDueDate => DueDate != null && DueDate > DateTime.Now;
     public bool HasStartDate => StartDate != null && StartDate > DateTime.Now;
-    public bool HasWeatherPreference => Weather != null && !HelperFunctions.Compare<WeatherPreference>(this.Weather, new WeatherPreference());
+    public bool HasWeatherPreference => Weather != null && !Weather.Equals(new WeatherPreference());
     //public User[] UsersInvolved { get; set; }
     //public string[] Details { get; set; }
     //public string Location { get; set; }
@@ -115,8 +115,7 @@ public class ToDoItem : IModelObject<ToDoItem>
     {
         if (String.IsNullOrWhiteSpace(Name) ||
             (HasDueDate && DueDate < DateTime.Now) || 
-            (HasDueDate && HasStartDate && DueDate < StartDate) || 
-            (Weather is not null && !Weather.IsValid()))
+            (HasDueDate && HasStartDate && DueDate < StartDate))
         {
             return false;
         }

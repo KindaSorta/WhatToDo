@@ -12,5 +12,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(PomodoroTimerPage), typeof(PomodoroTimerPage));
         Routing.RegisterRoute(nameof(SuggestionPage), typeof(SuggestionPage));
         Routing.RegisterRoute(nameof(CustomListPage), typeof(CustomListPage));
+        Routing.RegisterRoute(nameof(WeatherPage), typeof(WeatherPage));
     }
 }

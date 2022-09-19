@@ -51,6 +51,9 @@
 
                     <Color x:Key="TileColor">#21334f</Color>
 
+
+                    <Color x:Key="DarkAreaCardColor">#232628</Color>
+
                     <Color x:Key="AreaCardColor">#36393f</Color>
                     
                     <Color x:Key="NavBarColor">#2f2f57</Color>
@@ -122,6 +125,18 @@
                         </Setter>
                     </Style>
 
+                    <Style x:Key="StepperAppButtons" TargetType="Stepper">
+                        <Setter Property="BackgroundColor" Value="Transparent"/>
+                        <Setter Property="Shadow">
+                            <Setter.Value>
+                                <Shadow
+                                    Brush="Black"
+                                    Opacity="0.5"
+                                    Radius="20"/>
+                            </Setter.Value>                            
+                        </Setter>
+                    </Style>
+
 
                     <!-- Custom Templates Views -->
 
@@ -133,6 +148,10 @@
 
                     <Style x:Key="AreaCard" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
                         <Setter Property="Background" Value="{StaticResource AreaCardColor}" />
+                    </Style>
+
+                    <Style x:Key="DarkAreaCard" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
+                        <Setter Property="Background" Value="{StaticResource DarkAreaCardColor}" />
                     </Style>
 
                     <Style x:Key="DeleteSwipe" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
@@ -182,7 +201,7 @@
 
                     <!-- Content Page -->
                     <Style x:Key="TitleBar" TargetType="Shell" ApplyToDerivedTypes="True">
-                        <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavBarColor}"/>
+                        <Setter Property="Shell.BackgroundColor" Value="{StaticResource BlueGrey}"/>
                     </Style>
                     
                     <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
@@ -249,7 +268,7 @@
                             <Setter.Value>
                                 <Shadow
                                     Brush="Black"
-                                    Opacity="0.8"
+                                    Opacity="0.5"
                                     Radius="20"/>
                             </Setter.Value>
                         </Setter>

@@ -66,7 +66,8 @@ public record WeatherPreference : IModelObject<WeatherPreference>
     public bool IsValid()
     {
         if ( High < Low || 
-            WindSpeed < 0)
+            WindSpeed < 0 ||
+            this.Equals(new WeatherPreference()))
         {
             return false;
         }

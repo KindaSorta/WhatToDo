@@ -123,20 +123,16 @@
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </VerticalStackLayout>
-
                 </Frame>
 
-                
-
-
+                <!-- Weather Preference -->
                 <Frame 
                     Padding="7,7,15,7"
                     Style="{StaticResource AreaCard}">
-                    <!-- Weather Preference -->
                     <Grid 
                         ColumnDefinitions=".3*,*,*"
                         Padding="5">
-                        <CheckBox Grid.Column="0" x:Name="WeatherPreference" IsChecked="{Binding ItemText.HasWeatherPreference}" Color="LightGreen" HorizontalOptions="Start"/>
+                        <CheckBox Grid.Column="0" x:Name="WeatherPreference" IsChecked="{Binding WantsWeather, Mode=TwoWay, FallbackValue=false}" Color="LightGreen" HorizontalOptions="Start"/>
                         <Label Grid.Column="1" Text="Weather Info" Style="{StaticResource ToDoItemLabel}" Padding="5,0,20,0"/>
                         <Button Grid.Column="2" 
                                 Command="{Binding TogglePopUpCommand}" 
@@ -144,36 +140,39 @@
                                 Style="{StaticResource MainAppButton}" 
                                 FontSize="22" 
                                 HorizontalOptions="End" 
-                                IsEnabled="{Binding IsChecked, Source={x:Reference WeatherPreference}}"/>
+                                IsEnabled="{Binding WantsWeather, FallbackValue=false}"/>
                     </Grid>
                 </Frame>
 
+                <!-- Priority -->
                 <Frame 
                 Padding="7"
                 Style="{StaticResource AreaCard}">
                     <VerticalStackLayout Padding="5,0">
-                        <HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="16">
                             <Label Text="Priority Level:" Style="{StaticResource ToDoItemLabel}"/>
-                            <Label Text="{Binding Source={x:Reference PrioritySlider}, Path=Value, StringFormat='{0:0}'}" Style="{StaticResource ToDoItemLabel}"/>
+                            <Label Text="{Binding Source={x:Reference PrioritySlider}, Path=Value, StringFormat='{0:0}'}" MinimumWidthRequest="20" Padding="0,0,0,0" Style="{StaticResource ToDoItemLabel}"/>
+                            <Stepper Style="{StaticResource StepperAppButtons}" Value="{Binding Source={x:Reference PrioritySlider}, Path=Value}" Minimum="0" Maximum="10"/>
                         </HorizontalStackLayout>
                         <Slider 
                             x:Name="PrioritySlider"
                             Value="{Binding ItemText.Priority}" 
                             Minimum="0" 
                             Maximum="10" 
-                            MinimumTrackColor="Blue"
-                            MaximumTrackColor="Red"
+                            MinimumTrackColor="Red"
+                            MaximumTrackColor="Blue"
                             ThumbColor="LightGreen"/>
                     </VerticalStackLayout>
                 </Frame>
 
 
-
+                <!-- Completed CheckBox -->
                 <HorizontalStackLayout Padding="12">
                     <CheckBox IsChecked="{Binding ItemText.IsComplete}" Color="LightGreen" HorizontalOptions="Start"/>
                     <Label Text="Completed" Style="{StaticResource ToDoItemLabel}"/>
                 </HorizontalStackLayout>
 
+                <!-- Save / Delete Buttons -->
                 <Button Command="{Binding SaveCommand}" Text="Save" Style="{StaticResource MainAppButton}" FontSize="22"/>
 
                 <Button Command="{Binding DeleteCommand}" Text="Delete" Style="{StaticResource DeleteButton}" FontSize="22"/>

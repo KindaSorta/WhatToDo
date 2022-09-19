@@ -43,6 +43,9 @@ public static class MauiProgram
         builder.Services.AddTransient<CustomListViewModel>();
         builder.Services.AddTransient<CustomListPage>();
 
+        builder.Services.AddTransient<WeatherViewModel>();
+        builder.Services.AddTransient<WeatherPage>();
+
         return builder.Build();
 	}
 }

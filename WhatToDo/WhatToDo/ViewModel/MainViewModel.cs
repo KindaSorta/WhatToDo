@@ -74,18 +74,25 @@ public partial class MainViewModel : BaseViewModel
             session.ItemToEdit = new ToDoItem();
         }
 
-        if (DisplayItems is null) await IncompleteTasksAsync();
+        if (DisplayItems is null || Header == "Incomplete")
+        {
+            await IncompleteTasksAsync();
+        }
+        else
+        {
+            await CompletedTasksAsync();
+        }
         
         IList<ToDoItem> items = await FilterQueryItems(DisplayItems.Select(x => x.BackToObject()));
         DisplayItems = null;
-        DisplayItems = FormatDisplayObject(Items.ToList());
+        DisplayItems = FormatDisplayObject(items.ToList());
 
         IsRefreshing = false;
     }
 
     #region Filtering
 
-    async Task<IList<ToDoItem>> FilterQueryItems(IEnumerable<ToDoItem> items)
+    public async Task<IList<ToDoItem>> FilterQueryItems(IEnumerable<ToDoItem> items)
     {
         // TODO: Make it handle nested search queries, and Tag filtering
 
@@ -93,11 +100,11 @@ public partial class MainViewModel : BaseViewModel
         {
             // Recent
             case var s when s == Options[1]:
-                return await Task.FromResult(items.OrderBy(x => x.LastModifiedDate).ToList());
+                return await Task.FromResult(items.OrderBy(x => x.LastModifiedDate - DateTime.Now).ToList());
 
             // Upcoming
             case var s when s == Options[2]:
-                return await Task.FromResult(items.OrderBy(x => x.DueDate).ToList());
+                return await Task.FromResult(items.OrderBy(x => x.DueDate == null).ThenBy(x => x.DueDate - DateTime.Now).ToList());
 
             // Priority
             case var s when s == Options[3]:
@@ -131,17 +138,20 @@ public partial class MainViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    void ToggleIncompleteTasks(string selection)
+    {
+        Header = selection;
+        IsRefreshing = true;
+    }
+
     async Task CompletedTasksAsync()
     {
-        Header = "Completed";
         IList<ToDoItem> items = await Task.FromResult(Items.Where(x => x.IsComplete).ToList());
         DisplayItems = FormatDisplayObject(items);
     }
 
-    [RelayCommand]
     async Task IncompleteTasksAsync()
     {
-        Header = "Incomplete";
         IList<ToDoItem> items = await Task.FromResult(Items.Where(x => x.NotComplete).ToList());
         DisplayItems = FormatDisplayObject(items);
     }

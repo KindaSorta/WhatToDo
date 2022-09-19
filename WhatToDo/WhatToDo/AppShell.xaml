@@ -12,11 +12,16 @@
 
     <Shell.Resources>
         <Style x:Key="TabStyle" TargetType="Shell" BasedOn="{StaticResource TitleBar}">
-            <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource ButtonColor}"/>
-            <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+            <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource BlueGrey}"/>
+            <Setter Property="Shell.TabBarTitleColor" Value="{DynamicResource ButtonFontColor}"/>
+            <Setter Property="Shadow">
+                <Shadow
+                    Brush="Black"
+                    Opacity="0.5"
+                    Radius="20"/>
+            </Setter>
         </Style>
-    </Shell.Resources>
-    
+    </Shell.Resources>   
 
 
     <Shell.FlyoutHeaderTemplate>
@@ -104,15 +109,26 @@
         </DataTemplate>
     </Shell.FlyoutFooterTemplate>
 
-    <FlyoutItem Title="Tasks" Icon="checked_white.png">
+    <FlyoutItem Title="Tasks" Icon="note_white.png">
+        <ShellContent
+            Title="Completed"
+            Icon="checked_white.png"
+            Shell.NavBarIsVisible="true"
+            Style="{StaticResource TabStyle}"
+            ContentTemplate="{DataTemplate view:MainPage}"
+            Route="MainPage"/>
+
+
         <ShellContent 
+            Title="Incomplete"
+            Icon="unchecked_white.png"
             Shell.NavBarIsVisible="true"
             Style="{StaticResource TabStyle}"
             ContentTemplate="{DataTemplate view:MainPage}"
             Route="MainPage"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Lists" Icon="list_white.png">
+    <FlyoutItem Title="Lists" Icon="bookmark_white.png">
         <ShellContent 
             Shell.NavBarIsVisible="true"
             Style="{StaticResource TitleBar}"
@@ -126,6 +142,14 @@
             Style="{StaticResource TitleBar}"
             ContentTemplate="{DataTemplate view:SuggestionPage}"
             Route="SuggestionPage"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Weather" Icon="weather_white.png">
+        <ShellContent 
+            Shell.NavBarIsVisible="true"
+            Style="{StaticResource TitleBar}"
+            ContentTemplate="{DataTemplate view:WeatherPage}"
+            Route="WeatherPage"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Timer" Icon="clock_white.png">
