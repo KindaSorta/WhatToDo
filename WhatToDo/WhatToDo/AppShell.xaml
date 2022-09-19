@@ -1,18 +1,144 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
+    x:Name="shell"
     x:Class="WhatToDo.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:view="clr-namespace:WhatToDo.Views.Pages"
-    Shell.FlyoutBehavior="Disabled">
+    FlyoutBackgroundColor="{StaticResource LightGreyBlue}" 
+    FlyoutBackdrop="#66FFFFFF"
+    FlyoutHeaderBehavior="CollapseOnScroll"
+    FlyoutWidth="275">
+
+    <Shell.Resources>
+        <Style x:Key="TabStyle" TargetType="Shell" BasedOn="{StaticResource TitleBar}">
+            <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource ButtonColor}"/>
+            <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+        </Style>
+    </Shell.Resources>
+    
+
+
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid 
+                RowDefinitions="64,*"
+                HeightRequest="32">
+                <Grid 
+                    Grid.Row="0"
+                    BackgroundColor="{StaticResource DarkBlueGrey}">
+                    <Label 
+                       Text="What To Do"
+                       TextColor="{StaticResource ButtonFontColor}"
+                       FontAttributes="Bold"
+                       FontSize="32"
+                       FontFamily="Bauhaus93"
+                       VerticalTextAlignment="Center"
+                       HorizontalOptions="Center"/>
+                </Grid>
+            </Grid>
+
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="0.25*,0.8*">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource LightGreyBlue}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource LighterGreyBlue}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <Image Source="{Binding FlyoutIcon}"
+                       Margin="16"/>
+                <Label Grid.Column="1"
+                       Text="{Binding Title}"
+                       VerticalTextAlignment="Center" 
+                       TextColor="{StaticResource ButtonColor}"
+                       FontAttributes="Bold"
+                       FontSize="22"
+                       FontFamily="Bauhaus93"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
 
     
-    
-    <ShellContent
-        Shell.NavBarIsVisible="true"
-        Title="WhatToDo"
-        ContentTemplate="{DataTemplate view:MainPage}"
-        Route="MainPage" 
-        Style="{StaticResource TitleBar}"/>
+
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="0.25*,0.8*">
+                <Image Source="{Binding Icon}"
+                       Margin="16"/>
+                <Label Grid.Column="1"
+                       Text="{Binding Title}"
+                       VerticalTextAlignment="Center" 
+                       TextColor="{StaticResource ButtonColor}"
+                       FontAttributes="Bold"
+                       FontSize="22"
+                       FontFamily="Bauhaus93"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+
+    <Shell.FlyoutFooterTemplate>
+        <DataTemplate>
+            <StackLayout>
+                <Label Text="Kinda Sorta Dev"
+                       TextColor="GhostWhite"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" 
+                       Margin="16"/>
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutFooterTemplate>
+
+    <FlyoutItem Title="Tasks" Icon="checked_white.png">
+        <ShellContent 
+            Shell.NavBarIsVisible="true"
+            Style="{StaticResource TabStyle}"
+            ContentTemplate="{DataTemplate view:MainPage}"
+            Route="MainPage"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Lists" Icon="list_white.png">
+        <ShellContent 
+            Shell.NavBarIsVisible="true"
+            Style="{StaticResource TitleBar}"
+            ContentTemplate="{DataTemplate view:CustomListPage}"
+            Route="CustomListPage"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Suggestions" Icon="idea_white.png">
+        <ShellContent 
+            Shell.NavBarIsVisible="true"
+            Style="{StaticResource TitleBar}"
+            ContentTemplate="{DataTemplate view:SuggestionPage}"
+            Route="SuggestionPage"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Timer" Icon="clock_white.png">
+        <ShellContent 
+            Shell.NavBarIsVisible="true"
+            Style="{StaticResource TitleBar}"
+            ContentTemplate="{DataTemplate view:PomodoroTimerPage}"
+            Route="PomodoroTimerPage"/>
+    </FlyoutItem>
+
+    <MenuItem Text="About" IconImageSource="programming_white.png"/>
+    <MenuItem Text="Help" IconImageSource="help_white.png"/>
+    <MenuItem Text="Settings" IconImageSource="gear_white.png"/>
+
 
 </Shell>

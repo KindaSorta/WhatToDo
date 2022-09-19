@@ -8,14 +8,19 @@ namespace WhatToDo.Service
 {
     public interface IDataService
     {
-/*        Task SaveSession(ISessionService session);
-        Task<ISessionService> GetSession();*/
-        Task DeleteItemAsync(ToDoItem itemToDelete); 
-        Task DeleteItemAsync(List<ToDoItem> itemsToDelete);
+        Task<ISessionService> GetSessionAsync(ISessionService session);
+        Task SaveSession(ISessionService session);
+
         Task<Dictionary<int, ToDoItem>> GetItemsAsync(); 
         Task UpdateItemAsync(ToDoItem itemToUpdate);
         Task UpdateItemAsync(List<ToDoItem> itemsToUpdate);
-        Task SaveWeatherData();
+        Task DeleteItemAsync(ToDoItem itemToDelete);
+        Task DeleteItemAsync(List<ToDoItem> itemsToDelete);
+
+        Task<GeolocCurrent> GetLastPositionAsync();
+        Task SaveLastPositionData(GeolocCurrent position);
+
         Task<Dictionary<DateTime, WeatherData>> GetWeatherAsync();
+        Task SaveWeatherData(List<WeatherData> forecast);
     }
 }

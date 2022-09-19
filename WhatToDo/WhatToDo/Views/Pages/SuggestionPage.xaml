@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhatToDo.Views.Pages.SuggestionPage"
+             xmlns:model="clr-namespace:WhatToDo.Model"
+             xmlns:vm="clr-namespace:WhatToDo.ViewModel"
+             x:DataType="vm:SuggestionViewModel"
+             Title="SuggestionPage">
+
+
+
+
+    <VerticalStackLayout 
+        Margin="5">
+        <Label Text="Weather Info" Style="{StaticResource SwipeLabel}" FontSize="22"/>
+
+        <CollectionView 
+                ItemsSource="{Binding DisplayWeather}"
+                SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:WeatherData">
+                    <Frame Style="{StaticResource CardView_TodoItem}">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding name}" Style="{StaticResource ToDoItemLabel}"/>
+                            <Label Text="{Binding startTime}" Style="{StaticResource ToDoItemLabel}"/>
+                            <Label Text="{Binding shortForecast}" Style="{StaticResource ToDoItemLabel}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <Button 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            Margin="8"
+            Style="{StaticResource MainAppButton}"
+            Text="Show Weather"
+            FontSize="22"
+            Command="{Binding ShowWeatherCommand}"             
+            IsEnabled="{Binding IsNotBusy}"/>
+
+    </VerticalStackLayout>
+
+
+</ContentPage>

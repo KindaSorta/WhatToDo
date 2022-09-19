@@ -17,6 +17,11 @@
                     <Color x:Key="TransparentTileColor">#002f2f57</Color>
 
 
+                    <Color x:Key="BlueIcon">#2821de</Color>
+
+
+                    <Color x:Key="PaleBlueBackground">#bfe6f0</Color>
+
                     <Color x:Key="LightBlue">#1e81b0</Color>
                     <Color x:Key="BarBlue">#063970</Color>
 
@@ -38,28 +43,33 @@
                     <!-- App Theme Color Assignment -->
 
                     <!-- Dark Theme -->
+                    
                     <!-- Backgrounds -->
-                    <Color x:Key="DarkPageBackground">#232628</Color>
+                    <Color x:Key="DarkPageBackground">#2e2e2e</Color>
+                    
                     <Color x:Key="LabelBackground">#2f3136</Color>
 
                     <Color x:Key="TileColor">#21334f</Color>
 
-                    <Color x:Key="AreaCardColor">#1e1e1e</Color>
+                    <Color x:Key="AreaCardColor">#36393f</Color>
                     
                     <Color x:Key="NavBarColor">#2f2f57</Color>
 
                     <!-- Buttons -->
                     <Color x:Key="EditYellow">#a9a421</Color>
-
                     <Color x:Key="DeleteRed">#ba1b1b</Color>
                     <Color x:Key="CompletedGreen">#18a31d</Color>
                     <Color x:Key="ButtonColor">#384491</Color>
 
                     <!-- Borders -->
                     <Color x:Key="DarkBorderColor">#1f1f30</Color>
+                    <Color x:Key="CyanBorder">#30d5ff</Color>
+                    <Color x:Key="NumberedRed">#92220f</Color>
                     
                     <!-- Text -->
                     <Color x:Key="ButtonFontColor">#d1ba24</Color>
+                    <Color x:Key="TileTitleFont">#e49223</Color>
+                    <Color x:Key="TileTitleSubFont">#af782e</Color>
                     
                     <!-- Light Theme -->
 
@@ -133,6 +143,10 @@
                         <Setter Property="Background" Value="{StaticResource EditYellow}" />
                     </Style>
 
+                    <Style x:Key="PrioritySwipe" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
+                        <Setter Property="Background" Value="{StaticResource BlueIcon}" />
+                    </Style>
+
                     <Style x:Key="CompleteSwipe" TargetType="Frame" BasedOn="{StaticResource CardViewShadowed}">
                         <Setter Property="Background" Value="{StaticResource CompletedGreen}" />
                     </Style>
@@ -162,10 +176,15 @@
                         <Setter Property="TextColor" Value="{StaticResource ButtonFontColor}"/>
                     </Style>
 
+                    <Style x:Key="PriorityButtons" TargetType="Button" BasedOn="{StaticResource DefaultButtonFont}">
+                        <Setter Property="Background" Value="{StaticResource BlueIcon}" />
+                    </Style>
+
+                    <!-- Content Page -->
                     <Style x:Key="TitleBar" TargetType="Shell" ApplyToDerivedTypes="True">
                         <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavBarColor}"/>
                     </Style>
-
+                    
                     <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
                         <Setter Property="BackgroundColor" Value="{StaticResource DarkPageBackground}"/>                        
                     </Style>
@@ -211,6 +230,17 @@
                     </Style>
 
 
+                    <Style x:Key="CircleBorderGlowShadow" TargetType="Border" BasedOn="{StaticResource CircleBorder}">
+                        <Setter Property="Shadow">
+                            <Setter.Value>
+                                <Shadow
+                                    Brush="{StaticResource CyanBorder}"
+                                    Opacity="0.8"
+                                    Radius="20"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
                     <Style x:Key="ShadowedBorder" TargetType="Border">
                         <Setter Property="StrokeThickness" Value="0"/>
                         <Setter Property="Stroke" Value="Transparent"/>
@@ -225,9 +255,9 @@
                         </Setter>
                     </Style>
 
-                    
-                    
-                    
+
+
+
                     <!-- 
                     <Style x:Key="BorderRoundedShadow" TargetType="Border">
                         <Setter Property="StrokeThickness" Value="2"/>

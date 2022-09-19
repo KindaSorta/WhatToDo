@@ -25,10 +25,6 @@ public class MainViewModel_Tests
             .And.BeOfType<MainViewModel>();
         sut.Title
             .Should().Be("WhatToDo");
-        sut.SelectedItem
-            .Should().NotBeNull()
-            .And.BeOfType<ToDoItem>()
-            .And.BeEquivalentTo(new ToDoItem());
         sut.Items
             .Should().NotBeNull()
             .And.BeOfType<ObservableCollection<ToDoItem>>()
@@ -80,38 +76,7 @@ public class MainViewModel_Tests
         }*/
     #endregion Items Property
 
-    #region SelectedItem Property
-    [Theory, AutoMoqData]
-    public void SelectedItemObservableProperty_Should_NotifyChange([NoAutoProperties] MainViewModel sut, ToDoItem item)
-    {
-        //Arrange
-        using var monitor = sut.Monitor();
 
-        //Act
-        sut.SelectedItem = item;
-
-        //Assert
-        sut.SelectedItem.Should().NotBeNull();
-        sut.SelectedItem.Should().BeOfType<ToDoItem>();
-        monitor.Should().RaisePropertyChangeFor(x => x.SelectedItem);
-    }
-
-    [Theory, AutoMoqData]
-    public void SelectedItemObservableProperty_ShouldNot_NotifyChange([NoAutoProperties] MainViewModel sut, ToDoItem item)
-    {
-        //Arrange
-        sut.SelectedItem = item;
-        using var monitor = sut.Monitor();
-
-        //Act
-        sut.SelectedItem = item;
-
-        //Assert
-        sut.SelectedItem.Should().NotBeNull();
-        sut.SelectedItem.Should().BeOfType<ToDoItem>();
-        monitor.Should().NotRaisePropertyChangeFor(x => x.SelectedItem);
-    }
-    #endregion SelectedItem Property
 
     #region Refresh
 

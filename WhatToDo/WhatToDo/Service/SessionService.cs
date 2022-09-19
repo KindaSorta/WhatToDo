@@ -10,6 +10,8 @@ public class SessionService : ISessionService
     //Dictionary<int, ToDoItem> Items { get; set; } = new Dictionary<int, ToDoItem>();
     public Dictionary<DateTime, WeatherData> WeatherForcast { get; set; } = new Dictionary<DateTime, WeatherData>();
 
+    public ToDoItem ItemToEdit { get; set; } = new ToDoItem();
+
     public SessionService()
     {
 

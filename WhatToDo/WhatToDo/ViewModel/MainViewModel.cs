@@ -1,6 +1,7 @@
 ﻿
 
 using WhatToDo.Data;
+using WhatToDo.Model;
 
 namespace WhatToDo.ViewModel;
 
@@ -18,13 +19,13 @@ public partial class MainViewModel : BaseViewModel
     public ObservableCollection<ToDoItem> Items { get; } = new ();
 
     [ObservableProperty]
+    string header;
+
+    [ObservableProperty]
     string filter;
 
     [ObservableProperty]
-    IList<ToDoItem> displayItems;
-
-    [ObservableProperty]
-    ToDoItem selectedItem;
+    IList<IndexedToDoItem> displayItems;
 
     [ObservableProperty]
     bool isPopUp;
@@ -36,8 +37,6 @@ public partial class MainViewModel : BaseViewModel
         IDataService dataService, IDialogService dialogService, 
         IGeolocation geolocation, ISessionService session, IConnectivity connectivity, WeatherService weatherService)
     {
-        Title = "WhatToDo";
-        SelectedItem = new ToDoItem();
         this.dataService = dataService;
         this.dialogService = dialogService;
         this.geolocation = geolocation;
@@ -47,34 +46,17 @@ public partial class MainViewModel : BaseViewModel
         Task.FromResult(InitialLoad());
     }
 
-    public async Task InitialLoad()
-    {
-        if (session.CurrentGeolocInfo.Location == null || DateTime.Now >= session.CurrentGeolocInfo.NextUpdateTime)
-        {
-            await GetGeoLocAsync();
-        }
-
-        if (session.CurrentGeolocInfo.Location != null && (session.WeatherForcast == null || session.WeatherForcast.Count == 0))
-        {
-            await GetWeatherAsync();
-            await dataService.SaveWeatherData();
-        }
-
-        if (Items == null || Items.Count == 0)
-        {
-            await GetItemsAsync();
-        }
-    }
-
     #region Navigation
-    async Task GoToDetails(ToDoItem item)
+
+    async Task GoToDetails()
     {
-        if (item == null) return;
-        await Shell.Current.GoToAsync(nameof(ToDoItemDetailsPage), true, new Dictionary<string, object> { { "CurrentItem", item } });
+        await Shell.Current.GoToAsync(nameof(ToDoItemDetailsPage), true);
     }
+
     #endregion Navigation
 
     #region UI
+
     [RelayCommand]
     async Task RefreshAsync()
     {
@@ -85,59 +67,119 @@ public partial class MainViewModel : BaseViewModel
         }
         else
         {
-            if (SelectedItem.Id == 0)
+            if (session.ItemToEdit.Id == 0)
             {
-                Items.Remove(SelectedItem);
+                Items.Remove(session.ItemToEdit);
             }
-            SelectedItem = new ToDoItem();
+            session.ItemToEdit = new ToDoItem();
         }
 
+        if (DisplayItems is null) await IncompleteTasksAsync();
+        
+        IList<ToDoItem> items = await FilterQueryItems(DisplayItems.Select(x => x.BackToObject()));
         DisplayItems = null;
-        DisplayItems = await FilterQueryItems();
+        DisplayItems = FormatDisplayObject(Items.ToList());
+
         IsRefreshing = false;
     }
 
+    #region Filtering
 
-    async Task<IList<ToDoItem>> FilterQueryItems()
+    async Task<IList<ToDoItem>> FilterQueryItems(IEnumerable<ToDoItem> items)
     {
         // TODO: Make it handle nested search queries, and Tag filtering
+
         switch (Filter)
         {
-            // Complete
-            case var s when s == Options[1]:
-                return await Task.FromResult(Items.Where(x => x.IsComplete).ToList());
-
-            // Incomplete
-            case var s when s == Options[2]:
-                return await Task.FromResult(Items.Where(x => x.NotComplete).ToList());
-
             // Recent
-            case var s when s == Options[3]:
-                break;
+            case var s when s == Options[1]:
+                return await Task.FromResult(items.OrderBy(x => x.LastModifiedDate).ToList());
 
             // Upcoming
-            case var s when s == Options[4]:
-                return await Task.FromResult(Items.OrderBy(x => x.DueDate).ToList());
+            case var s when s == Options[2]:
+                return await Task.FromResult(items.OrderBy(x => x.DueDate).ToList());
 
             // Priority
+            case var s when s == Options[3]:
+                return await Task.FromResult(items.OrderByDescending(x => x.Priority).ToList());
+
+            // Urgency
+            case var s when s == Options[4]:
+                return await Task.FromResult(items.OrderBy(x => x.DueDate - DateTime.Now).OrderByDescending(x => x.Priority).ToList());
+
+            // Suggested
             case var s when s == Options[5]:
-                return await Task.FromResult(Items.OrderByDescending(x => x.Priority).ToList());
+                return await Task.FromResult(items.OrderBy(x => x.SuggestedDate.Count != 0 ? x.SuggestedDate[0] - DateTime.Now : x.DueDate - DateTime.Now).OrderByDescending(x => x.Priority).ToList());
+
             default:
-                return Items;
+                break;
         }
-        
-        if (Filter == "Completed")
-        {
-            return await Task.FromResult(Items.Where(x => x.IsComplete).ToList());
-        }
-        else
-        {
-            return await Task.FromResult(Items);
-        }
+        return items.ToList();
     }
+
+    static IList<IndexedToDoItem> FormatDisplayObject(IList<ToDoItem> items)
+    {
+        IList<IndexedToDoItem> numberedList = new ObservableCollection<IndexedToDoItem>();
+        if (items.Count > 0)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                numberedList.Add(new IndexedToDoItem(i + 1, items[i]));
+            }
+        }
+        return numberedList;
+    }
+
+    [RelayCommand]
+    async Task CompletedTasksAsync()
+    {
+        Header = "Completed";
+        IList<ToDoItem> items = await Task.FromResult(Items.Where(x => x.IsComplete).ToList());
+        DisplayItems = FormatDisplayObject(items);
+    }
+
+    [RelayCommand]
+    async Task IncompleteTasksAsync()
+    {
+        Header = "Incomplete";
+        IList<ToDoItem> items = await Task.FromResult(Items.Where(x => x.NotComplete).ToList());
+        DisplayItems = FormatDisplayObject(items);
+    }
+
+    #endregion Filtering
+
     #endregion UI
 
     #region Get Data
+
+    public async Task InitialLoad()
+    {
+
+        await dataService.GetSessionAsync(session);
+
+        if (session.CurrentGeolocInfo.Location == null || DateTime.Now >= session.CurrentGeolocInfo.NextUpdateTime)
+        {
+            await GetGeoLocAsync();
+            await dataService.SaveLastPositionData(session.CurrentGeolocInfo);
+        }
+
+        if (session.CurrentGeolocInfo.Location != null && session.WeatherForcast == null || session.WeatherForcast.Count <= 0)
+        {
+            await GetWeatherAsync();
+            await dataService.SaveWeatherData(session.WeatherForcast.Values.ToList());
+        }
+
+        if (Items == null || Items.Count == 0)
+        {
+            await GetItemsAsync();
+        }
+
+        Header = "Incomplete";
+        Filter = Options[2];
+        Blur = 1;
+        IsRefreshing = true;
+    }
+
     [RelayCommand]
     async Task GetItemsAsync()
     {
@@ -198,7 +240,11 @@ public partial class MainViewModel : BaseViewModel
                 }
             }
 
-            session.CurrentGeolocInfo.Location = location;
+            if(location is not null)
+            {
+                session.CurrentGeolocInfo.Location = location;
+            }
+
 
         }
         catch (Exception ex)
@@ -216,6 +262,7 @@ public partial class MainViewModel : BaseViewModel
             return;
         try
         {
+            IsBusy = true;
             if (session.WeatherForcast is null || session.WeatherForcast.Count < 14 || session.WeatherForcast.Keys.Any(x => x < DateTime.Now.AddDays(-1)))
             {
                 if (connectivity.NetworkAccess != NetworkAccess.Internet)
@@ -226,16 +273,16 @@ public partial class MainViewModel : BaseViewModel
 
                 List<WeatherData> data = await weatherService.GetWeather(session.CurrentGeolocInfo.Location);
 
-                if (data is null || data.Count == 0) 
-                { 
-                    throw new ArgumentNullException(nameof(data)); 
+                if (data is null || data.Count == 0)
+                {
+                    throw new ArgumentNullException(nameof(data));
                 }
                 else
                 {
                     session.WeatherForcast.Clear();
                     foreach (WeatherData halfDay in data)
                     {
-                        session.WeatherForcast[halfDay.startTime] = halfDay;
+                        await Task.FromResult(session.WeatherForcast[halfDay.startTime] = halfDay);
                     }
                 }
             }
@@ -247,64 +294,60 @@ public partial class MainViewModel : BaseViewModel
         }
         finally
         {
-            IsBusy = false; 
+            IsBusy = false;
         }
     }
     #endregion Get Data
 
     #region ToDo Item Details / Edits
 
-    /*    [RelayCommand]
-        async Task TapAsync(ToDoItem item)
-        {
-            *//*        if (IsBusy) return;
-                    await Task.FromResult(SelectedItem = item);
-                    await GoToDetails(SelectedItem);*//*
-            return;
-        }*/
     [RelayCommand]
-    async Task FilterAsync()
+    void FilterSelector(string selection)
     {
-        await Task.FromResult(IsPopUp = !IsPopUp);
-        await Task.FromResult(Blur = IsPopUp ? 0.4f : 1f);
+        Filter = selection;
+        IsPopUp = !IsPopUp;
+        Blur = IsPopUp ? 0.4f : 1f;
         IsRefreshing = !IsPopUp;
     }
 
     [RelayCommand]
-    async Task EditAsync(ToDoItem item)
+    async Task TapAsync(IndexedToDoItem item)
     {
         if (IsBusy) return;
-        await Task.FromResult(SelectedItem = item);
-        await GoToDetails(SelectedItem);
+        session.ItemToEdit = item.Value;
+        await GoToDetails();
     }
 
     [RelayCommand]
     async Task AddAsync()
     {
         if (IsBusy) return;
-        Items.Add(SelectedItem);
-        await GoToDetails(SelectedItem);
+        Items.Add(session.ItemToEdit);
+        await GoToDetails();
     }
 
     [RelayCommand]
-    async Task ToggoleCompleteAsync(ToDoItem item)
+    async Task ToggoleCompleteAsync(IndexedToDoItem item)
     {
         if (IsBusy) return;
-        item.IsComplete = !item.IsComplete;
-        await dataService.UpdateItemAsync(item);
-        //await Task.Delay(200);
+        item.Value.IsComplete = !item.Value.IsComplete;
+        item.Value.LastModifiedDate = DateTime.Now;
+        await dataService.UpdateItemAsync(item.Value);
+        DisplayItems.Remove(item);
         IsRefreshing = true;
     }
 
     [RelayCommand]
-    async Task DeleteAsync(ToDoItem item)
+    async Task DeleteAsync(IndexedToDoItem item)
     {
         if (IsBusy) return;
-        if (Items.Contains(item))
-        {
-            await dataService.DeleteItemAsync(item);
-            Items.Remove(item);
-        }
+
+        bool answer = await dialogService.DisplayAlert("Alert!!", "You are about to Delete a Task! Please confirm...", "OK", "Cancel");
+        if (!answer) return;
+
+        await dataService.DeleteItemAsync(item.Value);
+        Items.Remove(item.Value);
+        DisplayItems.Remove(item);
     }
 
     public override void Dispose() 

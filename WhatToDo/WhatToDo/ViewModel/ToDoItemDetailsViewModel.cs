@@ -4,12 +4,8 @@ using WhatToDo.Data;
 
 namespace WhatToDo.ViewModel;
 
-[QueryProperty(nameof(CurrentItem), "CurrentItem")]
 public partial class ToDoItemDetailsViewModel : BaseViewModel
 {
-    [ObservableProperty]
-    ToDoItem currentItem;
-
     [ObservableProperty]
     ToDoItem itemText;
 
@@ -29,69 +25,57 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
 
     public ToDoItemDetailsViewModel(IDataService dataService, ISessionService session, IDialogService dialogService)
     {
-        IsBusy = true;
         this.dataService = dataService;
         this.dialogService = dialogService;
         this.session = session;
+        Title = String.IsNullOrWhiteSpace(session.ItemToEdit.Name) ? "Add" : session.ItemToEdit.Name;
         Blur = 1;
-        Task.FromResult(InitializeAsync());
-        IsBusy = false;
-    }
-
-
-    async Task InitializeAsync()
-    {
-        
-        await Task.Delay(400);
-        await Task.FromResult(Title = String.IsNullOrWhiteSpace(CurrentItem.Name) ? "Add" : CurrentItem.Name);
-        ItemText = new ToDoItem(CurrentItem);
-        if (ItemText.StartDate is null) await Task.FromResult(ItemText.StartDate = DateTime.Now.Date);
-        if (ItemText.DueDate is null) await Task.FromResult(ItemText.DueDate = DateTime.Now.Date);
+        ItemText = new ToDoItem(session.ItemToEdit);
+        if (ItemText.StartDate is null) ItemText.StartDate = DateTime.Now.Date;
+        if (ItemText.DueDate is null) ItemText.DueDate = DateTime.Now.Date;
     }
 
     [RelayCommand]
-    async Task TogglePopUpAsync()
+    void TogglePopUp()
     {
-        await Task.FromResult(IsPopUp = !IsPopUp);
-        await Task.FromResult(Blur = IsPopUp ? 0.4f : 1f);
+        IsPopUp = !IsPopUp;
+        Blur = IsPopUp ? 0.4f : 1f;
     }
 
     [RelayCommand]
     async Task SaveAsync()
     {
-        if (IsBusy) return;
-        IsBusy = true;
-        if (!ItemText.IsValid())
-            return;
-        else
-        {
-            if (ItemText.StartDate < DateTime.Now) await Task.FromResult(ItemText.StartDate = null);
-            if (ItemText.DueDate < DateTime.Now) await Task.FromResult(ItemText.DueDate = null);
-            if (!ItemText.Weather.Equals(new WeatherPreference()))
-            {
-                await dialogService.DisplayAlert("Invalid Input!", "", "OK");
-            }
-            CurrentItem.CopyFrom(ItemText);
+        if (IsBusy || !ItemText.IsValid()) return;
 
-            await dataService.UpdateItemAsync(CurrentItem);
-            await Task.Delay(100);
-            await Shell.Current.GoToAsync("..", true);
-        }
+        IsBusy = true;
+
+        if (ItemText.StartDate < DateTime.Now) ItemText.StartDate = null;
+        if (ItemText.DueDate < DateTime.Now) ItemText.DueDate = null;
+        ItemText.LastModifiedDate = DateTime.Now;
+        session.ItemToEdit.CopyFrom(ItemText);
+
+        await dataService.UpdateItemAsync(session.ItemToEdit);
+        await Shell.Current.GoToAsync("..", true);
+
         IsBusy = false;
     }
 
     [RelayCommand]
     async Task DeleteAsync()
     {
-        if (IsBusy) return;
+        if (IsBusy || session.ItemToEdit.Id == 0) return;
+
+
+        bool answer = await dialogService.DisplayAlert("Alert!!", "You are about to Delete a Task! Please confirm...", "OK", "Cancel");
+        if (!answer) return;
+
         IsBusy = true;
-        if (CurrentItem.Id != 0)
-        {
-            await dataService.DeleteItemAsync(CurrentItem);
-            CurrentItem.Id = 0;
-        }
-        await Task.Delay(100);
+
+        await dataService.DeleteItemAsync(session.ItemToEdit);
+        session.ItemToEdit.Id = 0;
+
         await Shell.Current.GoToAsync("..", true);
+
         IsBusy = false;
     }
 

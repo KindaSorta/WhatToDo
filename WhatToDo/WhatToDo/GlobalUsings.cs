@@ -5,7 +5,6 @@ global using WhatToDo.Utilities;
 global using WhatToDo.Model;
 global using WhatToDo.ViewModel;
 global using WhatToDo.Views.Pages;
-global using WhatToDo.Views.Templates;
 global using WhatToDo.Service;
 global using WhatToDo.Messages;
 global using System.Collections;

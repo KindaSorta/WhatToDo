@@ -34,9 +34,14 @@ public static class MauiProgram
         builder.Services.AddTransient<ToDoItemDetailsViewModel>();
         builder.Services.AddTransient<ToDoItemDetailsPage>();
 
-        builder.Services.AddTransient<WeatherPreferencePopUpViewModel>();
-        builder.Services.AddTransient<WeatherPreferencePopUpView>();
-        builder.Services.AddTransient<BlankTemplate>();
+        builder.Services.AddTransient<PomodoroTimerViewModel>();
+        builder.Services.AddTransient<PomodoroTimerPage>();
+
+        builder.Services.AddTransient<SuggestionViewModel>();
+        builder.Services.AddTransient<SuggestionPage>();
+
+        builder.Services.AddTransient<CustomListViewModel>();
+        builder.Services.AddTransient<CustomListPage>();
 
         return builder.Build();
 	}

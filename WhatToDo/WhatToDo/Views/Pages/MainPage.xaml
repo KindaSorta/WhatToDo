@@ -4,25 +4,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:view="clr-namespace:WhatToDo.Views.Templates"
     xmlns:model="clr-namespace:WhatToDo.Model"
     xmlns:vm="clr-namespace:WhatToDo.ViewModel"
     x:DataType="vm:MainViewModel"
     Title="{Binding Title}">
 
-    <ContentPage.Resources>
-        
-        
-    </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
-            Command="{Binding FilterCommand}" 
+            Command="{Binding FilterSelectorCommand}" 
             IsEnabled="{Binding IsNotBusy}"
             Text="+">
             <ToolbarItem.IconImageSource>
                 <OnPlatform x:TypeArguments="ImageSource">
-                    <On Platform="Android,UWP" Value="filter.png"/>
+                    <On Platform="Android,UWP" Value="filter_white.png"/>
                 </OnPlatform>
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
@@ -32,7 +27,7 @@
             Text="+">
             <ToolbarItem.IconImageSource>
                 <OnPlatform x:TypeArguments="ImageSource">
-                    <On Platform="Android,UWP" Value="plus.png" />
+                    <On Platform="Android,UWP" Value="plus_white.png" />
                 </OnPlatform>
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
@@ -43,16 +38,30 @@
         ColumnSpacing="1"
         RowDefinitions="*,Auto"
         Margin="5">
+        
         <RefreshView 
             Grid.ColumnSpan="2"
             IsRefreshing="{Binding IsRefreshing}"
             Command="{Binding RefreshCommand}" >
-            <CollectionView 
-                        ItemsSource="{Binding DisplayItems}"
-                        SelectionMode="None">
+            
+            <VerticalStackLayout 
+                Grid.ColumnSpan="3" 
+                Grid.RowSpan="3" 
+                Opacity="{Binding Blur}"  >
+               
+                <HorizontalStackLayout Spacing="12" Margin="10" HorizontalOptions="Center">
+                    <Label Text="{Binding Header}" Style="{StaticResource SwipeLabel}" FontSize="30"/>
+                    <Label Text="{Binding Filter}" Style="{StaticResource SwipeLabel}" FontSize="30"/>
+                </HorizontalStackLayout>
+
+                <CollectionView 
+                ItemsSource="{Binding DisplayItems}"
+                SelectionMode="None"
+                Opacity="{Binding Blur}">
+                    
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:ToDoItem">
-                        <SwipeView Margin="5">
+                    <DataTemplate x:DataType="model:IndexedToDoItem">
+                        <SwipeView Margin="5" >
                             <SwipeView.LeftItems>
                                 <SwipeItems
                                     SwipeBehaviorOnInvoked="Auto">
@@ -60,53 +69,36 @@
                                         CommandParameter="{Binding .}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ToggoleCompleteCommand}"
                                         IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=IsNotBusy}">
-                                        <Border Style="{StaticResource ShadowedBorder}">
-                                            <Grid Padding="3,5">
-                                                <Frame IsVisible="{Binding IsComplete}" Style="{StaticResource UndoSwipe}">
-                                                    <Label 
-                                                    Style="{StaticResource SwipeLabel}"
-                                                    Text="Undo"/>
-                                                </Frame>
-                                                <Frame IsVisible="{Binding NotComplete}" Style="{StaticResource CompleteSwipe}">
-                                                    <Label 
-                                                    Style="{StaticResource SwipeLabel}"
-                                                    Text="Done!"/>
-                                                </Frame>
+                                            <Grid Padding="3,15" MaximumHeightRequest="10" >
+                                                <Border Style="{StaticResource ShadowedBorder}">
+                                                    <Grid>
+                                                        <Frame IsVisible="{Binding Value.IsComplete}" Style="{StaticResource UndoSwipe}">
+                                                            <Label Style="{StaticResource SwipeLabel}" Text="Undo"/>
+                                                        </Frame>
+                                                        <Frame IsVisible="{Binding Value.NotComplete}" Style="{StaticResource CompleteSwipe}">
+                                                            <Label Style="{StaticResource SwipeLabel}" Text="Done!"/>
+                                                        </Frame>
+                                                    </Grid>
+                                                </Border>
                                             </Grid>
-                                        </Border>
+
                                     </SwipeItemView>
                                 </SwipeItems>
                             </SwipeView.LeftItems>
                             <SwipeView.RightItems>
-                                <SwipeItems
+                                <SwipeItems 
                                     SwipeBehaviorOnInvoked="Auto">
                                     <SwipeItemView
                                         CommandParameter="{Binding .}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCommand}"
                                         IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=IsNotBusy}">
-                                        <Border Style="{StaticResource ShadowedBorder}">
-                                            <Grid Padding="3,5">
+                                        <Grid Padding="3,15">
+                                            <Border Style="{StaticResource ShadowedBorder}">
                                                 <Frame Style="{StaticResource DeleteSwipe}">
-                                                    <Label 
-                                                    Style="{StaticResource SwipeLabel}"
-                                                    Text="Delete"/>
+                                                    <Label Style="{StaticResource SwipeLabel}" Text="Delete"/>
                                                 </Frame>
-                                            </Grid>
-                                        </Border>
-                                    </SwipeItemView>
-                                    <SwipeItemView
-                                        CommandParameter="{Binding .}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=EditCommand}"
-                                        IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=IsNotBusy}">
-                                        <Border Style="{StaticResource ShadowedBorder}">
-                                            <Grid Padding="3,5">
-                                                <Frame Style="{StaticResource EditSwipe}">
-                                                    <Label 
-                                                    Style="{StaticResource SwipeLabel}"
-                                                    Text="Edit"/>
-                                                </Frame>
-                                            </Grid>
-                                        </Border>
+                                            </Border>
+                                        </Grid>
                                     </SwipeItemView>
                                 </SwipeItems>
                             </SwipeView.RightItems>
@@ -115,34 +107,48 @@
                                 <Border                                    
                                     Style="{StaticResource ShadowedBorder}">
                                     <Frame 
-                                        Style="{StaticResource CardView_TodoItem}" 
-                                        Margin="0">
+                                        Style="{StaticResource CardView_TodoItem}"
+                                        Margin="0"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill">
                                         <Frame.GestureRecognizers>
                                             <TapGestureRecognizer 
                                                 NumberOfTapsRequired="1" 
                                                 CommandParameter="{Binding .}"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=TapCommand}"/>
                                         </Frame.GestureRecognizers>
-                                        <Grid Padding="0" ColumnDefinitions="50,*">
+                                        <Grid Padding="0" ColumnDefinitions="100,*">
                                             <Border 
-                                                Style="{StaticResource CircleBorder}"
+                                                Style="{StaticResource CircleBorderGlowShadow}"
                                                 Grid.Column="0"
-                                                Stroke="#a09ed9"
-                                                StrokeThickness="1"
-                                                Background="#2821de"
-                                                Padding="15,15">
+                                                Stroke="Transparent"
+                                                StrokeThickness="2"
+                                                BackgroundColor="{Binding Value.Color}"
+                                                Padding="10,16"
+                                                Margin="5">
+                                                <Label 
+                                                    Style="{StaticResource SwipeLabel}"
+                                                    Text="{Binding Id}" 
+                                                    Margin="3"
+                                                    MinimumHeightRequest="25"
+                                                    MaximumHeightRequest="25"
+                                                    MinimumWidthRequest="36"
+                                                    MaximumWidthRequest="50"
+                                                    TextColor="{StaticResource PaleWhite}"
+                                                    HorizontalTextAlignment="Center"
+                                                    VerticalTextAlignment="Center"/>
                                             </Border>
-                                            <ScrollView 
-                                                Grid.Column="1"
-                                                Padding="10">
-                                                <VerticalStackLayout>
-                                                    <Label Text="{Binding Name}" Margin="1" FontAttributes="Bold" TextColor="{StaticResource ButtonFontColor}" />
-                                                    <Label Text="{Binding Description}" Margin="1" FontSize="12" TextColor="#86805b"/>
-                                                    <VerticalStackLayout>
-                                                        
-                                                    </VerticalStackLayout>
-                                                </VerticalStackLayout>
-                                            </ScrollView>
+                                            <VerticalStackLayout 
+                                                Spacing="3" 
+                                            Grid.Column="1"
+                                            Padding="10">
+                                                    <Label Text="{Binding Value.Name}" Margin="1" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TileTitleFont}" />
+                                                <Label 
+                                                    Text="{Binding Value.DueDate, StringFormat='{0:ddd  d-MMM-yyyy  H:mm tt}'}" 
+                                                    IsVisible="{Binding Value.HasDueDate}" 
+                                                    FontAttributes="Bold" FontSize="11" TextColor="{StaticResource TileTitleSubFont}" />
+                                                    <Label Text="{Binding Value.Description}" FontSize="11" TextColor="{StaticResource TileTitleSubFont}"/>
+                                            </VerticalStackLayout>
                                         </Grid>
                                     </Frame>
                                 </Border>
@@ -151,6 +157,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            </VerticalStackLayout>
         </RefreshView>
 
         <Button 
@@ -158,18 +165,18 @@
             Grid.Column="0" 
             Margin="8"
             Style="{StaticResource MainAppButton}"
-            Text="Get Data"
+            Text="Refresh"
             FontSize="22"
-            Command="{Binding GetItemsCommand}"             
+            Command="{Binding RefreshCommand}"             
             IsEnabled="{Binding IsNotBusy}"/>
         <Button 
             Grid.Row="1" 
             Grid.Column="1" 
             Margin="8"
             Style="{StaticResource MainAppButton}"
-            Text="Get Geoloc"
+            Text="Get Data"
             FontSize="22"
-            Command="{Binding GetGeoLocCommand}"             
+            Command="{Binding GetItemsCommand}"             
             IsEnabled="{Binding IsNotBusy}"/>
         <ActivityIndicator
             Grid.RowSpan="2"
@@ -179,7 +186,7 @@
             IsVisible="{Binding IsBusy}"
             VerticalOptions="CenterAndExpand" />
 
-        <!-- Weather Preference Popup -->
+        <!-- Filter Popup -->                
         <Border
             Grid.ColumnSpan="2"
             Grid.RowSpan="2"
@@ -197,18 +204,20 @@
                         Spacing="10">
                         <Label Text="Filter Category" Style="{StaticResource SwipeLabel}"/>
 
-                        <!-- Weather Forecast Picker -->
                         <Border Style="{StaticResource RoundedBorder}">
                             <Picker
                                 Title="Choose"
+                                x:Name="FilterPicker"
                                 HorizontalTextAlignment="Center"
                                 SelectedItem="{Binding Filter}"
-                                ItemsSource="{Binding Options}" />
+                                ItemsSource="{Binding Options}"
+                                />
                         </Border>
 
                         <Button 
                                 Grid.Column="2"
-                                Command="{Binding FilterCommand}" 
+                                Command="{Binding FilterSelectorCommand}" 
+                                CommandParameter="{Binding SelectedItem, Source={x:Reference FilterPicker}}"
                                 Style="{StaticResource MainAppButton}"
                                 Text="Apply" 
                                 IsEnabled="{Binding IsNotBusy}"/>

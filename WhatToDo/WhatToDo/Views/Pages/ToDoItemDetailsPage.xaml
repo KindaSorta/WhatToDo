@@ -2,9 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:WhatToDo.ViewModel"
-             xmlns:template="clr-namespace:WhatToDo.Views.Templates"
              xmlns:model="clr-namespace:WhatToDo.Model"
-             xmlns:data="clr-namespace:WhatToDo.Data"
              x:DataType="vm:ToDoItemDetailsViewModel"
              x:Class="WhatToDo.Views.Pages.ToDoItemDetailsPage"
              Title="{Binding Title}">
@@ -12,25 +10,33 @@
     <ContentPage.Resources>
 
         <Style TargetType="Picker">
-            <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource PaleBlueBackground}"/>
         </Style>
         
         <Style TargetType="Entry">
-            <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource PaleBlueBackground}"/>
+        </Style>
+
+        <Style TargetType="Editor">
+            <Setter Property="BackgroundColor" Value="{StaticResource PaleBlueBackground}"/>
         </Style>
 
         <Style TargetType="DatePicker">
-            <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource PaleBlueBackground}"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
         </Style>
 
         <Style TargetType="TimePicker">
-            <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource PaleBlueBackground}"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
         </Style>
 
         <Style TargetType="Button" BasedOn="{StaticResource MainAppButton}">
             <Setter Property="FontSize" Value="22"/>
+        </Style>
+
+        <Style x:Key="BorderAroundInputs" TargetType="Border" BasedOn="{StaticResource RoundedBorder}">
+            <Setter Property="BackgroundColor" Value="{StaticResource PaleBlueBackground}"/>
         </Style>
 
     </ContentPage.Resources>
@@ -49,25 +55,27 @@
             Grid.RowSpan="3" >
             <VerticalStackLayout 
                 Visual=""
-                Margin="20" 
+                Margin="15" 
                 Spacing="10"
-                Opacity="{Binding Blur}">
+                Opacity="{Binding Blur}"
+                Padding="5">
 
                 <!-- Name -->
                 <VerticalStackLayout>
-                    <Label Text="Task Name" Style="{StaticResource ToDoItemLabel}"/>
-                    <Border Style="{StaticResource RoundedBorder}">
-                        <Entry Text="{Binding ItemText.Name}"  IsSpellCheckEnabled="True" />
+                    <Label  Text="Task Name" Style="{StaticResource ToDoItemLabel}"/>
+                    <Border Style="{StaticResource BorderAroundInputs}">
+                        <Entry x:Name="TaskName" Text="{Binding ItemText.Name}" ReturnType="Done" IsSpellCheckEnabled="True" />
                     </Border>
                 </VerticalStackLayout>
 
                 <!-- Description -->
                 <VerticalStackLayout>
                     <Label Text="Description" Style="{StaticResource ToDoItemLabel}"/>
-                    <Border Style="{StaticResource RoundedBorder}">
+                    <Border Style="{StaticResource BorderAroundInputs}">
                         <Editor 
                             Text="{Binding ItemText.Description}" 
                             Placeholder="Enter the description here." 
+                            PlaceholderColor="{StaticResource VeryPaleGrey}"
                             IsSpellCheckEnabled="True" 
                             AutoSize="TextChanges"/>
                     </Border>
@@ -77,10 +85,10 @@
                     Padding="7"
                     Style="{StaticResource AreaCard}">
                     <!-- Schedule Reminder Options -->
-                    <VerticalStackLayout>
-                        <HorizontalStackLayout Spacing="-2">
-                            <Label Text="No Date" Style="{StaticResource ToDoItemLabel}"/>
-                            <Switch x:Name="EnableSchedulers" IsToggled="{Binding ItemText.HasDueDate}"/>
+                    <VerticalStackLayout >
+                        <HorizontalStackLayout Spacing="-5">
+                            <Label Text="No Date" Style="{StaticResource ToDoItemLabel}" Padding="5,0,12,0"/>
+                            <Switch x:Name="EnableSchedulers" IsToggled="{Binding ItemText.HasDueDate}" />
                             <Label Text="Due Date" Style="{StaticResource ToDoItemLabel}"/>
                             <RadioButton x:Name="OnlyDueDate" IsChecked="true" IsEnabled="{Binding IsToggled, Source={x:Reference EnableSchedulers}}"/>
                             <Label Text="Time Period" Style="{StaticResource ToDoItemLabel}"/>
@@ -90,12 +98,12 @@
                         <VerticalStackLayout IsVisible="{Binding IsToggled, Source={x:Reference EnableSchedulers}}">
                             <!-- Start Date -->
                             <VerticalStackLayout IsVisible="{Binding IsChecked, Source={x:Reference TimePeriod}}">
-                                <Grid ColumnDefinitions="0.5*,*,*" IsVisible="{Binding IsToggled, Source={x:Reference EnableStartDate}}">
+                                <Grid ColumnDefinitions="0.5*,*,*" >
                                     <Label Grid.Column="0" Text="Start" Style="{StaticResource ToDoItemLabel}"/>
-                                    <Border Grid.Column="1" Style="{StaticResource RoundedBorder}">
+                                    <Border Grid.Column="1" Style="{StaticResource BorderAroundInputs}">
                                         <DatePicker Date="{Binding ItemText.StartDate}"/>
                                     </Border>
-                                    <Border Grid.Column="2" Style="{StaticResource RoundedBorder}">
+                                    <Border Grid.Column="2" Style="{StaticResource BorderAroundInputs}">
                                         <TimePicker Time="{Binding ItemText.StartDate}"/>
                                     </Border>
                                 </Grid>
@@ -105,10 +113,10 @@
                             <VerticalStackLayout>
                                 <Grid ColumnDefinitions="0.5*,*,*">
                                     <Label Grid.Column="0" Text="Due" Style="{StaticResource ToDoItemLabel}"/>
-                                    <Border Grid.Column="1" Style="{StaticResource RoundedBorder}">
+                                    <Border Grid.Column="1" Style="{StaticResource BorderAroundInputs}">
                                         <DatePicker Date="{Binding ItemText.DueDate}"/>
                                     </Border>
-                                    <Border Grid.Column="2" Style="{StaticResource RoundedBorder}">
+                                    <Border Grid.Column="2" Style="{StaticResource BorderAroundInputs}">
                                         <TimePicker Time="{Binding ItemText.DueDate}"/>
                                     </Border>
                                 </Grid>
@@ -126,7 +134,8 @@
                     Style="{StaticResource AreaCard}">
                     <!-- Weather Preference -->
                     <Grid 
-                        ColumnDefinitions=".3*,*,*">
+                        ColumnDefinitions=".3*,*,*"
+                        Padding="5">
                         <CheckBox Grid.Column="0" x:Name="WeatherPreference" IsChecked="{Binding ItemText.HasWeatherPreference}" Color="LightGreen" HorizontalOptions="Start"/>
                         <Label Grid.Column="1" Text="Weather Info" Style="{StaticResource ToDoItemLabel}" Padding="5,0,20,0"/>
                         <Button Grid.Column="2" 
@@ -142,7 +151,7 @@
                 <Frame 
                 Padding="7"
                 Style="{StaticResource AreaCard}">
-                    <VerticalStackLayout >
+                    <VerticalStackLayout Padding="5,0">
                         <HorizontalStackLayout>
                             <Label Text="Priority Level:" Style="{StaticResource ToDoItemLabel}"/>
                             <Label Text="{Binding Source={x:Reference PrioritySlider}, Path=Value, StringFormat='{0:0}'}" Style="{StaticResource ToDoItemLabel}"/>
@@ -160,12 +169,12 @@
 
 
 
-                <HorizontalStackLayout Padding="7">
+                <HorizontalStackLayout Padding="12">
                     <CheckBox IsChecked="{Binding ItemText.IsComplete}" Color="LightGreen" HorizontalOptions="Start"/>
                     <Label Text="Completed" Style="{StaticResource ToDoItemLabel}"/>
                 </HorizontalStackLayout>
 
-                <Button Command="{Binding SaveCommand}" Text="Save" />
+                <Button Command="{Binding SaveCommand}" Text="Save" Style="{StaticResource MainAppButton}" FontSize="22"/>
 
                 <Button Command="{Binding DeleteCommand}" Text="Delete" Style="{StaticResource DeleteButton}" FontSize="22"/>
 
@@ -197,11 +206,12 @@
                     Padding="15"
                     BorderColor="Transparent">
                     <VerticalStackLayout
-                        Spacing="10">
+                        Spacing="10"
+                        Padding="2">
                         <Label Text="Weather Preference" Style="{StaticResource SwipeLabel}"/>
 
                         <!-- Weather Forecast Picker -->
-                        <Border Style="{StaticResource RoundedBorder}">
+                        <Border Style="{StaticResource BorderAroundInputs}">
                             <Picker
                                 Title="Select Prefered Weather"
                                 HorizontalTextAlignment="Center"
@@ -215,20 +225,20 @@
                             RowDefinitions="*,*,*">
                             <!-- High Temp -->
                             <Label Grid.Row="0" Grid.Column="0" Text="High:" Style="{StaticResource ToDoItemLabel}"/>
-                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource RoundedBorder}">
-                                <Entry Text="{Binding ItemText.Weather.High}" Keyboard="Numeric"/>
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource BorderAroundInputs}">
+                                <Entry Text="{Binding ItemText.Weather.High}" ReturnType="Done" Keyboard="Numeric"/>
                             </Border>
 
                             <!-- Low Temp -->
                             <Label Grid.Row="1" Grid.Column="0"  Text="Low: " Style="{StaticResource ToDoItemLabel}"/>
-                            <Border Grid.Row="1" Grid.Column="1"  Style="{StaticResource RoundedBorder}">
-                                <Entry Text="{Binding ItemText.Weather.Low}" Keyboard="Numeric"/>
+                            <Border Grid.Row="1" Grid.Column="1"  Style="{StaticResource BorderAroundInputs}">
+                                <Entry Text="{Binding ItemText.Weather.Low}" ReturnType="Done" Keyboard="Numeric"/>
                             </Border>
 
                             <!-- Wind Speed -->
                             <Label Grid.Row="2" Grid.Column="0"  Text="Wind: " Style="{StaticResource ToDoItemLabel}"/>
-                            <Border Grid.Row="2" Grid.Column="1"  Style="{StaticResource RoundedBorder}">
-                                <Entry Text="{Binding ItemText.Weather.WindSpeed}" Keyboard="Numeric"/>
+                            <Border Grid.Row="2" Grid.Column="1"  Style="{StaticResource BorderAroundInputs}">
+                                <Entry Text="{Binding ItemText.Weather.WindSpeed}" ReturnType="Done" Keyboard="Numeric"/>
                             </Border>
                         </Grid>
 
