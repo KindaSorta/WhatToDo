@@ -9,12 +9,10 @@ public partial class MainViewModel : BaseViewModel
 {
     IDataService dataService;
     IDialogService dialogService;
-    IGeolocation geolocation;
-    IConnectivity connectivity;
     ISessionService session;
-    WeatherService weatherService;
 
-    public List<string> Options { get; } = FormOptions.FilterOptions;
+    public List<string> FilterOptions { get; } = FormOptions.FilterOptions;
+    public List<string> CollectionOptions { get; } = FormOptions.TodoCollectionOptions;
 
     public ObservableCollection<ToDoItem> Items { get; } = new ();
 
@@ -35,13 +33,10 @@ public partial class MainViewModel : BaseViewModel
 
     public MainViewModel(
         IDataService dataService, IDialogService dialogService, 
-        IGeolocation geolocation, ISessionService session, IConnectivity connectivity, WeatherService weatherService)
+        ISessionService session)
     {
         this.dataService = dataService;
         this.dialogService = dialogService;
-        this.geolocation = geolocation;
-        this.connectivity = connectivity;
-        this.weatherService = weatherService;
         this.session = session;
         Task.FromResult(InitialLoad());
     }
@@ -52,6 +47,11 @@ public partial class MainViewModel : BaseViewModel
     {
         await Shell.Current.GoToAsync(nameof(ToDoItemDetailsPage), true);
     }
+
+/*    async Task GoToStartPage()
+    {
+        await Shell.Current.GoToAsync(nameof(StartPage), true);
+    }*/
 
     #endregion Navigation
 
@@ -67,14 +67,14 @@ public partial class MainViewModel : BaseViewModel
         }
         else
         {
-            if (session.ItemToEdit.Id == 0)
+            if (session.ItemToEdit.Id == ObjectId.Empty)
             {
                 Items.Remove(session.ItemToEdit);
             }
             session.ItemToEdit = new ToDoItem();
         }
 
-        if (DisplayItems is null || Header == "Incomplete")
+        if (DisplayItems == null || Header == "Incomplete")
         {
             await IncompleteTasksAsync();
         }
@@ -99,23 +99,23 @@ public partial class MainViewModel : BaseViewModel
         switch (Filter)
         {
             // Recent
-            case var s when s == Options[1]:
+            case var s when s == FilterOptions[1]:
                 return await Task.FromResult(items.OrderBy(x => x.LastModifiedDate - DateTime.Now).ToList());
 
             // Upcoming
-            case var s when s == Options[2]:
+            case var s when s == FilterOptions[2]:
                 return await Task.FromResult(items.OrderBy(x => x.DueDate == null).ThenBy(x => x.DueDate - DateTime.Now).ToList());
 
             // Priority
-            case var s when s == Options[3]:
+            case var s when s == FilterOptions[3]:
                 return await Task.FromResult(items.OrderByDescending(x => x.Priority).ToList());
 
             // Urgency
-            case var s when s == Options[4]:
+            case var s when s == FilterOptions[4]:
                 return await Task.FromResult(items.OrderBy(x => x.DueDate - DateTime.Now).OrderByDescending(x => x.Priority).ToList());
 
             // Suggested
-            case var s when s == Options[5]:
+            case var s when s == FilterOptions[5]:
                 return await Task.FromResult(items.OrderBy(x => x.SuggestedDate.Count != 0 ? x.SuggestedDate[0] - DateTime.Now : x.DueDate - DateTime.Now).OrderByDescending(x => x.Priority).ToList());
 
             default:
@@ -123,6 +123,13 @@ public partial class MainViewModel : BaseViewModel
         }
         return items.ToList();
     }
+
+    [RelayCommand]
+    async Task SearchAsync()
+    {
+        throw new NotImplementedException();
+    }
+
 
     static IList<IndexedToDoItem> FormatDisplayObject(IList<ToDoItem> items)
     {
@@ -164,29 +171,15 @@ public partial class MainViewModel : BaseViewModel
 
     public async Task InitialLoad()
     {
-
-        await dataService.GetSessionAsync(session);
-
-        if (session.CurrentGeolocInfo.Location == null || DateTime.Now >= session.CurrentGeolocInfo.NextUpdateTime)
-        {
-            await GetGeoLocAsync();
-            await dataService.SaveLastPositionData(session.CurrentGeolocInfo);
-        }
-
-        if (session.CurrentGeolocInfo.Location != null && session.WeatherForcast == null || session.WeatherForcast.Count <= 0)
-        {
-            await GetWeatherAsync();
-            await dataService.SaveWeatherData(session.WeatherForcast.Values.ToList());
-        }
-
         if (Items == null || Items.Count == 0)
         {
             await GetItemsAsync();
         }
 
-        Header = "Incomplete";
-        Filter = Options[2];
+        Header = CollectionOptions[0];
+        Filter = FilterOptions[2];
         Blur = 1;
+        await Task.Delay(100);
         IsRefreshing = true;
     }
 
@@ -198,12 +191,12 @@ public partial class MainViewModel : BaseViewModel
         {
             IsBusy = true;
 
-            Dictionary<int, ToDoItem> data = await dataService.GetItemsAsync();
+            List<ToDoItem> data = await dataService.GetAllItems();
 
             if (data != null)
             {
                 Items.Clear();
-                foreach (var item in data.Values)
+                foreach (var item in data)
                 {
                     Items.Add(item);
                 }
@@ -226,87 +219,6 @@ public partial class MainViewModel : BaseViewModel
         return;
     }*/
 
-    [RelayCommand]
-    async Task GetGeoLocAsync()
-    {
-        if (IsBusy)
-            return;
-        try
-        {
-            IsBusy = true;
-            // Get cached location, else get real location.
-            Location location = await geolocation.GetLastKnownLocationAsync();
-            if (location is null || DateTime.Now > session.CurrentGeolocInfo.NextUpdateTime)
-            {
-                location = await geolocation.GetLocationAsync(new GeolocationRequest
-                {
-                    DesiredAccuracy = GeolocationAccuracy.Medium,
-                    Timeout = TimeSpan.FromSeconds(30)
-                });
-
-                if (location is null)
-                {
-                    throw new ArgumentNullException(nameof(location));
-                }
-            }
-
-            if(location is not null)
-            {
-                session.CurrentGeolocInfo.Location = location;
-            }
-
-
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Unable to get Updated Location: {ex.Message}");
-            await dialogService.DisplayAlert("Error!", ex.Message, "OK");
-        }
-        finally { IsBusy = false; } 
-    }
-
-    [RelayCommand]
-    async Task GetWeatherAsync()
-    {
-        if (IsBusy)
-            return;
-        try
-        {
-            IsBusy = true;
-            if (session.WeatherForcast is null || session.WeatherForcast.Count < 14 || session.WeatherForcast.Keys.Any(x => x < DateTime.Now.AddDays(-1)))
-            {
-                if (connectivity.NetworkAccess != NetworkAccess.Internet)
-                {
-                    await dialogService.DisplayAlert("No connectivity!", "Please check internet and try again.", "OK");
-                    return;
-                }
-
-                List<WeatherData> data = await weatherService.GetWeather(session.CurrentGeolocInfo.Location);
-
-                if (data is null || data.Count == 0)
-                {
-                    throw new ArgumentNullException(nameof(data));
-                }
-                else
-                {
-                    session.WeatherForcast.Clear();
-                    foreach (WeatherData halfDay in data)
-                    {
-                        await Task.FromResult(session.WeatherForcast[halfDay.startTime] = halfDay);
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Unable to get Weather Data: {ex.Message}");
-            await dialogService.DisplayAlert("Error!", ex.Message, "OK");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
     #endregion Get Data
 
     #region ToDo Item Details / Edits
@@ -342,7 +254,8 @@ public partial class MainViewModel : BaseViewModel
         if (IsBusy) return;
         item.Value.IsComplete = !item.Value.IsComplete;
         item.Value.LastModifiedDate = DateTime.Now;
-        await dataService.UpdateItemAsync(item.Value);
+        await dataService.SaveItem(item.Value);
+        await Task.Delay(240);
         DisplayItems.Remove(item);
         IsRefreshing = true;
     }
@@ -355,9 +268,10 @@ public partial class MainViewModel : BaseViewModel
         bool answer = await dialogService.DisplayAlert("Alert!!", "You are about to Delete a Task! Please confirm...", "OK", "Cancel");
         if (!answer) return;
 
-        await dataService.DeleteItemAsync(item.Value);
+        await dataService.DeleteItem(item.Value);
         Items.Remove(item.Value);
         DisplayItems.Remove(item);
+        IsRefreshing = true;
     }
 
     public override void Dispose() 

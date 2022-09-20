@@ -3,20 +3,26 @@
     x:Class="WhatToDo.Views.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:model="clr-namespace:WhatToDo.Model"
     xmlns:vm="clr-namespace:WhatToDo.ViewModel"
     x:DataType="vm:MainViewModel"
     Title="{Binding Title}">
 
+    <Shell.SearchHandler>
+        <SearchHandler 
+            Placeholder="Search"
+            ShowsResults="True"
+            IsSearchEnabled="False"
+            Command="{Binding SearchCommand}"
+            DisplayMemberName="Name"
+            BackgroundColor="{StaticResource PaleWhite}" 
+            SearchBoxVisibility="Expanded"/>
+    </Shell.SearchHandler>
 
     <ContentPage.ToolbarItems>
-
-
         <ToolbarItem 
             Command="{Binding FilterSelectorCommand}" 
-            IsEnabled="{Binding IsNotBusy}"
-            Text="+">
+            IsEnabled="{Binding IsNotBusy}">
             <ToolbarItem.IconImageSource>
                 <OnPlatform x:TypeArguments="ImageSource">
                     <On Platform="Android,UWP" Value="filter_white.png"/>
@@ -44,8 +50,8 @@
         <Grid.Shadow>
             <Shadow
                 Brush="Black"
-                Opacity="0.8"
-                Radius="30"/>
+                Opacity="0.6"
+                Radius="40"/>
         </Grid.Shadow>
 
         <StackLayout
@@ -71,14 +77,6 @@
                 VerticalOptions="FillAndExpand"
                 SelectionMode="None"
                 Opacity="{Binding Blur}">
-                    <CollectionView.Header >
-                        <Grid Background="{StaticResource DarkAreaCardColor}" HorizontalOptions="FillAndExpand">
-                            <VerticalStackLayout Padding="0,5,0,10">
-                                <Label Text="{Binding Header}" Style="{StaticResource SwipeLabel}" FontSize="30"/>
-                                <Label Text="{Binding Filter}" Style="{StaticResource SwipeLabel}" FontSize="20"/>
-                            </VerticalStackLayout>
-                        </Grid>
-                    </CollectionView.Header>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:IndexedToDoItem">
                             <SwipeView Margin="5" HorizontalOptions="Center" Padding="0,0,0,0">
@@ -176,31 +174,6 @@
                             </SwipeView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-                    <CollectionView.Footer>
-                        <Grid ColumnDefinitions="*,*">
-                            <Button 
-                            Grid.Row="1" 
-                            Grid.Column="0" 
-                            Margin="8"
-                            Style="{StaticResource MainAppButton}"
-                            Text="Incomplete"
-                            FontSize="22"
-                            Command="{Binding ToggleIncompleteTasksCommand}" 
-                            CommandParameter="Incomplete"
-                            IsEnabled="{Binding IsNotBusy}"/>
-                            <Button 
-                            Grid.Row="1" 
-                            Grid.Column="1" 
-                            Margin="8"
-                            Style="{StaticResource MainAppButton}"
-                            Text="Completed"
-                            FontSize="22"
-                            Command="{Binding ToggleIncompleteTasksCommand}"  
-                            CommandParameter="Completed"           
-                            IsEnabled="{Binding IsNotBusy}"/>
-                        </Grid>
-
-                    </CollectionView.Footer>
                 </CollectionView>
             </RefreshView>
         </StackLayout>
@@ -234,23 +207,42 @@
                         Spacing="10">
                         <Label Text="Filter Category" Style="{StaticResource SwipeLabel}"/>
 
-                        <Border Style="{StaticResource RoundedBorder}">
-                            <Picker
-                                Title="Choose"
-                                x:Name="FilterPicker"
-                                HorizontalTextAlignment="Center"
-                                SelectedItem="{Binding Filter}"
-                                ItemsSource="{Binding Options}"
-                                />
-                        </Border>
+                        <Border Style="{StaticResource RoundedBorder}"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource PaleWhite}">
 
+                            <Picker
+                                Title="Collection"
+                                x:Name="CollectionPicker"
+                                SelectedItem="{Binding Header, Mode=TwoWay}"
+                                ItemsSource="{Binding CollectionOptions}"
+                                HorizontalTextAlignment="Center"/>
+                        </Border>
+                        <Border Style="{StaticResource RoundedBorder}"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource PaleWhite}">
+                            <Picker
+                                Title="Filter"
+                                x:Name="FilterPicker"
+                                SelectedItem="{Binding Filter, Mode=TwoWay}"
+                                ItemsSource="{Binding FilterOptions}"
+                                HorizontalTextAlignment="Center"/>
+                        </Border>
                         <Button 
                                 Grid.Column="2"
                                 Command="{Binding FilterSelectorCommand}" 
                                 CommandParameter="{Binding SelectedItem, Source={x:Reference FilterPicker}}"
                                 Style="{StaticResource MainAppButton}"
+                                FontSize="20"
                                 Text="Apply" 
-                                IsEnabled="{Binding IsNotBusy}"/>
+                                IsEnabled="{Binding IsNotBusy}"
+                                Margin="4">
+                            <Button.Shadow>
+                                <Shadow Opacity=".3"
+                                        Radius="10"
+                                        Brush="Grey"/>
+                            </Button.Shadow>
+                        </Button>
 
                     </VerticalStackLayout>
                 </Frame>

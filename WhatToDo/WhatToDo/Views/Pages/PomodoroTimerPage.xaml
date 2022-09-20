@@ -3,10 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhatToDo.Views.Pages.PomodoroTimerPage"
              Title="PomodoroTimer">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    
+    
+    
+    <VerticalStackLayout Padding="5" HorizontalOptions="Center">
+        <Grid
+            ColumnDefinitions="*,*,*"
+            RowDefinitions="*,*,*">
+            <Label Grid.Column="1" Text="Timer" Margin="10" FontSize="32" FontAttributes="Bold" FontFamily="Bauhaus93" TextColor="{StaticResource CompletedGreen}"/>
+            <VerticalStackLayout Grid.Column="1" Grid.Row="1" Spacing="5" HorizontalOptions="Center" >
+                <TimePicker FontAttributes="Bold" TextColor="{StaticResource CyanBorder}" FontSize="48"/>
+            </VerticalStackLayout>
+            
+        </Grid>
+        
     </VerticalStackLayout>
+    
+    
+    
 </ContentPage>

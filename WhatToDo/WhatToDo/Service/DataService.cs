@@ -3,9 +3,9 @@ using WhatToDo.Data;
 
 namespace WhatToDo.Service;
 
-public class DataService : IDataService
+public class DataService
 {
-    FileStorage dataStorage;
+/*    FileStorage dataStorage;
 
     Dictionary<int, ToDoItem> Items { get; set; } = new Dictionary<int, ToDoItem>();    
 
@@ -177,5 +177,5 @@ public class DataService : IDataService
 
     #endregion Update Weather Data
 
-    #endregion Weather
+    #endregion Weather*/
 }

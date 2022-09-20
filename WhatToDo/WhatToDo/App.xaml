@@ -201,7 +201,7 @@
 
                     <!-- Content Page -->
                     <Style x:Key="TitleBar" TargetType="Shell" ApplyToDerivedTypes="True">
-                        <Setter Property="Shell.BackgroundColor" Value="{StaticResource BlueGrey}"/>
+                        <Setter Property="Shell.BackgroundColor" Value="{StaticResource DarkAreaCardColor}"/>
                     </Style>
                     
                     <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
@@ -268,8 +268,8 @@
                             <Setter.Value>
                                 <Shadow
                                     Brush="Black"
-                                    Opacity="0.5"
-                                    Radius="20"/>
+                                    Opacity="0.7"
+                                    Radius="3"/>
                             </Setter.Value>
                         </Setter>
                     </Style>

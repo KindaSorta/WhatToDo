@@ -6,8 +6,23 @@ using System.Threading.Tasks;
 
 namespace WhatToDo.ViewModel
 {
-    public class WeatherViewModel : BaseViewModel
+    public partial class WeatherViewModel : BaseViewModel
     {
 
+        ISessionService session;
+
+        [ObservableProperty]
+        List<WeatherData> displayWeather;
+
+        public WeatherViewModel(ISessionService session)
+        {
+            this.session = session;
+        }
+
+        [RelayCommand]
+        public async Task ShowWeatherAsync()
+        {
+            await Task.FromResult(DisplayWeather = session.WeatherForcast);
+        }
     }
 }

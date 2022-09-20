@@ -9,6 +9,7 @@ public partial class MainPage : ContentPage
 
     public MainPage(MainViewModel viewModel)
 	{
+        
 		InitializeComponent();
         BindingContext = _viewModel = viewModel;
         
@@ -23,7 +24,7 @@ public partial class MainPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        _viewModel.IsCaching = true;
+        //_viewModel.IsCaching = true;
     }
 }
 

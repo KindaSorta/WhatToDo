@@ -38,7 +38,7 @@ public class MainViewModel_Tests
         public void ItemsObservableCollection_Should_NotifyChange_AddedTo()
         {
             //Arrange
-            var sut = fixture.Build<MainViewModel>().OmitAutoProperties().Create();
+            var sut = fixture.Build<StartViewModel>().OmitAutoProperties().Create();
             sut.Items.Add(fixture.Create<ToDoItem>());
             using var monitor = sut.Monitor();
 
@@ -58,7 +58,7 @@ public class MainViewModel_Tests
         public void ItemsObservableCollection_Should_NotifyChange_ItemEdited()
         {
             //Arrange
-            var sut = fixture.Build<MainViewModel>().OmitAutoProperties().Create();
+            var sut = fixture.Build<StartViewModel>().OmitAutoProperties().Create();
             sut.Items.AddRange(fixture.CreateMany<ToDoItem>());
             using var monitor = sut.Monitor();
 
@@ -109,7 +109,7 @@ public class MainViewModel_Tests
     }
 
 /*    [Theory, AutoMoqData]
-    public async Task GetData_ServiceThrowsException_Should_GetAlert([Frozen]Mock<IDataService> dataServiceMock, [Frozen]Mock<IDialogService> dialogeMock, MainViewModel sut, Exception exception)
+    public async Task GetData_ServiceThrowsException_Should_GetAlert([Frozen]Mock<IDataService> dataServiceMock, [Frozen]Mock<IDialogService> dialogeMock, StartViewModel sut, Exception exception)
     {
         //Arrange
         sut.IsBusy = false;

@@ -30,6 +30,12 @@ namespace WhatToDo.Data
             "Suggested"
         };
 
+        public static readonly List<string> TodoCollectionOptions = new List<string>()
+        {
+            "Incomplete",
+            "Completed"
+        };
+
         public static readonly Dictionary<int, Color> PriorityColors = new Dictionary<int, Color>()
         {
             { 0, Colors.LightSkyBlue},

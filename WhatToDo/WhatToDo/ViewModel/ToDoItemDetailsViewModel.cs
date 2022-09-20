@@ -73,7 +73,7 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
         ItemText.LastModifiedDate = DateTime.Now;
         session.ItemToEdit.CopyFrom(ItemText);
 
-        await dataService.UpdateItemAsync(session.ItemToEdit);
+        await dataService.SaveItem(session.ItemToEdit);
         await Shell.Current.GoToAsync("..", true);
 
         IsBusy = false;
@@ -82,7 +82,7 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
     [RelayCommand]
     async Task DeleteAsync()
     {
-        if (IsBusy || session.ItemToEdit.Id == 0) return;
+        if (IsBusy || session.ItemToEdit.Id == ObjectId.Empty) return;
 
 
         bool answer = await dialogService.DisplayAlert("Alert!!", "You are about to Delete a Task! Please confirm...", "OK", "Cancel");
@@ -90,8 +90,8 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
 
         IsBusy = true;
 
-        await dataService.DeleteItemAsync(session.ItemToEdit);
-        session.ItemToEdit.Id = 0;
+        await dataService.DeleteItem(session.ItemToEdit);
+        session.ItemToEdit.Id = ObjectId.Empty;
 
         await Shell.Current.GoToAsync("..", true);
 

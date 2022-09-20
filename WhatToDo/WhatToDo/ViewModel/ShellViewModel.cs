@@ -1,14 +1,12 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//using IntelliJ.Lang.Annotations;
 
 namespace WhatToDo.ViewModel;
 
-public partial class AppShellViewModel : BaseViewModel
+public partial class ShellViewModel : BaseViewModel 
 {
+
     IDataService dataService;
     IDialogService dialogService;
     IGeolocation geolocation;
@@ -16,14 +14,8 @@ public partial class AppShellViewModel : BaseViewModel
     ISessionService session;
     WeatherService weatherService;
 
-
-    public AppShellViewModel(
-        IDataService dataService, 
-        IDialogService dialogService,
-        IGeolocation geolocation, 
-        ISessionService session, 
-        IConnectivity connectivity, 
-        WeatherService weatherService)
+    public ShellViewModel(IDataService dataService, IDialogService dialogService,
+        IGeolocation geolocation, ISessionService session, IConnectivity connectivity, WeatherService weatherService)
     {
         this.dataService = dataService;
         this.dialogService = dialogService;
@@ -31,23 +23,35 @@ public partial class AppShellViewModel : BaseViewModel
         this.connectivity = connectivity;
         this.weatherService = weatherService;
         this.session = session;
-        //Task.FromResult(InitialLoad());
     }
+
+/*    async Task GoToMainPage()
+    {
+        await Shell.Current.GoToAsync(nameof(MainPage), true);
+    }*/
+
 
     public async Task InitialLoad()
     {
+        List<GeolocCurrent> geoloc = await dataService.GetGeolocation();
+        List<WeatherData> forecast = await dataService.GetAllWeatherData();
+
+        if (geoloc != null && geoloc.Count > 0) session.CurrentGeolocInfo = geoloc[0];
+        if (forecast != null && forecast.Count > 0) session.WeatherForcast = forecast;
+
         if (session.CurrentGeolocInfo.Location == null || DateTime.Now >= session.CurrentGeolocInfo.NextUpdateTime)
         {
-            //await GetGeoLocAsync();
+            await GetGeoLocAsync();
+            await dataService.SaveGeolocation(session.CurrentGeolocInfo);
         }
 
-        if (session.CurrentGeolocInfo.Location != null && (session.WeatherForcast == null || session.WeatherForcast.Count == 0))
+        if (session.CurrentGeolocInfo.Location != null && session.WeatherForcast == null || session.WeatherForcast.Count <= 0)
         {
-            //await GetWeatherAsync();
-            //await dataService.SaveWeatherData();
+            await GetWeatherAsync();
+            await dataService.SaveManyWeatherData(session.WeatherForcast);
         }
-    }
 
+    }
 
     async Task GetGeoLocAsync()
     {
@@ -72,7 +76,11 @@ public partial class AppShellViewModel : BaseViewModel
                 }
             }
 
-            session.CurrentGeolocInfo.Location = location;
+            if (location is not null)
+            {
+                session.CurrentGeolocInfo.Location = location;
+            }
+
 
         }
         catch (Exception ex)
@@ -90,6 +98,7 @@ public partial class AppShellViewModel : BaseViewModel
             return;
         try
         {
+            IsBusy = true;
             if (session.WeatherForcast is null || session.WeatherForcast.Count < 14 || session.WeatherForcast.Any(x => x.startTime < DateTime.Now.AddDays(-1)))
             {
                 if (connectivity.NetworkAccess != NetworkAccess.Internet)
@@ -106,7 +115,11 @@ public partial class AppShellViewModel : BaseViewModel
                 }
                 else
                 {
-                    session.WeatherForcast = data;
+                    session.WeatherForcast.Clear();
+                    foreach (WeatherData halfDay in data)
+                    {
+                        session.WeatherForcast.Add(halfDay);
+                    }
                 }
             }
         }

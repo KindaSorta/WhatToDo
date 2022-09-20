@@ -1,5 +1,8 @@
 ﻿
 
+using LiteDB;
+//using static Android.Content.ClipData;
+
 namespace WhatToDo.Service;
 
 public class DataServiceLiteDB : IDataService
@@ -12,6 +15,25 @@ public class DataServiceLiteDB : IDataService
 
     #region File Path
 
+    private async Task<string> GetConnectionString(string name)
+    {
+        var path = FileSystem.Current.AppDataDirectory;
+
+        var fullPath = Path.Combine(path, $"{name}.db");
+
+        // TODO: Setup Secure Storage and password
+        var password = "password";
+
+        /*var password = await secureStorageService.Get("password");
+
+        if (password == null)
+        {
+            password = Guid.NewGuid().ToString();
+            await secureStorageService.Save("password", password);
+        }*/
+
+        return await Task.FromResult($"Filename={fullPath};Password={password}");
+    }
 
 
     #endregion File Path
@@ -21,41 +43,91 @@ public class DataServiceLiteDB : IDataService
 
     #region Get Todo Items
 
-    public async Task<Dictionary<int, ToDoItem>> GetItemsAsync()
+    public async Task<List<ToDoItem>> GetAllItems()
     {
-        throw new NotImplementedException();
+        using var db = new LiteDatabase(await GetConnectionString(nameof(ToDoItem)));
+
+        var collection = db.GetCollection<ToDoItem>(nameof(ToDoItem));
+
+        var items = collection.Query().ToList();
+
+        return items ??= new();
     }
 
     #endregion Get Todo Items
 
     #region Save Todo Items
 
+    public async Task SaveItem(ToDoItem item)
+    {
+        if (item == null) throw new ArgumentNullException(nameof(ToDoItem));
+
+        if (String.IsNullOrWhiteSpace(item.Name)) throw new ArgumentException(nameof(ToDoItem));
+
+        if (item.Id == ObjectId.Empty) item.Id = ObjectId.NewObjectId();
+
+        using var db = new LiteDatabase(await GetConnectionString(nameof(ToDoItem)));
+
+        var collection = db.GetCollection<ToDoItem>(nameof(ToDoItem));        
+
+        if (collection.Query().Where(x => x.Id.Equals(item.Id)).ToList().Count > 0)
+        {
+            collection.Update(item);
+        }
+        else
+        {
+            collection.Insert(item);
+            collection.EnsureIndex(x => x.Id);
+        }
+    }
+
+    public async Task SaveManyItem(List<ToDoItem> items)
+    {
+        if (items == null) throw new ArgumentNullException(nameof(items));
+
+        if (items.Count <= 0) throw new ArgumentException(nameof(items));
+
+        using var db = new LiteDatabase(await GetConnectionString(nameof(ToDoItem)));
+
+        var collection = db.GetCollection<ToDoItem>(nameof(ToDoItem));
+
+        foreach (var item in items)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
+            if (String.IsNullOrWhiteSpace(item.Name)) throw new ArgumentException(nameof(item));
+
+            if (item.Id == ObjectId.Empty) item.Id = ObjectId.NewObjectId();
+
+            if (collection.Query().Where(x => x.Id.Equals(item.Id)).ToList().Count > 0)
+            {
+                collection.Update(item);
+            }
+            else
+            {
+                collection.Insert(item);
+                collection.EnsureIndex(x => x.Id);
+            }
+        }
+    }
+
     #endregion Save Todo Items
-
-    #region Update Todo Items
-
-    public async Task UpdateItemAsync(ToDoItem itemToUpdate)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task UpdateItemAsync(List<ToDoItem> itemsToUpdate)
-    {
-        throw new NotImplementedException();
-    }
-
-    #endregion Update Todo Items
 
     #region Delete Todo Items
 
-    public async Task DeleteItemAsync(ToDoItem itemToDelete)
+    public async Task DeleteItem(ToDoItem item)
     {
-        throw new NotImplementedException();
-    }
+        if (item == null) throw new ArgumentNullException(nameof(ToDoItem));
 
-    public async Task DeleteItemAsync(List<ToDoItem> itemsToDelete)
-    {
-        throw new NotImplementedException();
+        if (item.Id == ObjectId.Empty) throw new ArgumentException(nameof(ToDoItem));
+
+        using var db = new LiteDatabase(await GetConnectionString(nameof(ToDoItem)));
+
+        var collection = db.GetCollection<ToDoItem>(nameof(ToDoItem));
+
+        BsonValue id = item.Id;
+
+        collection.Delete(id);
     }
 
     #endregion Delete Todo Items
@@ -63,59 +135,167 @@ public class DataServiceLiteDB : IDataService
     #endregion Todo Items
 
 
+    #region Geolocation
 
+    #region Get Geolocation
 
-
-
-
-    public async Task<GeolocCurrent> GetLastPositionAsync()
+    public async Task<List<GeolocCurrent>> GetGeolocation()
     {
-        throw new NotImplementedException();
+        using var db = new LiteDatabase(await GetConnectionString(nameof(GeolocCurrent)));
+
+        var collection = db.GetCollection<GeolocCurrent>(nameof(GeolocCurrent));
+
+        var geolocs = collection.Query().ToList();
+
+        
+        if (geolocs.Count > 1)
+        {
+            collection.DeleteAll();
+            geolocs = geolocs.OrderBy(x => x.LastUpdate - DateTime.Now).ToList();
+        }
+
+        return geolocs ??= new();
     }
 
-    public async Task<ISessionService> GetSessionAsync(ISessionService session)
+    #endregion Get Geolocation
+
+    #region Save Geolocation
+
+    public async Task SaveGeolocation(GeolocCurrent geoloc)
     {
-        throw new NotImplementedException();
+        if (geoloc == null || geoloc.Location == null) throw new ArgumentNullException(nameof(GeolocCurrent));
+
+       
+        using var db = new LiteDatabase(await GetConnectionString(nameof(GeolocCurrent)));
+
+        var collection = db.GetCollection<GeolocCurrent>(nameof(GeolocCurrent));
+
+        if (collection.Query().Where(x => x.LastUpdate.Equals(geoloc.LastUpdate)).ToList().Count > 0)
+        {
+            collection.DeleteAll();
+        }
+        else
+        {
+            collection.Insert(geoloc);
+            collection.EnsureIndex(x => x.LastUpdate);
+        }
     }
 
-    public async Task<Dictionary<DateTime, WeatherData>> GetWeatherAsync()
+    #endregion Save Geolocation
+
+    #region Delete Geolocation
+
+    public async Task DeleteAllGeolocation()
     {
-        throw new NotImplementedException();
+        using var db = new LiteDatabase(await GetConnectionString(nameof(GeolocCurrent)));
+
+        var collection = db.GetCollection<GeolocCurrent>(nameof(GeolocCurrent));
+
+        collection.DeleteAll();
     }
 
-    public async Task SaveLastPositionData(GeolocCurrent position)
+    #endregion Delete Geolocation
+
+    #endregion Geolocation
+
+
+    #region WeatherData
+
+    #region Get WeatherData
+
+    public async Task<List<WeatherData>> GetAllWeatherData()
     {
-        throw new NotImplementedException();
+        using var db = new LiteDatabase(await GetConnectionString(nameof(WeatherData)));
+
+        var collection = db.GetCollection<WeatherData>(nameof(WeatherData));
+
+        var data = collection.Query().ToList();
+
+        return data ??= new();
     }
 
-    public async Task SaveSession(ISessionService session)
+    #endregion Get WeatherData
+
+    #region Save WeatherData
+
+    public async Task SaveWeatherData(WeatherData data)
     {
-        throw new NotImplementedException();
+        if (data == null) throw new ArgumentNullException(nameof(WeatherData));
+
+        using var db = new LiteDatabase(await GetConnectionString(nameof(WeatherData)));
+
+        var collection = db.GetCollection<WeatherData>(nameof(WeatherData));
+
+        if (collection.Query().Where(x => x.startTime.Equals(data.startTime)).ToList().Count > 0)
+        {
+            collection.DeleteAll();
+        }
+        else
+        {
+            collection.Insert(data);
+            collection.EnsureIndex(x => x.startTime);
+        }
     }
 
-    public async Task SaveWeatherData(List<WeatherData> forecast)
+    public async Task SaveManyWeatherData(List<WeatherData> items)
     {
-        throw new NotImplementedException();
+        if (items == null) throw new ArgumentNullException(nameof(WeatherData));
+
+        if (items.Count <= 0) throw new ArgumentException(nameof(WeatherData));
+
+        using var db = new LiteDatabase(await GetConnectionString(nameof(WeatherData)));
+
+        var collection = db.GetCollection<WeatherData>(nameof(WeatherData));
+
+        foreach (var data in items)
+        {
+            if (data == null) throw new ArgumentNullException(nameof(WeatherData));
+
+            if (collection.Query().Where(x => x.startTime.Equals(data.startTime)).ToList().Count > 0)
+            {
+                collection.DeleteAll();
+            }
+            else
+            {
+                collection.Insert(data);
+                collection.EnsureIndex(x => x.startTime);
+            }
+        }
     }
 
+    #endregion Save WeatherData
 
-    #region Todo Items
+    #region Delete WeatherData
 
-    #region Get Todo Items
+    public async Task DeleteAllWeatherData(WeatherData data)
+    {
+        if (data == null) throw new ArgumentNullException(nameof(WeatherData));
 
-    #endregion Get Todo Items
+        using var db = new LiteDatabase(await GetConnectionString(nameof(WeatherData)));
 
-    #region Save Todo Items
+        var collection = db.GetCollection<WeatherData>(nameof(WeatherData));
 
-    #endregion Save Todo Items
+        collection.DeleteAll();
+    }
 
-    #region Update Todo Items
+    #endregion Delete WeatherData
 
-    #endregion Update Todo Items
+    #endregion WeatherData
 
-    #region Delete Todo Items
 
-    #endregion Delete Todo Items
 
-    #endregion Todo Items
+    #region Session
+
+    #region Save Session
+
+    public async Task SaveSession(SessionService session)
+    {
+        await SaveGeolocation(session.CurrentGeolocInfo);
+        await SaveManyWeatherData(session.WeatherForcast);
+    }
+
+    #endregion Save Session
+
+    #endregion Session
+
 }

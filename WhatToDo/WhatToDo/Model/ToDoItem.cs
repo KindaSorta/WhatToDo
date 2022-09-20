@@ -8,7 +8,7 @@ namespace WhatToDo.Model;
 
 public class ToDoItem : IModelObject<ToDoItem>
 {
-    public int Id { get; set; }
+    public ObjectId Id { get; set; } = ObjectId.Empty;
     public string Name { get; set; } = String.Empty;
     public string Description { get; set; } = String.Empty;
     public WeatherPreference Weather { get; set; } = null;

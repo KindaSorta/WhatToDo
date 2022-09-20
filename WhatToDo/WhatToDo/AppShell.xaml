@@ -109,26 +109,18 @@
         </DataTemplate>
     </Shell.FlyoutFooterTemplate>
 
-    <FlyoutItem Title="Tasks" Icon="note_white.png">
+
+    <FlyoutItem Title="Tasks" Icon="checked_white.png">
         <ShellContent
-            Title="Completed"
-            Icon="checked_white.png"
+            Title="Tasks"             
             Shell.NavBarIsVisible="true"
-            Style="{StaticResource TabStyle}"
-            ContentTemplate="{DataTemplate view:MainPage}"
-            Route="MainPage"/>
-
-
-        <ShellContent 
-            Title="Incomplete"
-            Icon="unchecked_white.png"
-            Shell.NavBarIsVisible="true"
+            Shell.PresentationMode="ModalAnimated"
             Style="{StaticResource TabStyle}"
             ContentTemplate="{DataTemplate view:MainPage}"
             Route="MainPage"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Lists" Icon="bookmark_white.png">
+    <FlyoutItem Title="Lists" Icon="note_white.png">
         <ShellContent 
             Shell.NavBarIsVisible="true"
             Style="{StaticResource TitleBar}"
@@ -163,6 +155,13 @@
     <MenuItem Text="About" IconImageSource="programming_white.png"/>
     <MenuItem Text="Help" IconImageSource="help_white.png"/>
     <MenuItem Text="Settings" IconImageSource="gear_white.png"/>
-
-
+<!--
+    <ShellContent 
+            IsVisible="False"
+            Shell.NavBarIsVisible="true"
+            Style="{StaticResource TabStyle}"
+            ContentTemplate="{DataTemplate view:StartPage}"
+            Route="StartPage">
+    </ShellContent>
+-->
 </Shell>

@@ -2,10 +2,10 @@
 
 public partial class App : Application
 {
-	public App()
+	public App(ShellViewModel viewModel)
 	{
 		InitializeComponent();
 
-		MainPage = new AppShell();
+		MainPage = new AppShell(viewModel);
 	}
 }
