@@ -104,7 +104,7 @@ public class MainViewModel_Tests
 
         //Assert
         sut.IsBusy.Should().BeTrue();
-        dataServiceMock.Verify(_ => _.GetItemsAsync(), Times.AtMostOnce); // Runs once OnAppear due to refresh
+        dataServiceMock.Verify(_ => _.GetAllItems(), Times.AtMostOnce); // Runs once OnAppear due to refresh
 
     }
 
@@ -135,8 +135,8 @@ public class MainViewModel_Tests
     {
         //Arrange
         sut.IsBusy = false;
-        dataServiceMock.Setup(_ => _.GetItemsAsync())
-            .ReturnsAsync(new Dictionary<int, ToDoItem>());
+        dataServiceMock.Setup(_ => _.GetAllItems())
+            .ReturnsAsync(new List<ToDoItem>());
 
         //Act
         await sut.GetItemsCommand.ExecuteAsync(null);
@@ -144,18 +144,18 @@ public class MainViewModel_Tests
         //Assert
         sut.Items.Should().BeEmpty();
         sut.IsBusy.Should().BeFalse();
-        dataServiceMock.Verify(_ => _.GetItemsAsync(), Times.Exactly(2));
+        dataServiceMock.Verify(_ => _.GetAllItems(), Times.Exactly(2));
         dialogeMock.Verify(_ => _.DisplayAlert(
             It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null),
             Times.Never);
     }
 
     [Theory, AutoMoqData]
-    public async Task GetData_ServiceSucceds_Should_GetsData([Frozen]Mock<IDataService> dataServiceMock, [Frozen] Mock<IDialogService> dialogeMock, MainViewModel sut, Dictionary<int, ToDoItem> data)
+    public async Task GetData_ServiceSucceds_Should_GetsData([Frozen]Mock<IDataService> dataServiceMock, [Frozen] Mock<IDialogService> dialogeMock, MainViewModel sut, List<ToDoItem> data)
     {
         //Arrange
         sut.IsBusy = false;
-        dataServiceMock.Setup(_ => _.GetItemsAsync())
+        dataServiceMock.Setup(_ => _.GetAllItems())
             .ReturnsAsync(data);
 
         //Act
@@ -164,7 +164,7 @@ public class MainViewModel_Tests
         //Assert
         sut.Items.Should().HaveCount(data.Count);
         sut.IsBusy.Should().BeFalse();
-        dataServiceMock.Verify(_ => _.GetItemsAsync(), Times.Exactly(2));
+        dataServiceMock.Verify(_ => _.GetAllItems(), Times.Exactly(2));
         dialogeMock.Verify(_ => _.DisplayAlert(
             It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null),
             Times.Never);

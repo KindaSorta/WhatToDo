@@ -41,21 +41,22 @@ public partial class MainViewModel : BaseViewModel
         Task.FromResult(InitialLoad());
     }
 
-    #region Navigation
 
-    async Task GoToDetails()
+    #region Rendering
+
+    public async Task InitialLoad()
     {
-        await Shell.Current.GoToAsync(nameof(ToDoItemDetailsPage), true);
+        if (Items == null || Items.Count == 0)
+        {
+            await GetItemsAsync();
+        }
+
+        Header = CollectionOptions[0];
+        Filter = FilterOptions[2];
+        Blur = 1;
+        await Task.Delay(100);
+        IsRefreshing = true;
     }
-
-/*    async Task GoToStartPage()
-    {
-        await Shell.Current.GoToAsync(nameof(StartPage), true);
-    }*/
-
-    #endregion Navigation
-
-    #region UI
 
     [RelayCommand]
     async Task RefreshAsync()
@@ -90,6 +91,9 @@ public partial class MainViewModel : BaseViewModel
         IsRefreshing = false;
     }
 
+    #endregion Rendering
+
+
     #region Filtering
 
     public async Task<IList<ToDoItem>> FilterQueryItems(IEnumerable<ToDoItem> items)
@@ -100,7 +104,7 @@ public partial class MainViewModel : BaseViewModel
         {
             // Recent
             case var s when s == FilterOptions[1]:
-                return await Task.FromResult(items.OrderBy(x => x.LastModifiedDate - DateTime.Now).ToList());
+                return await Task.FromResult(items.OrderByDescending(x => x.LastModifiedDate - DateTime.Now).ToList());
 
             // Upcoming
             case var s when s == FilterOptions[2]:
@@ -122,6 +126,15 @@ public partial class MainViewModel : BaseViewModel
                 break;
         }
         return items.ToList();
+    }
+
+    [RelayCommand]
+    void FilterSelector(string selection)
+    {
+        Filter = selection;
+        IsPopUp = !IsPopUp;
+        Blur = IsPopUp ? 0.4f : 1f;
+        IsRefreshing = !IsPopUp;
     }
 
     [RelayCommand]
@@ -165,23 +178,9 @@ public partial class MainViewModel : BaseViewModel
 
     #endregion Filtering
 
-    #endregion UI
 
     #region Get Data
 
-    public async Task InitialLoad()
-    {
-        if (Items == null || Items.Count == 0)
-        {
-            await GetItemsAsync();
-        }
-
-        Header = CollectionOptions[0];
-        Filter = FilterOptions[2];
-        Blur = 1;
-        await Task.Delay(100);
-        IsRefreshing = true;
-    }
 
     [RelayCommand]
     async Task GetItemsAsync()
@@ -213,24 +212,27 @@ public partial class MainViewModel : BaseViewModel
         }
     }
 
-/*    public override async Task Cache()
-    {
-        await dataService.SaveSession(session);
-        return;
-    }*/
+    /*    public override async Task Cache()
+        {
+            await dataService.SaveSession(session);
+            return;
+        }*/
 
     #endregion Get Data
 
+
+    #region Navigation
+
+    async Task GoToDetails()
+    {
+        await Shell.Current.GoToAsync(nameof(ToDoItemDetailsPage), true);
+    }
+
+    #endregion Navigation
+
+
     #region ToDo Item Details / Edits
 
-    [RelayCommand]
-    void FilterSelector(string selection)
-    {
-        Filter = selection;
-        IsPopUp = !IsPopUp;
-        Blur = IsPopUp ? 0.4f : 1f;
-        IsRefreshing = !IsPopUp;
-    }
 
     [RelayCommand]
     async Task TapAsync(IndexedToDoItem item)

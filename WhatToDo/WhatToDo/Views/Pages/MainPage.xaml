@@ -8,6 +8,8 @@
     x:DataType="vm:MainViewModel"
     Title="{Binding Title}">
 
+    
+    <!--#region ToolBar -->
     <Shell.SearchHandler>
         <SearchHandler 
             Placeholder="Search"
@@ -40,6 +42,7 @@
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
+    <!--#endregion ToolBar -->
 
     <Grid 
         ColumnDefinitions="*,*"
@@ -53,7 +56,8 @@
                 Opacity="0.6"
                 Radius="40"/>
         </Grid.Shadow>
-
+        
+        <!--#region Page Contents -->        
         <StackLayout
             Grid.ColumnSpan="2"
             Grid.RowSpan="2"
@@ -80,6 +84,8 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:IndexedToDoItem">
                             <SwipeView Margin="5" HorizontalOptions="Center" Padding="0,0,0,0">
+                                
+                                <!--#region Complete / Undo Swipe -->
                                 <SwipeView.LeftItems>
                                     <SwipeItems
                                     SwipeBehaviorOnInvoked="Auto">
@@ -103,6 +109,10 @@
                                         </SwipeItemView>
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
+                                <!--#endregion Complete / Undo Swipe -->
+
+
+                                <!--#region Delete Swipe -->
                                 <SwipeView.RightItems>
                                     <SwipeItems 
                                     SwipeBehaviorOnInvoked="Auto">
@@ -120,6 +130,10 @@
                                         </SwipeItemView>
                                     </SwipeItems>
                                 </SwipeView.RightItems>
+                                <!--#endregion Delete Swipe -->
+
+
+                                <!--#region TodoItem Swipe -->
                                 <Grid 
                                 Padding="7,5">
                                     <Border                                    
@@ -171,16 +185,17 @@
                                         </Frame>
                                     </Border>
                                 </Grid>
+                                <!--#endregion TodoItem Swipe -->
+                                
                             </SwipeView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </RefreshView>
         </StackLayout>
+        <!--#endregion Page Contents -->
 
-
-
-
+        <!--#region Activity Indicator -->
         <ActivityIndicator
             Grid.RowSpan="2"
             Grid.ColumnSpan="2"
@@ -188,8 +203,9 @@
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
             VerticalOptions="CenterAndExpand" />
+        <!--#endregion Activity Indicator -->
 
-        <!-- Filter Popup -->
+        <!--#region Filter Popup -->
         <Border
             Grid.ColumnSpan="2"
             Grid.RowSpan="2"
@@ -204,13 +220,11 @@
                     IsVisible="{Binding IsPopUp}" 
                     Padding="15">
                     <VerticalStackLayout
-                        Spacing="10">
+                        Spacing="10">                        
                         <Label Text="Filter Category" Style="{StaticResource SwipeLabel}"/>
-
                         <Border Style="{StaticResource RoundedBorder}"
                                 Stroke="Transparent"
                                 BackgroundColor="{StaticResource PaleWhite}">
-
                             <Picker
                                 Title="Collection"
                                 x:Name="CollectionPicker"
@@ -248,6 +262,8 @@
                 </Frame>
             </Grid>
         </Border>
+        <!--#endregion Filter Popup -->
+
     </Grid>
 
 
