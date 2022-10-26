@@ -1,26 +1,33 @@
 ﻿
 
 using WhatToDo.Data;
+//using static Java.Util.Jar.Attributes;
 
 namespace WhatToDo.ViewModel;
 
 public partial class ToDoItemDetailsViewModel : BaseViewModel
 {
     [ObservableProperty]
-    ToDoItem itemText;
+    ToDoItem itemText = new(DateTime.Now, new WeatherPreference());
 
     [ObservableProperty]
     bool isPopUp;
-
-    [ObservableProperty]
-    bool wantsWeather;
 
     public bool IsNotPopUp => !IsPopUp;
 
     public List<string> Options { get; } = FormOptions.WeatherOptions;
 
     [ObservableProperty]
-    float blur;
+    bool dateSelected;
+
+    [ObservableProperty]
+    bool isTimePeriod;
+
+    [ObservableProperty]
+    bool assignWeather;
+
+    [ObservableProperty]
+    float blur = 1;
 
     IDataService dataService;
     ISessionService session;
@@ -32,26 +39,17 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
         this.dataService = dataService;
         this.dialogService = dialogService;
         this.session = session;
-        /*        Title = String.IsNullOrWhiteSpace(session.ItemToEdit.Name) ? "Add" : session.ItemToEdit.Name;
-                Blur = 1;
-                ItemText = new ToDoItem(session.ItemToEdit);
-                WantsWeather = ItemText.HasWeatherPreference;
-                if (ItemText.StartDate is null) ItemText.StartDate = DateTime.Now.Date;
-                if (ItemText.DueDate is null) ItemText.DueDate = DateTime.Now.Date;*/
+
         Task.FromResult(InitialLoad());
     }
 
     async Task InitialLoad()
     {
         await Task.FromResult(Title = String.IsNullOrWhiteSpace(session.ItemToEdit.Name) ? "Add" : session.ItemToEdit.Name);
-        await Task.FromResult(WantsWeather = session.ItemToEdit.HasWeatherPreference);
-        await Task.FromResult(ItemText = new ToDoItem(session.ItemToEdit));
-        await Task.Delay(100);
-        await Task.FromResult(WantsWeather = session.ItemToEdit.HasWeatherPreference);
-        if (!session.ItemToEdit.HasWeatherPreference) await Task.FromResult(ItemText.Weather = new WeatherPreference());
-        if (ItemText.StartDate is null) await Task.FromResult(ItemText.StartDate = DateTime.Now.Date);
-        if (ItemText.DueDate is null) await Task.FromResult(ItemText.DueDate = DateTime.Now.Date);
-        await Task.FromResult(Blur = 1);
+        await Task.FromResult(AssignWeather = session.ItemToEdit.HasWeatherPreference);
+        await Task.FromResult(DateSelected = session.ItemToEdit.DueDate.IsScheduled);
+        await Task.FromResult(IsTimePeriod = session.ItemToEdit.StartDate.IsScheduled);
+        ItemText.ToTemplate(session.ItemToEdit);
     }
 
     [RelayCommand]
@@ -64,12 +62,29 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
     [RelayCommand]
     async Task SaveAsync()
     {
-        if (IsBusy || !ItemText.IsValid()) return;
-
+        if (IsBusy || String.IsNullOrWhiteSpace(ItemText.Name)) return;
         IsBusy = true;
 
-        if (ItemText.StartDate < DateTime.Now) ItemText.StartDate = null;
-        if (ItemText.DueDate < DateTime.Now) ItemText.DueDate = null;
+        if (DateSelected && (!ItemText.IsValidDueDate || 
+            (IsTimePeriod && !ItemText.IsValidStartDate)))
+        {
+            await dialogService.DisplayAlert("Invalid Input!", "Please use valid date times.", "OK");
+            IsBusy = false;
+            return;
+        }
+
+        if (AssignWeather && !ItemText.Weather.IsValid())
+        {
+            await dialogService.DisplayAlert("Invalid Input!", "Please use valid weather data.", "OK");
+            IsBusy = false;
+            return;
+        }
+
+        if (!DateSelected) ItemText.DueDate.Clear();
+        if (!DateSelected || !IsTimePeriod) ItemText.StartDate.Clear();
+
+        if (!AssignWeather) ItemText.Weather = null;
+
         ItemText.LastModifiedDate = DateTime.Now;
         session.ItemToEdit.CopyFrom(ItemText);
 
@@ -82,16 +97,21 @@ public partial class ToDoItemDetailsViewModel : BaseViewModel
     [RelayCommand]
     async Task DeleteAsync()
     {
-        if (IsBusy || session.ItemToEdit.Id == ObjectId.Empty) return;
-
-
-        bool answer = await dialogService.DisplayAlert("Alert!!", "You are about to Delete a Task! Please confirm...", "OK", "Cancel");
-        if (!answer) return;
-
+        if (IsBusy) return;
         IsBusy = true;
 
-        await dataService.DeleteItem(session.ItemToEdit);
-        session.ItemToEdit.Id = ObjectId.Empty;
+        if (session.ItemToEdit.Id != ObjectId.Empty)
+        {
+            bool answer = await dialogService.DisplayAlert("Alert!!", "You are about to Delete a Task! Please confirm...", "OK", "Cancel");
+            if (!answer)
+            {
+                IsBusy = false;
+                return;
+            }
+
+            await dataService.DeleteItem(session.ItemToEdit);
+            session.ItemToEdit.Id = ObjectId.Empty;
+        }
 
         await Shell.Current.GoToAsync("..", true);
 

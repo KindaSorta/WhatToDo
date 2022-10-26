@@ -64,7 +64,13 @@
                 <VerticalStackLayout>
                     <Label  Text="Task Name" Style="{StaticResource ToDoItemLabel}"/>
                     <Border Style="{StaticResource BorderAroundInputs}">
-                        <Entry x:Name="TaskName" Text="{Binding ItemText.Name}" ReturnType="Done" IsSpellCheckEnabled="True" />
+                        <Entry 
+                            x:Name="TaskName" 
+                            Text="{Binding ItemText.Name}"  
+                            Placeholder="Enter the task title here..."                            
+                            PlaceholderColor="{StaticResource VeryPaleGrey}"
+                            ReturnType="Done" 
+                            IsSpellCheckEnabled="True" />
                     </Border>
                 </VerticalStackLayout>
 
@@ -74,7 +80,7 @@
                     <Border Style="{StaticResource BorderAroundInputs}">
                         <Editor 
                             Text="{Binding ItemText.Description}" 
-                            Placeholder="Enter the description here." 
+                            Placeholder="Enter the description here..." 
                             PlaceholderColor="{StaticResource VeryPaleGrey}"
                             IsSpellCheckEnabled="True" 
                             AutoSize="TextChanges"/>
@@ -88,11 +94,11 @@
                     <VerticalStackLayout >
                         <HorizontalStackLayout Spacing="-5">
                             <Label Text="No Date" Style="{StaticResource ToDoItemLabel}" Padding="5,0,12,0"/>
-                            <Switch x:Name="EnableSchedulers" IsToggled="{Binding ItemText.HasDueDate}" />
+                            <Switch x:Name="EnableSchedulers" IsToggled="{Binding DateSelected}" />
                             <Label Text="Due Date" Style="{StaticResource ToDoItemLabel}"/>
                             <RadioButton x:Name="OnlyDueDate" IsChecked="true" IsEnabled="{Binding IsToggled, Source={x:Reference EnableSchedulers}}"/>
                             <Label Text="Time Period" Style="{StaticResource ToDoItemLabel}"/>
-                            <RadioButton x:Name="TimePeriod"  IsChecked="{Binding ItemText.HasStartDate}" IsEnabled="{Binding IsToggled, Source={x:Reference EnableSchedulers}}"/>
+                            <RadioButton x:Name="TimePeriod"  IsChecked="{Binding IsTimePeriod}" IsEnabled="{Binding IsToggled, Source={x:Reference EnableSchedulers}}"/>
                         </HorizontalStackLayout>
 
                         <VerticalStackLayout IsVisible="{Binding IsToggled, Source={x:Reference EnableSchedulers}}">
@@ -101,10 +107,10 @@
                                 <Grid ColumnDefinitions="0.5*,*,*" >
                                     <Label Grid.Column="0" Text="Start" Style="{StaticResource ToDoItemLabel}"/>
                                     <Border Grid.Column="1" Style="{StaticResource BorderAroundInputs}">
-                                        <DatePicker Date="{Binding ItemText.StartDate}"/>
+                                        <DatePicker Date="{Binding ItemText.StartDate.Date}"/>
                                     </Border>
                                     <Border Grid.Column="2" Style="{StaticResource BorderAroundInputs}">
-                                        <TimePicker Time="{Binding ItemText.StartDate}"/>
+                                        <TimePicker Time="{Binding ItemText.StartDate.Time}"/>
                                     </Border>
                                 </Grid>
                             </VerticalStackLayout>
@@ -114,10 +120,10 @@
                                 <Grid ColumnDefinitions="0.5*,*,*">
                                     <Label Grid.Column="0" Text="Due" Style="{StaticResource ToDoItemLabel}"/>
                                     <Border Grid.Column="1" Style="{StaticResource BorderAroundInputs}">
-                                        <DatePicker Date="{Binding ItemText.DueDate}"/>
+                                        <DatePicker Date="{Binding ItemText.DueDate.Date}"/>
                                     </Border>
                                     <Border Grid.Column="2" Style="{StaticResource BorderAroundInputs}">
-                                        <TimePicker Time="{Binding ItemText.DueDate}"/>
+                                        <TimePicker Time="{Binding ItemText.DueDate.Time}"/>
                                     </Border>
                                 </Grid>
                             </VerticalStackLayout>
@@ -132,7 +138,7 @@
                     <Grid 
                         ColumnDefinitions=".3*,*,*"
                         Padding="5">
-                        <CheckBox Grid.Column="0" x:Name="WeatherPreference" IsChecked="{Binding WantsWeather, Mode=TwoWay, FallbackValue=false}" Color="LightGreen" HorizontalOptions="Start"/>
+                        <CheckBox Grid.Column="0" x:Name="WeatherPreference" IsChecked="{Binding AssignWeather}" Color="LightGreen" HorizontalOptions="Start"/>
                         <Label Grid.Column="1" Text="Weather Info" Style="{StaticResource ToDoItemLabel}" Padding="5,0,20,0"/>
                         <Button Grid.Column="2" 
                                 Command="{Binding TogglePopUpCommand}" 
@@ -140,7 +146,7 @@
                                 Style="{StaticResource MainAppButton}" 
                                 FontSize="22" 
                                 HorizontalOptions="End" 
-                                IsEnabled="{Binding WantsWeather, FallbackValue=false}"/>
+                                IsEnabled="{Binding AssignWeather}"/>
                     </Grid>
                 </Frame>
 

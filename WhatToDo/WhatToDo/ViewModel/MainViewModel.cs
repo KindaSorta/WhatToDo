@@ -17,10 +17,10 @@ public partial class MainViewModel : BaseViewModel
     public ObservableCollection<ToDoItem> Items { get; } = new ();
 
     [ObservableProperty]
-    string header;
+    int header = 0;
 
     [ObservableProperty]
-    string filter;
+    int filter = 1;
 
     [ObservableProperty]
     IList<IndexedToDoItem> displayItems;
@@ -29,7 +29,7 @@ public partial class MainViewModel : BaseViewModel
     bool isPopUp;
 
     [ObservableProperty]
-    float blur;
+    float blur = 1;
 
     public MainViewModel(
         IDataService dataService, IDialogService dialogService, 
@@ -38,25 +38,10 @@ public partial class MainViewModel : BaseViewModel
         this.dataService = dataService;
         this.dialogService = dialogService;
         this.session = session;
-        Task.FromResult(InitialLoad());
     }
 
 
     #region Rendering
-
-    public async Task InitialLoad()
-    {
-        if (Items == null || Items.Count == 0)
-        {
-            await GetItemsAsync();
-        }
-
-        Header = CollectionOptions[0];
-        Filter = FilterOptions[2];
-        Blur = 1;
-        await Task.Delay(100);
-        IsRefreshing = true;
-    }
 
     [RelayCommand]
     async Task RefreshAsync()
@@ -75,17 +60,8 @@ public partial class MainViewModel : BaseViewModel
             session.ItemToEdit = new ToDoItem();
         }
 
-        if (DisplayItems == null || Header == "Incomplete")
-        {
-            await IncompleteTasksAsync();
-        }
-        else
-        {
-            await CompletedTasksAsync();
-        }
-        
-        IList<ToDoItem> items = await FilterQueryItems(DisplayItems.Select(x => x.BackToObject()));
         DisplayItems = null;
+        IList<ToDoItem> items = await FilterQueryItems(await CollectionTypeAsync());
         DisplayItems = FormatDisplayObject(items.ToList());
 
         IsRefreshing = false;
@@ -100,7 +76,7 @@ public partial class MainViewModel : BaseViewModel
     {
         // TODO: Make it handle nested search queries, and Tag filtering
 
-        switch (Filter)
+        switch (FilterOptions[Filter])
         {
             // Recent
             case var s when s == FilterOptions[1]:
@@ -108,7 +84,7 @@ public partial class MainViewModel : BaseViewModel
 
             // Upcoming
             case var s when s == FilterOptions[2]:
-                return await Task.FromResult(items.OrderBy(x => x.DueDate == null).ThenBy(x => x.DueDate - DateTime.Now).ToList());
+                return await Task.FromResult(items.OrderBy(x => x.DueDate.DateAndTime == null).ThenBy(x => x.DueDate.DateAndTime - DateTime.Now).ThenByDescending(x => x.Priority).ToList());
 
             // Priority
             case var s when s == FilterOptions[3]:
@@ -116,11 +92,11 @@ public partial class MainViewModel : BaseViewModel
 
             // Urgency
             case var s when s == FilterOptions[4]:
-                return await Task.FromResult(items.OrderBy(x => x.DueDate - DateTime.Now).OrderByDescending(x => x.Priority).ToList());
+                return await Task.FromResult(items.OrderByDescending(x => x.DueDate.DateAndTime - DateTime.Now).OrderByDescending(x => x.Priority).ToList());
 
             // Suggested
             case var s when s == FilterOptions[5]:
-                return await Task.FromResult(items.OrderBy(x => x.SuggestedDate.Count != 0 ? x.SuggestedDate[0] - DateTime.Now : x.DueDate - DateTime.Now).OrderByDescending(x => x.Priority).ToList());
+                return await Task.FromResult(items.OrderBy(x => x.SuggestedDate.Count != 0 ? x.SuggestedDate[0] - DateTime.Now : x.DueDate.DateAndTime - DateTime.Now).OrderByDescending(x => x.Priority).ToList());
 
             default:
                 break;
@@ -129,9 +105,8 @@ public partial class MainViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    void FilterSelector(string selection)
+    void ApplyFilter()
     {
-        Filter = selection;
         IsPopUp = !IsPopUp;
         Blur = IsPopUp ? 0.4f : 1f;
         IsRefreshing = !IsPopUp;
@@ -157,23 +132,18 @@ public partial class MainViewModel : BaseViewModel
         return numberedList;
     }
 
-    [RelayCommand]
-    void ToggleIncompleteTasks(string selection)
+    async Task<IList<ToDoItem>> CollectionTypeAsync()
     {
-        Header = selection;
-        IsRefreshing = true;
-    }
-
-    async Task CompletedTasksAsync()
-    {
-        IList<ToDoItem> items = await Task.FromResult(Items.Where(x => x.IsComplete).ToList());
-        DisplayItems = FormatDisplayObject(items);
-    }
-
-    async Task IncompleteTasksAsync()
-    {
-        IList<ToDoItem> items = await Task.FromResult(Items.Where(x => x.NotComplete).ToList());
-        DisplayItems = FormatDisplayObject(items);
+        List<ToDoItem> items = new();
+        if (CollectionOptions[Header] == CollectionOptions[0])
+        {
+            items = await Task.FromResult(Items.Where(x => x.NotComplete).ToList());
+        }
+        else
+        {
+            items = await Task.FromResult(Items.Where(x => x.IsComplete).ToList());
+        }
+        return items;
     }
 
     #endregion Filtering
@@ -251,9 +221,10 @@ public partial class MainViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task ToggoleCompleteAsync(IndexedToDoItem item)
+    async Task ToggleCompleteAsync(IndexedToDoItem item)
     {
         if (IsBusy) return;
+
         item.Value.IsComplete = !item.Value.IsComplete;
         item.Value.LastModifiedDate = DateTime.Now;
         await dataService.SaveItem(item.Value);

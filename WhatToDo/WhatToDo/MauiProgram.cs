@@ -1,6 +1,4 @@
 ﻿
-
-
 namespace WhatToDo;
 
 public static class MauiProgram

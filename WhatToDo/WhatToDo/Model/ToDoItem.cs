@@ -12,25 +12,25 @@ public class ToDoItem : IModelObject<ToDoItem>
     public string Name { get; set; } = String.Empty;
     public string Description { get; set; } = String.Empty;
     public WeatherPreference Weather { get; set; } = null;
-    public DateTime? StartDate { get; set; } = null;
-    public DateTime? DueDate { get; set; } = null;
+    public Moment StartDate { get; set; }
+    public Moment DueDate { get; set; }
     public int Priority { get; set; } = 0;
     public bool IsComplete { get; set; } = false;
     public DateTime LastModifiedDate { get; set; }
     public List<DateTime> SuggestedDate { get; set; } = new List<DateTime>();
 
+    public bool HasWeatherPreference => Weather != null;
     public Color Color => FormOptions.PriorityColors[Priority];
     public bool NotComplete => !IsComplete;
-    public bool HasDueDate => DueDate != null && DueDate > DateTime.Now;
-    public bool HasStartDate => StartDate != null && StartDate > DateTime.Now;
-    public bool HasWeatherPreference => Weather != null && !Weather.Equals(new WeatherPreference());
+    public bool IsValidDueDate => DueDate.IsScheduled && DueDate.DateAndTime > DateTime.Now;
+    public bool IsValidStartDate => StartDate.IsScheduled && DueDate.IsScheduled && StartDate.DateAndTime < DueDate.DateAndTime;
     //public User[] UsersInvolved { get; set; }
     //public string[] Details { get; set; }
     //public string Location { get; set; }
 
     public ToDoItem() { }
 
-    public ToDoItem(string name, string describ, WeatherPreference weather, DateTime start, DateTime end, int priority, bool complete)
+    public ToDoItem(string name, string describ, WeatherPreference weather, Moment start, Moment end, int priority, bool complete, DateTime lastMod, List<DateTime> suggestions)
     {
         Name = name;
         Description = describ;
@@ -39,7 +39,9 @@ public class ToDoItem : IModelObject<ToDoItem>
         DueDate = end;
         Priority = priority;
         IsComplete = complete;
-    }
+        LastModifiedDate = lastMod;
+        SuggestedDate = suggestions;
+}
 
     public ToDoItem(ToDoItem item)
     {
@@ -51,6 +53,8 @@ public class ToDoItem : IModelObject<ToDoItem>
         DueDate = item.DueDate;
         Priority = item.Priority;
         IsComplete = item.IsComplete;
+        LastModifiedDate = item.LastModifiedDate;
+        SuggestedDate = item.SuggestedDate;
     }
 
     public ToDoItem(string name, int priority, bool complete)
@@ -68,7 +72,7 @@ public class ToDoItem : IModelObject<ToDoItem>
         IsComplete = complete;
     }
 
-    public ToDoItem(string name, DateTime end, int priority, bool complete)
+    public ToDoItem(string name, Moment end, int priority, bool complete)
     {
         Name = name;
         DueDate = end;
@@ -76,16 +80,26 @@ public class ToDoItem : IModelObject<ToDoItem>
         IsComplete = complete;
     }
 
-    public void DeepClone(ToDoItem item)
+    public ToDoItem(DateTime now, WeatherPreference weather)
     {
-        this.Id = item.Id;
+        StartDate = new Moment(now);
+        DueDate = new Moment(now);
+        Weather = weather;
+    }
+
+    public void ToTemplate(ToDoItem item)
+    {
+        if (this.Id == item.Id) return;
+
         this.Name = item.Name;
         this.Description = item.Description;
-        this.Weather = item.Weather;
-        this.StartDate = item.StartDate;
-        this.DueDate = item.DueDate;
+        if (item.HasWeatherPreference) this.Weather = item.Weather;
+        if (item.StartDate.IsScheduled) this.StartDate = item.StartDate;
+        if (item.DueDate.IsScheduled) this.DueDate = item.DueDate;
         this.Priority = item.Priority;
         this.IsComplete = item.IsComplete;
+        this.LastModifiedDate = item.LastModifiedDate;
+        this.SuggestedDate = item.SuggestedDate;
     }
 
     public void CopyFrom(ToDoItem item)
@@ -97,30 +111,8 @@ public class ToDoItem : IModelObject<ToDoItem>
         this.DueDate = item.DueDate;
         this.Priority = item.Priority;
         this.IsComplete = item.IsComplete;
-    }
-
-    public void CopyTo(ToDoItem item)
-    {
-        item.Name = this.Name;
-        item.Description = this.Description;
-        item.Weather = this.Weather;
-        item.StartDate = this.StartDate;
-        item.DueDate = this.DueDate;
-        item.Priority = this.Priority;
-        item.IsComplete = this.IsComplete;
-
-    }
-
-    public bool IsValid()
-    {
-        if (String.IsNullOrWhiteSpace(Name) ||
-            (HasDueDate && DueDate < DateTime.Now) || 
-            (HasDueDate && HasStartDate && DueDate < StartDate))
-        {
-            return false;
-        }
-
-        return true;
+        this.LastModifiedDate = item.LastModifiedDate;
+        this.SuggestedDate = item.SuggestedDate;
     }
 }
 

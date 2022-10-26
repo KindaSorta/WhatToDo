@@ -23,7 +23,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
-            Command="{Binding FilterSelectorCommand}" 
+            Command="{Binding ApplyFilterCommand}" 
             IsEnabled="{Binding IsNotBusy}">
             <ToolbarItem.IconImageSource>
                 <OnPlatform x:TypeArguments="ImageSource">
@@ -91,7 +91,7 @@
                                     SwipeBehaviorOnInvoked="Auto">
                                         <SwipeItemView
                                         CommandParameter="{Binding .}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ToggoleCompleteCommand}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=ToggleCompleteCommand}"
                                         IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=IsNotBusy}">
                                             <Grid Padding="3,15" MaximumHeightRequest="10" >
                                                 <Border Style="{StaticResource ShadowedBorder}">
@@ -176,8 +176,8 @@
                                             Padding="10">
                                                     <Label Text="{Binding Value.Name}" Margin="1" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TileTitleFont}" />
                                                     <Label 
-                                                    Text="{Binding Value.DueDate, StringFormat='{0:ddd  d-MMM-yyyy  H:mm tt}'}" 
-                                                    IsVisible="{Binding Value.HasDueDate}" 
+                                                    Text="{Binding Value.DueDate.DateAndTime, StringFormat='{0:ddd  d-MMM-yyyy  H:mm tt}'}" 
+                                                    IsVisible="{Binding Value.DueDate.IsScheduled}" 
                                                     FontAttributes="Bold" FontSize="11" TextColor="{StaticResource TileTitleSubFont}" />
                                                     <Label Text="{Binding Value.Description}" FontSize="11" TextColor="{StaticResource TileTitleSubFont}"/>
                                                 </VerticalStackLayout>
@@ -228,7 +228,7 @@
                             <Picker
                                 Title="Collection"
                                 x:Name="CollectionPicker"
-                                SelectedItem="{Binding Header, Mode=TwoWay}"
+                                SelectedIndex="{Binding Header}"
                                 ItemsSource="{Binding CollectionOptions}"
                                 HorizontalTextAlignment="Center"/>
                         </Border>
@@ -238,14 +238,13 @@
                             <Picker
                                 Title="Filter"
                                 x:Name="FilterPicker"
-                                SelectedItem="{Binding Filter, Mode=TwoWay}"
+                                SelectedIndex="{Binding Filter}"
                                 ItemsSource="{Binding FilterOptions}"
                                 HorizontalTextAlignment="Center"/>
                         </Border>
                         <Button 
                                 Grid.Column="2"
-                                Command="{Binding FilterSelectorCommand}" 
-                                CommandParameter="{Binding SelectedItem, Source={x:Reference FilterPicker}}"
+                                Command="{Binding ApplyFilterCommand}" 
                                 Style="{StaticResource MainAppButton}"
                                 FontSize="20"
                                 Text="Apply" 
