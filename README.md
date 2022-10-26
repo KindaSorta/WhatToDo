@@ -64,9 +64,9 @@
  ### :camera: Screenshots
 
  <p align="left">
-     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_Navigation.png?raw=true" width="350" height="770"> &nbsp;&nbsp;&nbsp; 
-     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_TaskList.png?raw=true" width="350" height="770"> &nbsp;&nbsp;&nbsp; 
-     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_TaskDetails.png?raw=true" width="350" height="770"> 
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_Navigation.png?raw=true" width="250" height="550"> &nbsp;&nbsp;&nbsp; 
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_TaskList.png?raw=true" width="250" height="550"> &nbsp;&nbsp;&nbsp; 
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_TaskDetails.png?raw=true" width="250" height="550"> 
  </p>
 
  ### About
