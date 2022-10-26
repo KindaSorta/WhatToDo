@@ -1,29 +1,26 @@
 
 <div align="center">
-  <img src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/WhatTodo_Logos/logo_transparent.png" alt="logo" width="200" height="auto" />
+  <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/WhatTodo_Logos/logo_transparent.png?raw=true" alt="logo" width="200" height="auto" />
   <h1>WhatToDo App</h1>  
   <p>
     Productivity App that provides task tracking and activity suggestions.
   </p>
 
 <p>
-  <a href="https://github.com/KindaSorta/WhatToD/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/KindaSorta/WhatToD" alt="contributors" />
+  <a href="https://github.com/KindaSorta/WhatToDo/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/KindaSorta/WhatToDo" alt="contributors" />
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/last-commit/KindaSorta/WhatToD" alt="last update" />
+    <img src="https://img.shields.io/github/last-commit/KindaSorta/WhatToDo" alt="last update" />
   </a>
-  <a href="https://github.com/KindaSorta/WhatToD/network/members">
-    <img src="https://img.shields.io/github/forks/KindaSorta/WhatToD" alt="forks" />
+  <a href="https://github.com/KindaSorta/WhatToDo/network/members">
+    <img src="https://img.shields.io/github/forks/KindaSorta/WhatToDo" alt="forks" />
   </a>
-  <a href="https://github.com/KindaSorta/WhatToD/stargazers">
-    <img src="https://img.shields.io/github/stars/KindaSorta/WhatToD" alt="stars" />
+  <a href="https://github.com/KindaSorta/WhatToDo/stargazers">
+    <img src="https://img.shields.io/github/stars/KindaSorta/WhatToDo" alt="stars" />
   </a>
-  <a href="https://github.com/KindaSorta/WhatToD/issues/">
-    <img src="https://img.shields.io/github/issues/KindaSorta/WhatToD" alt="open issues" />
-  </a>
-  <a href="https://github.com/KindaSorta/WhatToD/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/KindaSorta/WhatToD" alt="license" />
+  <a href="https://github.com/KindaSorta/WhatToDo/issues">
+    <img src="https://img.shields.io/github/issues/KindaSorta/WhatToDo" alt="open issues" />
   </a>
 </p>
 
@@ -64,7 +61,15 @@
 
 ## :information_source: General Information
 
- #### About
+ ### :camera: Screenshots
+
+ <p align="left">
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_Navigation.png?raw=true" width="350" height="770"> &nbsp;&nbsp;&nbsp; 
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_TaskList.png?raw=true" width="350" height="770"> &nbsp;&nbsp;&nbsp; 
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_TaskDetails.png?raw=true" width="350" height="770"> 
+ </p>
+
+ ### About
  - The initial intent of the app is to help improve productivity, simplify some processes, and generally improve well being.
  - It will utilize task creation, tracking, and provide metrics
      - Track progress
@@ -76,12 +81,12 @@
      - Get suggestions of other activities to do based on your task history, preferences, interests, and current situation
  - Will have include additional productivity features
 
- #### :desktop_computer: Platforms
+ ### :desktop_computer: Platforms
    - Android 
    - Windows (Untested)
    - iOS (Untested)
 
- #### :toolbox: Technologies Used
+ ### :toolbox: Technologies Used
    - [.NET Maui](https://github.com/dotnet/maui)
    - [.NET Community Toolkit](https://github.com/CommunityToolkit/dotnet)
    - [LiteDB](https://www.litedb.org)
@@ -90,7 +95,7 @@
    - [Moq](https://github.com/moq/moq)
    - [AutoFixtures](https://github.com/AutoFixture/AutoFixture)
 
- #### Project Status
+ ### Project Status
    Project is: _in progress_.
 
  <br />
@@ -101,8 +106,7 @@
  - [x] Location information with GPS and Weather API
 
  <p align="left">
-     <img src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_Navigation.png" width="250" height="550"> &nbsp;&nbsp;&nbsp; 
-     <img src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_Weather.gif" width="250" height="550"> 
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_Weather.gif?raw=true" width="350" height="770"> 
  </p>
  <br />
 
@@ -112,12 +116,16 @@
      - Color coded based on priority level
  - [x] Task List Filter
      - Current Filters Options; Recent, Upcoming, and Priority
+
+ <p align="left">
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_Filtering.gif?raw=true" width="350" height="770"> 
+ </p>
+ <br />
+
  - [x] Competing Tasks and Viewing History
 
  <p align="left">
-     <img  src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_TaskList.png" width="250" height="550"> &nbsp;&nbsp;&nbsp; 
-     <img  src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_Filtering.gif" width="250" height="550"> &nbsp;&nbsp;&nbsp; 
-     <img src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_Completing.gif" width="250" height="550">
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_Completing.gif?raw=true" width="350" height="770"> 
  </p>
  <br />
 
@@ -131,14 +139,17 @@
      - Optional Weather Preference
          - Update desired weather of task to get suggestions and notifications of best time
  - [x] Adding a new Task
+
+ <p align="left">
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_HalloweenTask.gif?raw=true" width="350" height="770">
+ </p>
+ <br />
+
  - [x] Editing and Deleting Tasks
 
  <p align="left">
-     <img  src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDo_Demo_TaskDetails.png" width="250" height="550"> &nbsp;&nbsp;&nbsp; 
-     <img  src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_HalloweenTask.gif" width="250" height="550"> &nbsp;&nbsp;&nbsp; 
-     <img src="WhatToDo/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_EditTasks.gif" width="250" height="550">
+     <img src="https://github.com/KindaSorta/WhatToDo/blob/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots/WhatToDoApp_Demo_EditTasks.gif?raw=true" width="350" height="770"> 
  </p>
-
  <br />
 
 ## :compass: Roadmap
@@ -183,7 +194,7 @@
 
 ## :warning: Room for Improvement
 
- #### :heavy_check_mark: Todo List:
+ ### :heavy_check_mark: Todo List:
  - Need to clean up and standardize my XAML components
  - Looking into the [Prism Library](https://prismlibrary.com/docs/maui/index.html)
  - Going to add the [.NET MAUI Community Toolkit](https://github.com/CommunityToolkit/Maui) for the optimized components and handlers
@@ -193,7 +204,7 @@
  - Implement UI testing, possibly with [Xappium](https://xappium.com)
  - Improve customization of filter criteria
 
- #### :exclamation: Current Limitations:
+ ### :exclamation: Current Limitations:
  - Limited ability to run background tasks in .NET Maui
      - Needed for tracking task info while app is closed
          - Location tracking
@@ -213,7 +224,7 @@
  See `contributing.md` for ways to get started. 
 
  #### :scroll: Code of Conduct 
-   Please read the [Code of Conduct](https://github.com/Louis3797/awesome-readme-template/blob/master/CODE_OF_CONDUCT.md)
+   Please read the [Code of Conduct](https://github.com/KindaSorta/WhatToDo/blob/master/CODE_OF_CONDUCT.md)
 
  <br />
 
@@ -235,4 +246,8 @@
  - [Readme Template](https://github.com/othneildrew/Best-README-Template)
 
  <br />
+
+
+[screenshots]: https://github.com/KindaSorta/WhatToDo/tree/main/WhatToDo/WhatToDo/Resources/Images/ScreenShots
+[logo]: https://github.com/KindaSorta/WhatToDo/tree/main/WhatToDo/WhatToDo/Resources/Images/WhatTodo_Logos
 
